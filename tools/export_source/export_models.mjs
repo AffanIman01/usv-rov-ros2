@@ -21,7 +21,7 @@ const glbToROS=p=>[p[2],p[0],p[1]];
 const sceneToROS=p=>[p[0],-p[2],p[1]];
 const records=[];
 
-function exportPart(name,root,rotate,exclude=new Set()){
+function exportPart(name,root,rotate,exclude=new Set(),preserveDoubleSided=false){
  root.updateWorldMatrix(true,true);
  const origin=rotate(root.getWorldPosition(new T.Vector3()).toArray());
  const primitives=[];
@@ -45,6 +45,20 @@ function exportPart(name,root,rotate,exclude=new Set()){
       normals.push(...rotate(nn.toArray()));remap.set(old,remap.size);
      }
      indices.push(remap.get(old));
+    }
+    // The source USV uses DoubleSide to show surfaces with mixed winding.
+    // RViz/Gazebo COLLADA importers do not consistently honor exporter-specific
+    // double-sided material flags. Bake a back-facing copy with its own normals.
+    // Keep this opt-in so the already accepted ROV export remains unchanged.
+    if(preserveDoubleSided && material.side===T.DoubleSide){
+     const vertices=positions.length/3,frontIndices=indices.slice();
+     for(let v=0;v<vertices;v++){
+      positions.push(positions[3*v],positions[3*v+1],positions[3*v+2]);
+      normals.push(-normals[3*v],-normals[3*v+1],-normals[3*v+2]);
+     }
+     for(let i=0;i<frontIndices.length;i+=3){
+      indices.push(frontIndices[i]+vertices,frontIndices[i+2]+vertices,frontIndices[i+1]+vertices);
+     }
     }
     const color=material.color||new T.Color(0xcccccc);
     primitives.push({positions,normals,indices,color:[color.r,color.g,color.b,material.opacity??1],name:o.name||name});
@@ -107,21 +121,21 @@ const rack=createSensorRack();antenna.add(rack.root);
 const rod=antenna.children.find(n=>n.isMesh&&n.material?.name==='gray');
 if(rod){const geo=rod.geometry,pos=geo.attributes.position,idx=geo.index,count=idx?idx.count:pos.count;const ivory=rod.material.clone();ivory.color.setHex(0xe5e4d7);rod.material=[rod.material,ivory];geo.clearGroups();let start=0,last=-1;for(let i=0;i<count;i+=3){let x=0;for(let j=0;j<3;j++)x+=pos.getX(idx?idx.getX(i+j):i+j)/3;const which=Math.abs(x+.08)<.025?1:0;if(last!==which){if(last>=0)geo.addGroup(start,i-start,last);start=i;last=which;}}if(last>=0)geo.addGroup(start,count-start,last);}
 vessel.updateMatrixWorld(true);
-const vesselParts=vessel.children.map(n=>exportPart(n.name,n,glbToROS,new Set([rack.root])));
-for(const n of rack.root.children)vesselParts.push(exportPart(n.name,n,glbToROS));
+const vesselParts=vessel.children.map(n=>exportPart(n.name,n,glbToROS,new Set([rack.root]),true));
+for(const n of rack.root.children)vesselParts.push(exportPart(n.name,n,glbToROS,new Set(),true));
 const starlinkSupport=new T.Mesh(new T.CylinderGeometry(.016,.016,.60,12),new T.MeshStandardMaterial({color:0xa4b7c6}));
 starlinkSupport.position.set(-.80,.48,-.54);
 vesselParts.push(exportPart('Starlink_support_concept',starlinkSupport,sceneToROS));
 // Mounted accessories are siblings of the vessel in the source's originalFrame.
 for(const [file,name,pos,scale]of [['chasing-e-reel-reference.glb','mounted_e_reel',[0,.585,-.615],.8],['starlink-mini-concept.glb','mounted_starlink_mini',[.54,.78,-.80],1]]){
- const model=await load(file);model.position.set(...pos);model.scale.setScalar(scale);model.updateMatrixWorld(true);vesselParts.push(exportPart(name,model,glbToROS));
+ const model=await load(file);model.position.set(...pos);model.scale.setScalar(scale);model.updateMatrixWorld(true);vesselParts.push(exportPart(name,model,glbToROS,new Set(),true));
 }
 const frames=[
  {name:'robosense_mount_frame',origin:glbToROS(rack.owners['robosense-lidar'].getWorldPosition(new T.Vector3()).toArray())},
  {name:'zed_mount_frame',origin:glbToROS(rack.owners['zed-camera'].getWorldPosition(new T.Vector3()).toArray())},
  {name:'hikvision_mount_frame',origin:glbToROS(antenna.localToWorld(new T.Vector3(0,1.735,.108)).toArray())}
 ];
-saveModel('me120',vesselParts,frames,['Studio neutral raised pose; waterline datum Y=-0.25 applied.','Hikvision visual remains within antenna mesh; frame is the site inspection centre, not an optical calibration.','Mounted E-Reel retains source visual scale 0.8. Standalone E-Reel remains native scale.','Small canvas wordmarks are omitted; geometric sensor housings and cable loops retained.','Source hull_port/hull_starboard identifiers are inherited labels; do not infer physical left/right from them.']);
+saveModel('me120',vesselParts,frames,['Studio neutral raised pose; waterline datum Y=-0.25 applied.','Source double-sided materials are baked as opposite-winding faces with reversed normals to preserve cabin visibility in RViz/Gazebo. Render triangle counts include these back faces.','Hikvision visual remains within antenna mesh; frame is the site inspection centre, not an optical calibration.','Mounted E-Reel retains source visual scale 0.8. Standalone E-Reel remains native scale.','Small canvas wordmarks are omitted; geometric sensor housings and cable loops retained.','Source hull_port/hull_starboard identifiers are inherited labels; do not infer physical left/right from them.']);
 const rov=enrichRovModel(await load('chasing-m2-pro-max-reference.glb'));rov.updateMatrixWorld(true);
 saveModel('m2_pro_max',rov.children.map(n=>exportPart(n.name,n,glbToROS)),[],['Includes the site ROV anatomy corrections; no lighting beams or animated effects.']);
 for(const [file,name]of [['chasing-e-reel-reference.glb','e_reel'],['starlink-mini-concept.glb','starlink_mini'],['compute-enclosure-concept.glb','compute_enclosure']]){

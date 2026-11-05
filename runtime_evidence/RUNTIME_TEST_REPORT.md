@@ -1,6 +1,8 @@
-# Actual runtime test results
+# Initial runtime test results (historical baseline)
 
 6 November 2026 — ROS 2 Jazzy / Gazebo Harmonic libraries.
+
+These records describe the initial 129,400-triangle export. They remain here for provenance. The later ME120 visibility correction, current render and mesh checks are documented in `me120_visibility_fix/REPORT.md`.
 
 | Test | Result | Evidence |
 |---|---|---|

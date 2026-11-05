@@ -13,7 +13,7 @@
 #include <vector>
 #include <iostream>
 int main(int argc, char **argv) {
-  if (argc != 3) return 1;
+  if (argc != 3 && argc != 4) return 1;
   auto *engine = gz::rendering::engine("ogre2", {{"headless", "true"}});
   if (!engine) {std::cerr << "FAIL: engine creation\n"; return 2;}
   std::cout << "Engine initialized: " << engine->Name() << " headless=" << engine->Headless() << std::endl;
@@ -39,7 +39,10 @@ int main(int argc, char **argv) {
   auto camera=scene->CreateCamera();
   camera->SetImageWidth(960); camera->SetImageHeight(720); camera->SetAspectRatio(960.0/720);
   camera->SetNearClipPlane(0.05); camera->SetFarClipPlane(100);
-  camera->SetLocalPose(gz::math::Pose3d(3,-3,2.5,0,0.38,2.35619449));
+  if (argc == 4 && std::string(argv[3]) == "rear")
+    camera->SetLocalPose(gz::math::Pose3d(-3,3,2.5,0,0.38,-0.785398163));
+  else
+    camera->SetLocalPose(gz::math::Pose3d(3,-3,2.5,0,0.38,2.35619449));
   root->AddChild(camera);
   auto image=camera->CreateImage(); camera->Capture(image);
   gz::common::Image out;

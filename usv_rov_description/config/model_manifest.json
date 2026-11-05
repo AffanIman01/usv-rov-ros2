@@ -21,7 +21,7 @@
             0,
             -0.25
           ],
-          "triangles": 2138
+          "triangles": 4276
         },
         {
           "name": "hull_starboard",
@@ -30,7 +30,7 @@
             0,
             -0.25
           ],
-          "triangles": 2138
+          "triangles": 4276
         },
         {
           "name": "bridge_frame",
@@ -39,7 +39,7 @@
             0,
             -0.25
           ],
-          "triangles": 1392
+          "triangles": 2784
         },
         {
           "name": "equipment_cabin",
@@ -48,7 +48,7 @@
             0,
             -0.25
           ],
-          "triangles": 3776
+          "triangles": 7552
         },
         {
           "name": "payload_lifter_fixed",
@@ -57,7 +57,7 @@
             0,
             -0.25
           ],
-          "triangles": 4552
+          "triangles": 9104
         },
         {
           "name": "payload_lifter_moving",
@@ -66,7 +66,7 @@
             0,
             0.16799999999999998
           ],
-          "triangles": 256
+          "triangles": 512
         },
         {
           "name": "payload_mounting_ring",
@@ -75,7 +75,7 @@
             0,
             0.16799999999999998
           ],
-          "triangles": 4560
+          "triangles": 9120
         },
         {
           "name": "antenna",
@@ -84,7 +84,7 @@
             0,
             -0.5920000000000001
           ],
-          "triangles": 4228
+          "triangles": 8456
         },
         {
           "name": "thrusters",
@@ -93,7 +93,7 @@
             0,
             -0.25
           ],
-          "triangles": 5172
+          "triangles": 10344
         },
         {
           "name": "sensor_mount",
@@ -156,7 +156,7 @@
             0,
             0.585
           ],
-          "triangles": 24472
+          "triangles": 48944
         },
         {
           "name": "mounted_starlink_mini",
@@ -165,7 +165,7 @@
             0.54,
             0.78
           ],
-          "triangles": 232
+          "triangles": 464
         }
       ],
       "frames": [
@@ -196,6 +196,7 @@
       ],
       "notes": [
         "Studio neutral raised pose; waterline datum Y=-0.25 applied.",
+        "Source double-sided materials are baked as opposite-winding faces with reversed normals to preserve cabin visibility in RViz/Gazebo. Render triangle counts include these back faces.",
         "Hikvision visual remains within antenna mesh; frame is the site inspection centre, not an optical calibration.",
         "Mounted E-Reel retains source visual scale 0.8. Standalone E-Reel remains native scale.",
         "Small canvas wordmarks are omitted; geometric sensor housings and cable loops retained.",
@@ -218,7 +219,7 @@
           2.297000030234456
         ]
       },
-      "triangles": 68992
+      "triangles": 121908
     },
     {
       "name": "m2_pro_max",

@@ -2,8 +2,10 @@
 
 6 November 2026
 
+The current ME120 export preserves the source’s double-sided surfaces. See `runtime_evidence/me120_visibility_fix/REPORT.md` for the correction and its checks. All ROV assets, component transforms and model bounds are unchanged.
+
 - Source: Recovery Studio Site version 58, commit `9edda0a7a7fcd8700558ed00c44bbd2e29d9196e`.
-- 39 COLLADA files: 129,400 triangles. Finite coordinates, valid indices, valid material bindings, metre units and Z-up metadata verified.
+- 39 COLLADA files: 182,316 render triangles (including ME120 back faces). Finite coordinates, valid indices, valid material bindings, metre units and Z-up metadata verified.
 - 7 URDF files: valid fixed joint trees with a single `base_link` root, unique link names and resolvable package mesh references.
 - 7 SDF files: 6 static model definitions and 1 preview world. Local resource references resolved structurally.
 - 6 model manifest entries: bounds and triangle counts match exported geometry.
@@ -12,7 +14,7 @@
 - All five input GLBs contain triangle geometry and normals, with no texture images or vertex colors.
 - Exported COLLADA geometry was independently parsed and rendered to `MODEL_PREVIEW.png` for visual inspection. That image is not a Gazebo render.
 
-## Actual ROS 2 / Gazebo verification
+## Initial ROS 2 / Gazebo verification (before the visibility correction)
 
 ROS 2 Jazzy and Gazebo Harmonic were installed after the initial structural checks. Results:
 

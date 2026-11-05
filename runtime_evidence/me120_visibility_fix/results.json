@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-06",
+  "package": "usv_rov_description",
+  "scope": "USV double-sided surface preservation; no physics/sensor tests",
+  "results": {
+    "structural_validation": {
+      "status": "passed",
+      "meshes": 39,
+      "triangles": 182316,
+      "urdf_files": 7,
+      "sdf_files": 7
+    },
+    "colcon_build": {
+      "status": "passed",
+      "packages": 1
+    },
+    "native_gazebo_mesh_import": {
+      "status": "passed",
+      "meshes": 39,
+      "triangles": 182316,
+      "bounds_tolerance_m": 1e-06,
+      "uses_updated_repository_checker": true
+    },
+    "actual_gazebo_render": {
+      "status": "passed",
+      "engine": "Ogre2 headless EGL software renderer",
+      "parts": 17,
+      "front_image": "ME120_FRONT.png",
+      "rear_image": "ME120_REAR.png",
+      "visually_inspected": true,
+      "observations": "Cabin outer shell, top rim and end caps now visible from both sides; original hollow upper opening retained.",
+      "rear_process_exit_code": 0,
+      "rear_rerun_timestamp": "2026-11-06T06:03:18+08:00"
+    }
+  },
+  "not_tested": [
+    "RViz GUI",
+    "Gazebo simulation stepping",
+    "water physics",
+    "sensors",
+    "hardware integration"
+  ],
+  "images": [
+    {
+      "path": "ME120_FRONT.png",
+      "sha256": "d56caec7e5357786e7a1c5c3fc6c0a0621ba85de1fa331e913f8973cc5567312",
+      "bytes": 33029
+    },
+    {
+      "path": "ME120_REAR.png",
+      "sha256": "3173473d639e9908004a55e254a72553a1f8653ef397cee77dc81badc0311015",
+      "bytes": 41145
+    }
+  ],
+  "timezone": "Asia/Kuala_Lumpur",
+  "base_commit": "549eb948fdfca41f038ca23bd95020fc2a84a621"
+}

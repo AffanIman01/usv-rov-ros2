@@ -4,6 +4,8 @@ This package reuses the current Recovery Studio geometry in ROS 2 URDF and Gazeb
 
 Source: **Unmanned Research Lab — ROV Recovery Studio**, Site version 58, repository commit `9edda0a7a7fcd8700558ed00c44bbd2e29d9196e`. Exported 6 November 2026. The source website was not modified.
 
+**ME120 visibility correction (6 November 2026, MYT):** The website renders both sides of its USV surfaces. The ROS export now preserves that behavior, fixing the missing yellow cabin/deck surfaces in RViz and Gazebo. Model dimensions, component positions and all ROV assets are unchanged. The added reverse-facing surfaces are for rendering only. See the repository root `runtime_evidence/me120_visibility_fix/REPORT.md` for verification.
+
 ## Included models
 
 | Model | Transferred content |
@@ -70,7 +72,7 @@ The GLB models use Y up and +Z bow. The exported ROS body convention is X forwar
 
 **Geometry:** The site's models are photo-derived visual references, not OEM CAD. Sensor variants, installation dimensions and extrinsic calibration remain unconfirmed. The complete ROV envelope includes protruding lights and other geometry, so it is larger than the nominal body dimensions stated in the website.
 
-**Appearance:** Website lighting, metallic/clearcoat rendering, animated propellers, light beams, water, HUD and small canvas wordmarks are not transferred. The mesh surfaces use simplified diffuse materials. `MODEL_PREVIEW.png` is a separate mesh inspection image. `runtime_evidence/ME120_GAZEBO_RENDER.png` is an actual Gazebo Ogre2 offscreen render of all 17 ME120 parts.
+**Appearance:** Website lighting, metallic/clearcoat rendering, animated propellers, light beams, water, HUD and small canvas wordmarks are not transferred. The mesh surfaces use simplified diffuse materials. `MODEL_PREVIEW.png` is a separate mesh inspection image. `runtime_evidence/me120_visibility_fix/ME120_FRONT.png` is the corrected Gazebo Ogre2 render; the original render is retained in the baseline evidence.
 
 **Frames:** `zed_mount_frame`, `robosense_mount_frame` and `hikvision_mount_frame` are approximate visual reference points. They are not calibrated sensor origins or optical frames. The Hikvision frame comes from the site's inspection centre; its geometry remains part of the mast mesh. No pan/tilt joints or stereo optical transforms are invented.
 
@@ -80,7 +82,7 @@ The GLB models use Y up and +Z bow. The exported ROS body convention is X forwar
 
 **Physics:** URDF files contain fixed visual links, without guessed mass, inertia or collision shapes. SDF models are static. They cannot validate flotation, stability, current rejection, magnetic holding force or retrieval performance.
 
-**Verification:** ROS 2 Jazzy and Gazebo Harmonic were installed in the test environment. The package built with colcon; all seven URDFs, 84 expected static transforms, seven SDF files and 39 native mesh imports passed. The complete ME120 also rendered with Gazebo Ogre2 using software EGL. Full Gazebo server stepping and the RViz window remain blocked by environment networking/display restrictions. See the repository root `VALIDATION.md` and `runtime_evidence/RUNTIME_TEST_REPORT.md` for exact scope, logs and installation limitations.
+**Verification:** ROS 2 Jazzy and Gazebo Harmonic were installed in the test environment. The package built with colcon; all seven URDFs, 84 expected static transforms, seven SDF files and 39 native mesh imports passed. The complete ME120 also rendered with Gazebo Ogre2 using software EGL. Full Gazebo server stepping and the RViz window remain blocked by environment networking/display restrictions. See the repository root `VALIDATION.md` and `runtime_evidence/me120_visibility_fix/REPORT.md` for the latest correction. `runtime_evidence/RUNTIME_TEST_REPORT.md` records the initial baseline and its environment limitations.
 
 ## Next implementation work
 

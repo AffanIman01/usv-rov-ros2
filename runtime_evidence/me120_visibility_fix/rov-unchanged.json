@@ -1,0 +1,65 @@
+{
+  "base_commit": "549eb948fdfca41f038ca23bd95020fc2a84a621",
+  "files": [
+    {
+      "path": "usv_rov_description/meshes/m2_pro_max/rov_battery.dae",
+      "sha256": "6f61b3e47797bc8f288e65e5905c681a5137e2c2f70b875a6b92afd2c0fdafdc",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "usv_rov_description/meshes/m2_pro_max/rov_body.dae",
+      "sha256": "3e26b78c7348c27f6ad317754756d1150c73c7ca7ff440914858b8f7703fcd93",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "usv_rov_description/meshes/m2_pro_max/rov_camera.dae",
+      "sha256": "0532f14df7bb9a1a8c1631b4ecc229bab6d27e2145cc3b6d7dbe61b1154ce47a",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "usv_rov_description/meshes/m2_pro_max/rov_frame.dae",
+      "sha256": "b51e07462664e34096004625ec94560740cd0e5324f389876b6e6a496f94533e",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "usv_rov_description/meshes/m2_pro_max/rov_lights.dae",
+      "sha256": "534de0ebd981fa9a36712951e4cd68937688929524c0c3fe7ebbca6fc398d178",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "usv_rov_description/meshes/m2_pro_max/rov_tether.dae",
+      "sha256": "c1f9ce363651509a50e00ac339140a64c87bce2bda2888401c26bfb99880715b",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "usv_rov_description/meshes/m2_pro_max/rov_thrusters.dae",
+      "sha256": "a6db41c259b9ae4a16b8d96c3cf3705ea9e33f0c8921350b1f6b20c9b86c5927",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "usv_rov_description/models/m2_pro_max/model.config",
+      "sha256": "4518afed172d599cf11904cd5ef1b67516ba575b53111587aa9fb5712df2e78e",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "usv_rov_description/models/m2_pro_max/model.sdf",
+      "sha256": "c7760f00cacaf9c45e75f4aeee3af380b025544bd7ac4b91269bd75e6c64b82a",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "usv_rov_description/urdf/m2_pro_max.urdf",
+      "sha256": "495474dc6a0f50e52b9b7e57085058e77e9f3f5f71bdf641862d7dd6da16fdc7",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tools/export_source/rov-anatomy.mjs",
+      "sha256": "62e0f183d4591fdfeb01a74b28b49f2d31af906163a85e437107238af088ec2c",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tools/export_source/source_dist/models/chasing-m2-pro-max-reference.glb",
+      "sha256": "204ab95dd18d7d50c4b73ebb80fb72b06b83665171357bdcba4366dd46ddfb9d",
+      "unchanged_from_base": true
+    }
+  ]
+}

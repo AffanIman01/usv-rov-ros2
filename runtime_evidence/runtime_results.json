@@ -85,5 +85,7 @@
     "overall_apt_exit_code": 100,
     "limitation": "libibverbs1 post-install group creation could not open audit interface; some optional image/demo dependencies remain unconfigured. No security restrictions changed.",
     "versions": "installed_versions.tsv"
-  }
+  },
+  "record_scope": "Historical baseline before the ME120 double-sided visibility correction",
+  "latest_model_validation": "me120_visibility_fix/REPORT.md"
 }

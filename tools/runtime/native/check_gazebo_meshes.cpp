@@ -8,7 +8,7 @@
 
 int main(int argc, char **argv) {
   if(argc!=2) { std::cerr<<"usage: check_gazebo_meshes EXPECTATIONS_TSV\n"; return 2; }
-  unsigned int files=0; unsigned long long indices=0;
+  unsigned int files=0; unsigned long long indices=0, expectedIndices=0;
   std::ifstream input(argv[1]);
   if(!input) { std::cerr<<"Cannot open expectations TSV\n"; return 2; }
   std::string line;
@@ -40,11 +40,11 @@ int main(int argc, char **argv) {
         return 1;
       }
     }
-    ++files; indices+=mesh->IndexCount();
+    ++files; indices+=mesh->IndexCount(); expectedIndices+=static_cast<unsigned long long>(triangles)*3;
     std::cout<<"PASS "<<path.filename().string()<<" vertices="<<mesh->VertexCount()
       <<" triangles="<<mesh->IndexCount()/3<<" materials="<<mesh->MaterialCount()
       <<" bounds_match=true min="<<mesh->Min()<<" max="<<mesh->Max()<<"\n";
   }
   std::cout<<"SUMMARY files="<<files<<" triangles="<<indices/3<<"\n";
-  return files==39 && indices==129400ull*3 ? 0 : 1;
+  return files==39 && indices==expectedIndices ? 0 : 1;
 }

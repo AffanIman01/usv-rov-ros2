@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "checks": {
+    "dae_files": 39,
+    "triangles": 182316,
+    "urdf_files": 7,
+    "urdf_links": 91,
+    "sdf_files": 7,
+    "manifest_models": 6
+  },
+  "errors": [],
+  "runtime_verified": false,
+  "scope": "Structural checks only; no ROS, Gazebo, renderer or physical validation."
+}
