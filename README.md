@@ -1,27 +1,33 @@
-# USV–ROV 10k: ROS 2 models and USV pool simulation
+# USV–ROV 10k: ROS 2 models and marine simulation
 
-This repository reuses the Recovery Studio geometry in ROS 2 URDF and Gazebo SDF formats. `usv_rov_description` preserves the visual models and static previews. The new `usv_rov_sim` package adds a **prototype calm-water ME120 simulation** with buoyancy, drag, coarse hull collision geometry, twin-thruster forces and keyboard control. Its physical parameters are estimates. ROV dynamics, tether physics, docking, sensor data, PTZ control and real hardware drivers are not implemented yet.
+This repository reuses the Recovery Studio geometry in ROS 2 URDF and Gazebo SDF formats. `usv_rov_description` preserves the visual models and static previews. `usv_rov_sim` adds an estimated calm-water ME120 simulation with buoyancy, water resistance, twin-thruster forces and keyboard control. The default environment now reuses **VRX's Sydney Regatta world and OpenRobotics terrain**. ROV dynamics, tether physics, docking, sensor data and hardware drivers are future work.
 
-## Drive the USV in a pool
+## Drive the USV in Sydney Regatta
 
-Use Ubuntu 24.04 with ROS 2 Jazzy / Gazebo Harmonic. Stop the previous RViz display launch with Ctrl+C. From this checkout:
+Use Ubuntu 24.04 with ROS 2 Jazzy / Gazebo Harmonic. Stop the previous simulation with Ctrl+C in its launch terminal, then run these commands from your existing checkout:
 
 ```bash
 git pull --ff-only
-bash tools/run_pool.sh
+bash tools/run_sim.sh
 ```
+
+The first run downloads and checks the existing Sydney Regatta terrain (129 MB). Later runs use the verified local cache. This is a calm-water adaptation of VRX: its terrain, buildings and docks are reused; VRX waves and competition tasks are not enabled. See [world sources and licenses](usv_rov_sim/worlds/SOURCES.md).
+
+![ME120 initial pose in Sydney Regatta, native static Gazebo render](runtime_evidence/sydney_startup_fix/SYDNEY_INITIAL_VIEW.png)
 
 In a second terminal, from the same checkout:
 
 ```bash
-bash tools/run_pool.sh --keyboard
+bash tools/run_sim.sh --keyboard
 ```
 
-Hold/repeat **W/S** for forward/reverse, **A/D** to turn, **Space** to cut thrust, **+/-** to change speed and **Q** to quit the keyboard node. Keep that terminal focused. Releasing a key expires movement; water resistance slows the boat after thrust is cut. The helper builds its own `.pool_ws` and checks that the installed visuals match this checkout.
+Keep the keyboard terminal focused. Hold/repeat **W/S** for forward/reverse and **A/D** to turn. **Space** cuts thrust, **+/-** changes target speed and **Q** quits the controller. The terminal shows requested motion, ROS subscriber status and measured movement. Releasing a key expires the motion command; water resistance slows the boat after thrust is cut.
 
-![ME120 pool initial view, native Gazebo renderer](runtime_evidence/pool_simulation/render/POOL_START_VIEW.png)
+**Sinking correction:** Gazebo configures a model's plugins before attaching it to the world. The earlier buoyancy plugin rejected that temporary state and stayed disabled. It now resolves the world on the first physics update. A regression test recreates the real startup event order and failed with the old code. The launcher also pins Gazebo 8, checks both force-plugin libraries and monitors flotation feedback. See [fix verification and remaining limits](runtime_evidence/sydney_startup_fix/REPORT.md).
 
-See [setup, controls and dependencies](usv_rov_sim/README.md) and [test results and limits](runtime_evidence/pool_simulation/REPORT.md). For VMware graphics trouble, try `bash tools/run_pool.sh --software`; `--render-engine ogre` is another renderer option. The image above is a native offscreen rendering of the initial world, not a GUI screenshot.
+For VMware graphics trouble, try `bash tools/run_sim.sh --software`. For a smaller offline world, use `bash tools/run_sim.sh --world pool`. The previous `tools/run_pool.sh` command still works and now defaults to Sydney. Both helpers rebuild into the existing `.pool_ws` directory and record the launch output in `.pool_ws/last-launch.log`.
+
+See [dependencies, diagnostics and controls](usv_rov_sim/README.md). To run an automatic headless movement check on your Ubuntu machine, stop the interactive simulation and run `bash tools/run_sim.sh --self-test`. It checks flotation, forward movement, turning, stopping and the command timeout, and writes `.pool_ws/last-test.json` plus `.pool_ws/last-test.log`.
 
 ## Original model transfer
 
@@ -129,7 +135,7 @@ The GLB models use Y up and +Z bow. The exported ROS body convention is X forwar
 
 **Recovery concept:** The current source still contains latch housings, positive-lock pins and keeper lugs. They remain visible as inherited concept geometry; they are not confirmation of a final magnetic-only design. Head/yoke origins are carrier-local while the tether guide is boat-local. The separate static model is a component reference, not a connected recovery mechanism.
 
-**Physics:** The original `usv_rov_description` URDFs and SDFs remain visual-only/static. The separate `usv_rov_sim` package adds estimated ME120 pool dynamics. These estimates are useful for software prototyping but do not validate real-vessel stability, current rejection, magnetic holding force or retrieval performance.
+**Physics:** The original `usv_rov_description` URDFs and SDFs remain visual-only/static. The separate `usv_rov_sim` package adds estimated ME120 calm-water dynamics. These estimates are useful for software prototyping but do not validate real-vessel stability, current rejection, magnetic holding force or retrieval performance.
 
 **Verification:** ROS 2 Jazzy and Gazebo Harmonic were installed in the test environment. The package built with colcon; all seven URDFs, 84 expected static transforms, seven SDF files and 39 native mesh imports passed. The complete ME120 also rendered with Gazebo Ogre2 using software EGL. Full Gazebo server stepping and the RViz window remain blocked by environment networking/display restrictions. See the repository root `VALIDATION.md` and `runtime_evidence/me120_visibility_fix/REPORT.md` for the latest correction. `runtime_evidence/RUNTIME_TEST_REPORT.md` records the initial baseline and its environment limitations.
 

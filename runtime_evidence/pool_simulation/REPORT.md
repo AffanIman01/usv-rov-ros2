@@ -1,5 +1,7 @@
 # ME120 calm-water simulation verification
 
+**Historical report:** a later real-server lifecycle regression found that these native tests configured buoyancy too late to reproduce Gazebo startup. The user-observed sinking was caused by that missed ordering bug. See the [startup correction and replacement-world verification](../sydney_startup_fix/REPORT.md) for the fix and current evidence. The native harness now recreates server event timing.
+
 6 November 2026, Asia/Kuala_Lumpur. Initial model repository baseline: `33577a7f00b77692281847782ceda6ce21ef6901`.
 
 This stage adds a dynamic USV pool model, a physical twin-thruster controller, a ROS/Gazebo bridge and momentary terminal keyboard controls. All original USV and ROV visual assets remain unchanged. The mass, inertia, displacement proxies, damping and thruster limits are explicitly provisional simulation values, not measured ME120 calibration.

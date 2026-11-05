@@ -69,6 +69,7 @@ def main():
     parser.add_argument("--startup-timeout", type=float, default=60.0)
     parser.add_argument("--timeout", type=float, default=150.0)
     parser.add_argument("--domain-id", type=int, default=20 + os.getpid() % 60)
+    parser.add_argument("--world", choices=("pool", "sydney_regatta"), default="pool")
     args = parser.parse_args()
     if not (0 <= args.domain_id <= 101 and math.isfinite(args.timeout) and
             0 < args.startup_timeout <= args.timeout):
@@ -192,7 +193,7 @@ def main():
 
         with args.log.open("w", buffering=1) as launch_log:
             process = subprocess.Popen(
-                ["ros2", "launch", "usv_rov_sim", "pool.launch.py", "gui:=false"],
+                ["ros2", "launch", "usv_rov_sim", "sim.launch.py", f"world:={args.world}", "gui:=false"],
                 stdout=launch_log, stderr=subprocess.STDOUT, start_new_session=True,
             )
             while last_state is None or sim_time is None or node.count_subscribers("/sim/me120/cmd_vel") == 0:

@@ -1,0 +1,9 @@
+{
+  "renderer": "Gazebo Ogre2 offscreen EGL",
+  "visuals_loaded": 26,
+  "image": "SYDNEY_INITIAL_VIEW.png",
+  "image_sha256": "3b0acace0ce24364fbe19e5690716b802dc893ec3ccfe54bbe183d16bd212310",
+  "kind": "Static initial-pose rendering; not live simulation or VMware GUI",
+  "terrain_version": 3,
+  "terrain_archive_sha256": "ccf768134ff7e7929f67970fd059c0286569bc22ead9d959d45061a5c1ee967a"
+}

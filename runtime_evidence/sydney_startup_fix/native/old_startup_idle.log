@@ -1,0 +1,2 @@
+RESULT {"case":"idle","configured_before_world_parent":true,"passed":false,"duration_s":60,"position":[-2.70239e-19,8.38269e-19,-1.75],"rpy":[-2.21021e-18,-1.03715e-18,-6.82902e-21],"linear_velocity":[3.07989e-19,8.85714e-19,1.87821e-06],"yaw_rate":-3.25677e-20,"z_range":[-1.75114,0.152745],"max_abs_roll":2.25026e-18,"max_abs_pitch":1.26814e-18,"peak_speed":0.713564,"speed_at_release":0}
+[1;31m[Err] [surface_buoyancy.cpp:48] [0m[1;31mSurfaceBuoyancy has invalid link, world or density parameters.[0m

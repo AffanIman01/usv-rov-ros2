@@ -1,5 +1,6 @@
 #include <gz/sim/EntityComponentManager.hh>
 #include <gz/sim/EventManager.hh>
+#include <gz/sim/Events.hh>
 #include <gz/sim/SdfEntityCreator.hh>
 #include <gz/sim/SystemLoader.hh>
 #include <gz/sim/SystemPluginPtr.hh>
@@ -43,13 +44,29 @@ int main(int argc,char**argv){
  // deliberately not instantiated in this no-network physics harness.
  auto hyd=std::find_if(model->Plugins().begin(),model->Plugins().end(),[](const auto&p){return p.Name()=="gz::sim::systems::Hydrodynamics";});if(hyd==model->Plugins().end())return 4;
  auto h=hyd->ToElement();std::array<double,6> lin{},quad{};const char*lk[]={"xU","yV","zW","kP","mQ","nR"};const char*qk[]={"xUabsU","yVabsV","zWabsW","kPabsP","mQabsQ","nRabsR"};for(int i=0;i<6;++i){lin[i]=h->Get<double>(lk[i]);quad[i]=h->Get<double>(qk[i]);}
- gz::sim::EntityComponentManager ecm;gz::sim::EventManager events;gz::sim::SdfEntityCreator creator(ecm,events);const auto we=creator.CreateEntities(world);
- const auto me=ecm.EntityByComponents(gz::sim::components::Name("me120"),gz::sim::components::Model());gz::sim::Model simModel(me);gz::sim::Link body(simModel.LinkByName(ecm,"base_link"));body.EnableVelocityChecks(ecm);
+ gz::sim::EntityComponentManager ecm;gz::sim::EventManager events;
  gz::sim::SystemLoader loader;if(!pluginDir.empty())loader.AddSystemPluginPath(pluginDir);std::vector<SystemHandle> systems;
  auto add=[&](const sdf::Plugin &p,gz::sim::Entity entity){auto loaded=loader.LoadPlugin(p);if(!loaded)throw std::runtime_error("plugin load failed: "+p.Name());auto plugin=*loaded;auto configure=plugin->QueryInterface<gz::sim::ISystemConfigure>();if(configure)configure->Configure(entity,p.ToElement(),ecm,events);systems.push_back({plugin,plugin->QueryInterface<gz::sim::ISystemPreUpdate>(),plugin->QueryInterface<gz::sim::ISystemUpdate>(),plugin->QueryInterface<gz::sim::ISystemPostUpdate>()});};
+ // Match the real SimulationRunner: Configure is called synchronously from
+ // LoadSdfPlugins while SdfEntityCreator is still constructing the world.
+ // Calling Configure only after CreateEntities(world) hid the original bug:
+ // the model has no world parent yet when its plugins are configured.
+ bool configuredBeforeWorldParent=false;
+ auto loadConnection=events.Connect<gz::sim::events::LoadSdfPlugins>(
+  [&](gz::sim::Entity entity,sdf::Plugins plugins){
+   if(builtin)return;
+   for(const auto&p:plugins)if(p.Name()=="usv_rov_sim::SurfaceBuoyancy"){
+    configuredBeforeWorldParent=gz::sim::worldEntity(entity,ecm)==gz::sim::kNullEntity;
+    add(p,entity);
+   }
+  });
+ gz::sim::SdfEntityCreator creator(ecm,events);const auto we=creator.CreateEntities(world);
+ if(!builtin&&!configuredBeforeWorldParent)throw std::runtime_error("Expected model Configure before world-parent attachment.");
+ const auto me=ecm.EntityByComponents(gz::sim::components::Name("me120"),gz::sim::components::Model());gz::sim::Model simModel(me);gz::sim::Link body(simModel.LinkByName(ecm,"base_link"));body.EnableVelocityChecks(ecm);
  for(const auto&p:world->Plugins())if(p.Name()=="gz::sim::systems::Physics")add(p,we);
+ // This separate negative control is a world plugin, intentionally configured
+ // after its world exists. It does not test model-plugin lifecycle ordering.
  if(builtin){sdf::Plugin b;b.SetName("gz::sim::systems::Buoyancy");b.SetFilename("gz-sim-buoyancy-system");b.InsertContent("<graded_buoyancy><default_density>1000</default_density><density_change><above_depth>0</above_depth><density>1.225</density></density_change></graded_buoyancy><enable>me120</enable>");add(b,we);}
- else for(const auto&p:model->Plugins())if(p.Name()=="usv_rov_sim::SurfaceBuoyancy")add(p,me);
  if(systems.size()!=2)return 6;
  usv_rov_sim::ControlParameters cp;auto ctrl=std::find_if(model->Plugins().begin(),model->Plugins().end(),[](const auto&p){return p.Name()=="usv_rov_sim::TwinThrusterController";});auto c=ctrl->ToElement();
  // Keep defaults in the shared production control implementation; current SDF
@@ -64,7 +81,7 @@ int main(int argc,char**argv){
   if(name=="torque_pitch"||name=="torque_roll"){
    const auto *wrench=ecm.Component<gz::sim::components::ExternalWorldWrenchCmd>(body.Entity());
    if(!wrench)return 7;const auto&w=wrench->Data();const auto pose=gz::sim::worldPose(body.Entity(),ecm);const double restoring=name=="torque_pitch"?w.torque().y():w.torque().x();
-   std::cout<<"RESULT {\"case\":\""<<name<<"\",\"builtin_buoyancy\":"<<(builtin?"true":"false")<<",\"passed\":"<<(restoring<0?"true":"false")<<",\"initial_rpy\":["<<pose.Rot().Roll()<<","<<pose.Rot().Pitch()<<","<<pose.Rot().Yaw()<<"],\"force_z\":"<<w.force().z()<<",\"torque\":["<<w.torque().x()<<","<<w.torque().y()<<","<<w.torque().z()<<"]}"<<std::endl;return restoring<0?0:1;}
+   std::cout<<"RESULT {\"case\":\""<<name<<"\",\"configured_before_world_parent\":"<<(configuredBeforeWorldParent?"true":"false")<<",\"builtin_buoyancy\":"<<(builtin?"true":"false")<<",\"passed\":"<<(restoring<0?"true":"false")<<",\"initial_rpy\":["<<pose.Rot().Roll()<<","<<pose.Rot().Pitch()<<","<<pose.Rot().Yaw()<<"],\"force_z\":"<<w.force().z()<<",\"torque\":["<<w.torque().x()<<","<<w.torque().y()<<","<<w.torque().z()<<"]}"<<std::endl;return restoring<0?0:1;}
   const auto pose=body.WorldPose(ecm).value_or(start);const auto rot=pose.Rot();auto vel=rot.RotateVectorReverse(body.WorldLinearVelocity(ecm).value_or(gz::math::Vector3d::Zero));auto omega=rot.RotateVectorReverse(body.WorldAngularVelocity(ecm).value_or(gz::math::Vector3d::Zero));
   // Exact diagonal no-current/no-added-mass damping formula configured in the
   // production Hydrodynamics plugin. The plugin itself requires transport.
@@ -93,6 +110,6 @@ int main(int argc,char**argv){
  if(name=="roll")passed&=maxRoll>.07;
  if(name=="pitch")passed&=maxPitch>.07;
  if(name=="heave")passed&=maxZ>initial.Pos().Z()+.08;
- std::cout<<"RESULT {\"case\":\""<<name<<"\",\"passed\":"<<(passed?"true":"false")<<",\"duration_s\":"<<duration<<",\"position\":["<<p.Pos().X()<<","<<p.Pos().Y()<<","<<p.Pos().Z()<<"],\"rpy\":["<<r.X()<<","<<r.Y()<<","<<r.Z()<<"],\"linear_velocity\":["<<v.X()<<","<<v.Y()<<","<<v.Z()<<"],\"yaw_rate\":"<<w.Z()<<",\"z_range\":["<<minZ<<","<<maxZ<<"],\"max_abs_roll\":"<<maxRoll<<",\"max_abs_pitch\":"<<maxPitch<<",\"peak_speed\":"<<peakV<<",\"speed_at_release\":"<<atRelease<<"}"<<std::endl;
+ std::cout<<"RESULT {\"case\":\""<<name<<"\",\"configured_before_world_parent\":"<<(configuredBeforeWorldParent?"true":"false")<<",\"passed\":"<<(passed?"true":"false")<<",\"duration_s\":"<<duration<<",\"position\":["<<p.Pos().X()<<","<<p.Pos().Y()<<","<<p.Pos().Z()<<"],\"rpy\":["<<r.X()<<","<<r.Y()<<","<<r.Z()<<"],\"linear_velocity\":["<<v.X()<<","<<v.Y()<<","<<v.Z()<<"],\"yaw_rate\":"<<w.Z()<<",\"z_range\":["<<minZ<<","<<maxZ<<"],\"max_abs_roll\":"<<maxRoll<<",\"max_abs_pitch\":"<<maxPitch<<",\"peak_speed\":"<<peakV<<",\"speed_at_release\":"<<atRelease<<"}"<<std::endl;
  return passed?0:1;
 }

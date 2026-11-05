@@ -36,16 +36,15 @@ public:
     }
     const auto linkName = sdf->Get<std::string>("link_name", "base_link").first;
     link.ResetEntity(model.LinkByName(ecm, linkName));
-    world = gz::sim::worldEntity(entity, ecm);
     surfaceZ = sdf->Get<double>("surface_z", 0.0).first;
     waterDensity = sdf->Get<double>("water_density", 1000.0).first;
     airDensity = sdf->Get<double>("air_density", 1.225).first;
-    if (!link.Valid(ecm) || world == gz::sim::kNullEntity ||
+    if (!link.Valid(ecm) ||
         !std::isfinite(surfaceZ) || !std::isfinite(waterDensity) ||
         !std::isfinite(airDensity) || waterDensity <= 0 || airDensity < 0 ||
         waterDensity < airDensity)
     {
-      gzerr << "SurfaceBuoyancy has invalid link, world or density parameters.\n";
+      gzerr << "SurfaceBuoyancy has invalid link or density parameters.\n";
       return;
     }
     std::set<std::string> names;
@@ -82,6 +81,12 @@ public:
     gz::sim::EntityComponentManager &ecm) override
   {
     if (!configured || info.paused || !link.Valid(ecm)) return;
+    // Gazebo configures model plugins before SdfEntityCreator attaches the
+    // model to its world. Resolve the ancestor here, after entity creation,
+    // instead of permanently rejecting an otherwise valid model in Configure.
+    if (world == gz::sim::kNullEntity)
+      world = gz::sim::worldEntity(link.Entity(), ecm);
+    if (world == gz::sim::kNullEntity) return;
     const auto gravity = ecm.Component<gz::sim::components::Gravity>(world);
     if (!gravity || !gravity->Data().IsFinite()) return;
     const auto linkOrigin = gz::sim::worldPose(link.Entity(), ecm).Pos();

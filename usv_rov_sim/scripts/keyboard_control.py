@@ -2,6 +2,7 @@
 """Momentary terminal controls for the simulated ME120; no hardware driver."""
 
 from dataclasses import dataclass
+import math
 import os
 import select
 import sys
@@ -12,12 +13,13 @@ import tty
 
 TOPIC = "/sim/me120/cmd_vel"
 PUBLISH_PERIOD = 0.05
-HELP = """ME120 pool simulation keyboard control
+HELP = """ME120 simulation keyboard control
 Keep this terminal focused. Hold/repeat a movement key:
   W forward    S reverse    A turn left    D turn right
   Space stop   + / - speed  Q quit        Ctrl+C quit
 Movement expires 0.35 s after the last movement key; terminal key repeat is required.
 This publishes simulated velocity targets on /sim/me120/cmd_vel.
+The status line shows the requested motion and received odometry separately.
 """
 
 
@@ -90,6 +92,27 @@ class KeyboardCommand:
         return self._surge * self.speed, self._yaw * self.yaw_speed
 
 
+@dataclass
+class MotionFeedback:
+    """Track fresh simulation feedback without treating it as a command ACK."""
+
+    received_at: float | None = None
+    surge: float = 0.0
+    yaw: float = 0.0
+
+    def update(self, surge, yaw, now):
+        if all(math.isfinite(value) for value in (surge, yaw, now)):
+            self.surge, self.yaw, self.received_at = surge, yaw, now
+
+    def describe(self, now):
+        if self.received_at is None:
+            return "odometry: waiting"
+        age = max(0.0, now - self.received_at)
+        freshness = "live" if age < 1.0 else "STALE"
+        return (f"measured {self.surge:+.2f} m/s, {self.yaw:+.2f} rad/s; "
+                f"odometry: {freshness} ({age:.1f}s)")
+
+
 def main(args=None):
     args = sys.argv[1:] if args is None else args
     if args in (["--help"], ["-h"]):
@@ -104,7 +127,9 @@ def main(args=None):
     import rclpy
     from rclpy.executors import ExternalShutdownException
     from rclpy.node import Node
+    from rclpy.qos import qos_profile_sensor_data
     from geometry_msgs.msg import Twist
+    from nav_msgs.msg import Odometry
 
     node = None
     publisher = None
@@ -112,7 +137,9 @@ def main(args=None):
     previous_terminal = termios.tcgetattr(fd)
     state = KeyboardCommand()
     decoder = TerminalKeyDecoder()
+    feedback = MotionFeedback()
     exit_code = 0
+    interactive_status = sys.stdout.isatty()
 
     def publish(surge, yaw):
         message = Twist()
@@ -120,14 +147,24 @@ def main(args=None):
         message.angular.z = yaw
         publisher.publish(message)
 
+    def on_odometry(message):
+        feedback.update(message.twist.twist.linear.x,
+                        message.twist.twist.angular.z, time.monotonic())
+
     try:
         rclpy.init(args=args)
         node = Node("me120_keyboard")
         publisher = node.create_publisher(Twist, TOPIC, 1)
+        node.create_subscription(Odometry, "/sim/me120/odometry", on_odometry,
+                                 qos_profile_sensor_data)
         tty.setcbreak(fd)  # Keep terminal signal handling, including Ctrl+C.
         print(HELP, flush=True)
         print(f"Speed: {state.speed:.1f} m/s; turn rate: {state.yaw_speed:.1f} rad/s", flush=True)
+        print("If the command stays zero, click this terminal and hold W. "
+              "Waiting for ROS subscribers means the bridge is not connected yet.", flush=True)
         next_publish = time.monotonic()
+        next_status = next_publish
+        previous_connection = None
         quit_requested = False
         while rclpy.ok() and not quit_requested:
             ready, _, _ = select.select([fd], [], [], max(0.0, next_publish - time.monotonic()))
@@ -138,6 +175,8 @@ def main(args=None):
                 for key in decoder.feed(data.decode(errors="ignore")):
                     action = state.apply_key(key, time.monotonic())
                     if action == "speed":
+                        if interactive_status:
+                            print()
                         print(f"Speed: {state.speed:.1f} m/s; turn rate: {state.yaw_speed:.1f} rad/s",
                               flush=True)
                     elif action == "quit":
@@ -148,12 +187,27 @@ def main(args=None):
                 publish(*state.command(now))
                 rclpy.spin_once(node, timeout_sec=0.0)
                 next_publish = now + PUBLISH_PERIOD
+            if now >= next_status:
+                listeners = publisher.get_subscription_count()
+                connection = (f"ROS subscribers: {listeners}" if listeners else
+                              "waiting for ROS subscribers")
+                surge, yaw = state.command(now)
+                line = (f"command {surge:+.2f} m/s, {yaw:+.2f} rad/s | "
+                        f"{connection} | {feedback.describe(now)}")
+                if interactive_status:
+                    print(f"\r{line:<145}", end="", flush=True)
+                elif connection != previous_connection:
+                    print(line, flush=True)
+                previous_connection = connection
+                next_status = now + 0.25
     except (KeyboardInterrupt, ExternalShutdownException):
         pass
     except Exception as error:
         print(f"Keyboard control stopped: {error}", file=sys.stderr)
         exit_code = 1
     finally:
+        if interactive_status:
+            print()
         # Send stop while the ROS context is usable. If it has already shut
         # down, the Gazebo controller's independent command watchdog stops it.
         if publisher is not None and rclpy.ok():

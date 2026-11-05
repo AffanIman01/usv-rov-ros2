@@ -23,8 +23,14 @@ target_include_directories(usv_rov_surface_buoyancy PRIVATE include)
 target_link_libraries(usv_rov_surface_buoyancy PRIVATE gz-sim8::gz-sim8 gz-plugin2::register)
 target_compile_options(usv_rov_surface_buoyancy PRIVATE -Wall -Wextra -Wpedantic)
 install(TARGETS usv_rov_surface_buoyancy LIBRARY DESTINATION lib)
+add_executable(check_sim_plugins src/check_plugins.cpp)
+target_link_libraries(check_sim_plugins PRIVATE gz-sim8::gz-sim8)
+target_compile_options(check_sim_plugins PRIVATE -Wall -Wextra -Wpedantic)
+install(TARGETS check_sim_plugins RUNTIME DESTINATION lib/${PROJECT_NAME})
+ament_environment_hooks("${CMAKE_CURRENT_SOURCE_DIR}/env-hooks/gazebo_paths.dsv.in")
 install(DIRECTORY launch config models worlds DESTINATION share/${PROJECT_NAME})
 install(PROGRAMS scripts/keyboard_control.py DESTINATION lib/${PROJECT_NAME} RENAME keyboard_control)
+install(PROGRAMS scripts/simulation_guard.py DESTINATION lib/${PROJECT_NAME} RENAME simulation_guard)
 install(FILES README.md DESTINATION share/${PROJECT_NAME})
 
 if(BUILD_TESTING)
@@ -38,5 +44,25 @@ if(BUILD_TESTING)
   target_link_libraries(test_surface_buoyancy PRIVATE gz-sim8::gz-sim8)
   add_test(NAME surface_buoyancy COMMAND test_surface_buoyancy)
   add_test(NAME keyboard_input COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test/test_keyboard.py)
+  add_test(NAME simulation_guard COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test/test_simulation_guard.py)
+  add_test(NAME required_plugins_load COMMAND ${CMAKE_COMMAND} -E env
+    "GZ_SIM_SYSTEM_PLUGIN_PATH=$<TARGET_FILE_DIR:usv_rov_surface_buoyancy>"
+    $<TARGET_FILE:check_sim_plugins> ${CMAKE_CURRENT_SOURCE_DIR}/models/me120_dynamic/model.sdf)
+  # An explicit missing filename must fail even when another workspace's library
+  # happens to be discoverable. Exercise the same loader as the real model.
+  file(READ "${CMAKE_CURRENT_SOURCE_DIR}/models/me120_dynamic/model.sdf" missing_plugin_model)
+  string(REPLACE "filename=\"usv_rov_surface_buoyancy\""
+    "filename=\"/__usv_rov_missing__/libusv_rov_surface_buoyancy.so\""
+    missing_plugin_model "${missing_plugin_model}")
+  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/missing_plugin.sdf" "${missing_plugin_model}")
+  add_test(NAME missing_plugin_rejected COMMAND check_sim_plugins
+    "${CMAKE_CURRENT_BINARY_DIR}/missing_plugin.sdf")
+  set_tests_properties(missing_plugin_rejected PROPERTIES WILL_FAIL TRUE)
+  add_executable(test_buoyancy_lifecycle test/test_buoyancy_lifecycle.cpp)
+  target_link_libraries(test_buoyancy_lifecycle PRIVATE gz-sim8::gz-sim8)
+  add_test(NAME buoyancy_server_lifecycle COMMAND ${CMAKE_COMMAND} -E env
+    "GZ_SIM_SYSTEM_PLUGIN_PATH=$<TARGET_FILE_DIR:usv_rov_surface_buoyancy>"
+    $<TARGET_FILE:test_buoyancy_lifecycle>
+    ${CMAKE_CURRENT_SOURCE_DIR}/models/me120_dynamic/model.sdf)
 endif()
 ament_package()

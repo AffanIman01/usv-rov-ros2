@@ -14,6 +14,18 @@ SPEC.loader.exec_module(KEYBOARD)
 
 
 class KeyboardControlTest(unittest.TestCase):
+    def test_feedback_expiry_and_invalid_messages(self):
+        feedback = KEYBOARD.MotionFeedback()
+        self.assertEqual(feedback.describe(5.0), "odometry: waiting")
+        feedback.update(0.4, -0.2, 5.0)
+        self.assertIn("+0.40 m/s, -0.20 rad/s", feedback.describe(5.2))
+        self.assertIn("live (0.2s)", feedback.describe(5.2))
+        # Invalid packets must not refresh the receive age of useful feedback.
+        feedback.update(float("nan"), 0.0, 5.9)
+        self.assertIn("STALE (1.1s)", feedback.describe(6.1))
+        feedback.update(0.0, 0.0, 6.2)
+        self.assertIn("live (0.0s)", feedback.describe(6.2))
+
     def test_escape_sequences_never_become_movement(self):
         decoder = KEYBOARD.TerminalKeyDecoder()
         state = KEYBOARD.KeyboardCommand()

@@ -1,0 +1,1 @@
+RESULT {"case":"pitch","configured_before_world_parent":false,"passed":false,"duration_s":15,"position":[-0.0858201,4.89298e-19,-0.0971866],"rpy":[3.14159,0.0307351,-3.14159],"linear_velocity":[-0.00982154,-2.76108e-19,-4.28729e-05],"yaw_rate":-4.61257e-18,"z_range":[-0.0971866,0.152784],"max_abs_roll":3.14159,"max_abs_pitch":1.57039,"peak_speed":0.059518,"speed_at_release":0}

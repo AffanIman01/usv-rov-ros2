@@ -3,6 +3,7 @@
 /log/
 /.preview_ws/
 /.pool_ws/
+/.world_cache/
 **/build/
 **/__pycache__/
 *.py[cod]

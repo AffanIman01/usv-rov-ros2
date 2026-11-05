@@ -38,6 +38,8 @@ for case, builtin, expected_exit in cases:
         code = 124
     (args.output / f"{label}.log").write_text(output)
     passed = code == expected_exit and bool(measured)
+    if not builtin:
+        passed = passed and measured.get("configured_before_world_parent") is True
     if expected_exit == 0:
         passed = passed and measured.get("passed", False)
     else:
@@ -50,10 +52,12 @@ resources = ["usv_rov_sim/models/me120_dynamic/model.sdf",
              "usv_rov_sim/worlds/pool.sdf",
              "usv_rov_sim/include/usv_rov_sim/thruster_control.hpp",
              "usv_rov_sim/include/usv_rov_sim/surface_buoyancy.hpp",
-             "usv_rov_sim/src/surface_buoyancy.cpp"]
+             "usv_rov_sim/src/surface_buoyancy.cpp",
+             "tools/runtime/marine/vehicle_probe.cpp",
+             "tools/runtime/marine/run_checks.py"]
 summary = {
     "passed": all(case["check_passed"] for case in results),
-    "scope": "Actual Gazebo Physics plus production SurfaceBuoyancy shared plugin in an EntityComponentManager. Production ComputeThrust header drives native wrenches. Configured diagonal drag equation is applied by this harness; native Hydrodynamics transport initialization is blocked in this host.",
+    "scope": "Actual Gazebo Physics plus production SurfaceBuoyancy shared plugin in an EntityComponentManager. SurfaceBuoyancy is configured synchronously through LoadSdfPlugins during SdfEntityCreator world construction, before the model receives its world parent, matching real server startup. Production ComputeThrust header drives native wrenches. Configured diagonal drag equation is applied by this harness; native Hydrodynamics transport initialization is blocked in this host.",
     "not_tested": ["Gazebo GUI", "ROS-to-Gazebo command bridge", "live transport subscriber", "native Hydrodynamics plugin stepping", "physical vehicle fidelity"],
     "inputs_sha256": {path: hashlib.sha256((args.repo / path).read_bytes()).hexdigest()
                       for path in resources},

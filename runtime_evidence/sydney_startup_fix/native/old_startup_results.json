@@ -1,0 +1,75 @@
+{
+  "baseline_commit": "220cba88e668a6f4a8c7077b9cb01984a715cdaf",
+  "scope": "Old committed SurfaceBuoyancy plugin, rebuilt separately, with corrected actual model-plugin Configure event ordering; same native physics and equation-level propulsion/drag harness, no ROS transport.",
+  "surface_plugin_sha256": "1f26c3be82286bdb6a4002e7c20ba413bee933d630fa25678fa3c217eea85990",
+  "cases": [
+    {
+      "case": "idle",
+      "exit_code": 1,
+      "measurement": {
+        "case": "idle",
+        "configured_before_world_parent": true,
+        "passed": false,
+        "duration_s": 60,
+        "position": [
+          -2.70239e-19,
+          8.38269e-19,
+          -1.75
+        ],
+        "rpy": [
+          -2.21021e-18,
+          -1.03715e-18,
+          -6.82902e-21
+        ],
+        "linear_velocity": [
+          3.07989e-19,
+          8.85714e-19,
+          1.87821e-06
+        ],
+        "yaw_rate": -3.25677e-20,
+        "z_range": [
+          -1.75114,
+          0.152745
+        ],
+        "max_abs_roll": 2.25026e-18,
+        "max_abs_pitch": 1.26814e-18,
+        "peak_speed": 0.713564,
+        "speed_at_release": 0
+      }
+    },
+    {
+      "case": "forward",
+      "exit_code": 1,
+      "measurement": {
+        "case": "forward",
+        "configured_before_world_parent": true,
+        "passed": false,
+        "duration_s": 15,
+        "position": [
+          0.89058,
+          8.90664e-20,
+          -1.75
+        ],
+        "rpy": [
+          -5.21549e-20,
+          -2.47695e-07,
+          1.74708e-20
+        ],
+        "linear_velocity": [
+          3.15555e-07,
+          -1.0055e-18,
+          3.88541e-06
+        ],
+        "yaw_rate": -6.01442e-20,
+        "z_range": [
+          -1.75065,
+          0.152745
+        ],
+        "max_abs_roll": 3.88585e-19,
+        "max_abs_pitch": 0.048903,
+        "peak_speed": 0.806051,
+        "speed_at_release": 0
+      }
+    }
+  ]
+}

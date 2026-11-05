@@ -1,0 +1,1 @@
+RESULT {"case":"torque_roll","configured_before_world_parent":true,"builtin_buoyancy":false,"passed":true,"initial_rpy":[0.05,-0,0],"force_z":1174.89,"torque":[-168.273,0,0]}

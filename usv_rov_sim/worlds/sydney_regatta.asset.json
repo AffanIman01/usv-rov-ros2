@@ -1,0 +1,31 @@
+{
+  "archive_bytes": 128980600,
+  "archive_sha256": "ccf768134ff7e7929f67970fd059c0286569bc22ead9d959d45061a5c1ee967a",
+  "archive_url": "https://fuel.gazebosim.org/1.0/OpenRobotics/models/sydney_regatta/3/sydney_regatta.zip",
+  "files": {
+    "materials/textures/Dock.png": "9984d9a2fb335f3b2438c78c1ddb5f3ab9df10970854d20cd95fc8089b74c6f4",
+    "materials/textures/DockDark.png": "3d51e976443f3861a04eee7751bf5eb2501f937b1f0470a5ec712ede91ceeb2f",
+    "materials/textures/MetalGalvanized.png": "1b7b8f85bbb56f8af5a6b3fce85f095dcb45b9d01cd98b59f1b75af534f3a28d",
+    "materials/textures/RoofCorrugated.png": "d7e42e3205e45559194abb2b66ffdf1f50cd790ac6408d1d9a2378258576410a",
+    "materials/textures/Terrain.png": "bbc337c9af330b88a6fa529cdd91a2734501cda57f8671ef03a126912fc2a2f4",
+    "materials/textures/TreeDiffuse.png": "d5315f7b65713fcf1e6f99e0bb09d8b811ed73f96458cf7c8c812af4d2fe07bc",
+    "materials/textures/Wall_05.png": "14c98e9ec657f90d5e889bffe68944bbae9226bc5f23f495c0ae223d41263b68",
+    "materials/textures/Windows_Dark.png": "028cea95596179caf10233bc4f831a3824183c9c3640d76aa5d4fe451d0b76af",
+    "meshes/sydney_regatta.dae": "7f79cc08a746d1afbf59b25a25a9f71ae8b979790eaf2ff1dda5b3114e9826f3",
+    "meshes/sydney_regatta_shore.dae": "59eb8247847b33906b44a8f8ad76b6d8bd95b9f0a0fa5f1508960d83601275b1",
+    "model.config": "be71ec14038d44f3a26413dec2791ed22e18e4ac18c4afb2d65ae50f6c3982f2",
+    "model.sdf": "eef05ac19c33a1b980079d4f7137222d593d0f49938dc688e91e5aa7b5b7b6a9",
+    "thumbnails/1.png": "71cb4c4336eb1d50c7e6f773fae04e7e2c471dadf6abc5e224ab1f199fe0bf8f",
+    "thumbnails/2.png": "18ce733bbf75bc042aa8836b1e0a1d4bb171e294c83d58d2b1ff96cbbfbc0972",
+    "thumbnails/3.png": "f0d7ade20ac9c70607ecdb920871938bcc587516b9854a2050c70d51d1e5b8bc",
+    "thumbnails/4.png": "91e0baee82022fff1e43e367d60f22cfc5bd37f7d4ede1be6c37a63126a8432b",
+    "thumbnails/5.png": "1ce80b69f2bee10db518d4453eacf8b1aa1835ed2bff84dbdcb65ea41b72b92b"
+  },
+  "license": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "model_url": "https://fuel.gazebosim.org/1.0/OpenRobotics/models/sydney_regatta/3",
+  "name": "sydney_regatta",
+  "owner": "OpenRobotics",
+  "uncompressed_bytes": 142907435,
+  "version": 3
+}

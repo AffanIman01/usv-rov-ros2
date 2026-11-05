@@ -1,0 +1,12 @@
+{
+  "status": "blocked",
+  "world": "sydney_regatta",
+  "gazebo_version": "8.15.0",
+  "plugin_preflight": "passed",
+  "terrain_integrity": "passed",
+  "server_exit_code": 255,
+  "bridge_exit_code": 255,
+  "launch_parent_exit_code": 0,
+  "integration_pass": false,
+  "reason": "Host network discovery restriction: getifaddrs Operation not permitted. Parent exit 0 after child shutdown is not integration success."
+}

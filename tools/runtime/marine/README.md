@@ -2,6 +2,8 @@
 
 This harness loads the production pool SDF, creates actual Gazebo entities, and advances Gazebo's installed DART Physics system and the project's compiled `SurfaceBuoyancy` system. It does not create a Gazebo Server, a ROS graph, a transport subscriber or a rendering window.
 
+The buoyancy plugin is configured through the actual `LoadSdfPlugins` event while `SdfEntityCreator` constructs the world. This reproduces Gazebo's startup order: model plugins are configured before the model is attached to its world. Each production case requires that ordering. An earlier harness configured buoyancy only after world creation and missed the startup defect that disabled flotation. The built-in buoyancy negative control remains a separate world plugin configured after its world exists.
+
 The production `ComputeThrust` header supplies the two thrust forces. The harness reads all control limits, thruster positions and drag coefficients from the production model. It applies the same diagonal no-current damping equation as the configured Hydrodynamics system. **Hydrodynamics itself is not executed here:** its transport initialization is blocked by this host's network restrictions. This distinction is recorded in every result summary. No installed library or security restriction is modified.
 
 From the repository root, after building `usv_rov_sim`:
