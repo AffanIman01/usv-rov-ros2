@@ -20,7 +20,7 @@ Source: **Unmanned Research Lab — ROV Recovery Studio**, Site version 58, repo
 
 ## Run in ROS 2 Jazzy
 
-Use Ubuntu 24.04 with ROS 2 Jazzy installed. Sign in to your GitHub account when cloning this private repository. These commands run on your machine.
+Use Ubuntu 24.04 with ROS 2 Jazzy installed. This public repository can be cloned without GitHub authentication. These commands run on your machine.
 
 1. Clone the repository into your colcon workspace and build the package:
 
