@@ -1,0 +1,45 @@
+robot name is: usv_rov_showcase
+---------- Successfully Parsed XML ---------------
+root Link: base_link has 42 child(ren)
+    child(1):  compute_enclosure_compute_case_concept
+    child(2):  compute_enclosure_compute_lid_concept
+    child(3):  compute_enclosure_compute_ports_concept
+    child(4):  e_reel_reel_controls
+    child(5):  e_reel_reel_crank
+    child(6):  e_reel_reel_drum
+    child(7):  e_reel_reel_feet
+    child(8):  e_reel_reel_handle
+    child(9):  e_reel_reel_housing
+    child(10):  e_reel_reel_tether
+    child(11):  m2_pro_max_rov_battery
+    child(12):  m2_pro_max_rov_body
+    child(13):  m2_pro_max_rov_camera
+    child(14):  m2_pro_max_rov_frame
+    child(15):  m2_pro_max_rov_lights
+    child(16):  m2_pro_max_rov_tether
+    child(17):  m2_pro_max_rov_thrusters
+    child(18):  me120_Starlink_support_concept
+    child(19):  me120_antenna
+    child(20):  me120_bridge_frame
+    child(21):  me120_equipment_cabin
+    child(22):  me120_front_cover
+    child(23):  me120_hikvision_mount_frame
+    child(24):  me120_hull_port
+    child(25):  me120_hull_starboard
+    child(26):  me120_mounted_e_reel
+    child(27):  me120_mounted_starlink_mini
+    child(28):  me120_payload_lifter_fixed
+    child(29):  me120_payload_lifter_moving
+    child(30):  me120_payload_mounting_ring
+    child(31):  me120_robosense_lidar
+    child(32):  me120_robosense_mount_frame
+    child(33):  me120_sensor_mount
+    child(34):  me120_sensor_service_cable_loops
+    child(35):  me120_thrusters
+    child(36):  me120_zed_camera
+    child(37):  me120_zed_mount_frame
+    child(38):  recovery_concept_capture_head
+    child(39):  recovery_concept_rov_yoke
+    child(40):  recovery_concept_tether_guide
+    child(41):  starlink_mini_starlink_mount_concept
+    child(42):  starlink_mini_starlink_panel_concept

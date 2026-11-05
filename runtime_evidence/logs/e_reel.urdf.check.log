@@ -1,0 +1,10 @@
+robot name is: e_reel
+---------- Successfully Parsed XML ---------------
+root Link: base_link has 7 child(ren)
+    child(1):  reel_controls
+    child(2):  reel_crank
+    child(3):  reel_drum
+    child(4):  reel_feet
+    child(5):  reel_handle
+    child(6):  reel_housing
+    child(7):  reel_tether

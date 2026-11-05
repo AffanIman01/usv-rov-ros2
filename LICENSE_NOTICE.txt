@@ -1,0 +1,3 @@
+This transfer contains geometry and application source derived from the user-owned Recovery Studio site. No new public license is granted. Verify project and vendor terms before redistribution.
+
+The optional exporter depends on Three.js 0.180.0, an MIT-licensed third-party library obtained separately through npm. Its license remains applicable to that dependency. No Three.js vendor library files are bundled in this archive.

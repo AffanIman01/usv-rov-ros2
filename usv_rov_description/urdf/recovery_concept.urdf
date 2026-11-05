@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!-- Visual description only. Fixed placements are source estimates, not measured extrinsics. -->
+<robot name="recovery_concept">
+<link name="base_link"/>
+<link name="capture_head"><visual><geometry><mesh filename="package://usv_rov_description/meshes/recovery_concept/capture_head.dae"/></geometry></visual></link><joint name="capture_head_fixed" type="fixed"><parent link="base_link"/><child link="capture_head"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<link name="rov_yoke"><visual><geometry><mesh filename="package://usv_rov_description/meshes/recovery_concept/rov_yoke.dae"/></geometry></visual></link><joint name="rov_yoke_fixed" type="fixed"><parent link="base_link"/><child link="rov_yoke"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<link name="tether_guide"><visual><geometry><mesh filename="package://usv_rov_description/meshes/recovery_concept/tether_guide.dae"/></geometry></visual></link><joint name="tether_guide_fixed" type="fixed"><parent link="base_link"/><child link="tether_guide"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+</robot>

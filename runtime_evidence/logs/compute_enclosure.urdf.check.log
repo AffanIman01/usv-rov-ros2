@@ -1,0 +1,6 @@
+robot name is: compute_enclosure
+---------- Successfully Parsed XML ---------------
+root Link: base_link has 3 child(ren)
+    child(1):  compute_case_concept
+    child(2):  compute_lid_concept
+    child(3):  compute_ports_concept

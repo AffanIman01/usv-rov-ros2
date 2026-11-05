@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!-- Visual description only. Fixed placements are source estimates, not measured extrinsics. -->
+<robot name="starlink_mini">
+<link name="base_link"/>
+<link name="starlink_panel_concept"><visual><geometry><mesh filename="package://usv_rov_description/meshes/starlink_mini/starlink_panel_concept.dae"/></geometry></visual></link><joint name="starlink_panel_concept_fixed" type="fixed"><parent link="base_link"/><child link="starlink_panel_concept"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<link name="starlink_mount_concept"><visual><geometry><mesh filename="package://usv_rov_description/meshes/starlink_mini/starlink_mount_concept.dae"/></geometry></visual></link><joint name="starlink_mount_concept_fixed" type="fixed"><parent link="base_link"/><child link="starlink_mount_concept"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+</robot>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!-- Visual description only. Fixed placements are source estimates, not measured extrinsics. -->
+<robot name="e_reel">
+<link name="base_link"/>
+<link name="reel_housing"><visual><geometry><mesh filename="package://usv_rov_description/meshes/e_reel/reel_housing.dae"/></geometry></visual></link><joint name="reel_housing_fixed" type="fixed"><parent link="base_link"/><child link="reel_housing"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<link name="reel_handle"><visual><geometry><mesh filename="package://usv_rov_description/meshes/e_reel/reel_handle.dae"/></geometry></visual></link><joint name="reel_handle_fixed" type="fixed"><parent link="base_link"/><child link="reel_handle"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<link name="reel_feet"><visual><geometry><mesh filename="package://usv_rov_description/meshes/e_reel/reel_feet.dae"/></geometry></visual></link><joint name="reel_feet_fixed" type="fixed"><parent link="base_link"/><child link="reel_feet"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<link name="reel_drum"><visual><geometry><mesh filename="package://usv_rov_description/meshes/e_reel/reel_drum.dae"/></geometry></visual></link><joint name="reel_drum_fixed" type="fixed"><parent link="base_link"/><child link="reel_drum"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<link name="reel_tether"><visual><geometry><mesh filename="package://usv_rov_description/meshes/e_reel/reel_tether.dae"/></geometry></visual></link><joint name="reel_tether_fixed" type="fixed"><parent link="base_link"/><child link="reel_tether"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<link name="reel_crank"><visual><geometry><mesh filename="package://usv_rov_description/meshes/e_reel/reel_crank.dae"/></geometry></visual></link><joint name="reel_crank_fixed" type="fixed"><parent link="base_link"/><child link="reel_crank"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<link name="reel_controls"><visual><geometry><mesh filename="package://usv_rov_description/meshes/e_reel/reel_controls.dae"/></geometry></visual></link><joint name="reel_controls_fixed" type="fixed"><parent link="base_link"/><child link="reel_controls"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+</robot>

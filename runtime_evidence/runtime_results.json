@@ -1,0 +1,89 @@
+{
+  "date": "2026-11-06",
+  "ros_distribution": "Jazzy",
+  "package_share": "/workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description",
+  "tests": {
+    "colcon_build": {
+      "status": "passed",
+      "packages": 1,
+      "log": "logs/colcon_build.log"
+    },
+    "native_urdf_parser": {
+      "status": "passed",
+      "files": 7,
+      "logs": "logs/*.urdf.check.log"
+    },
+    "actual_ros_launch_and_static_tf": {
+      "status": "passed",
+      "models": 7,
+      "expected_transforms": 84,
+      "received_transforms": 84,
+      "results": "logs/static_tf_results.json",
+      "notes": "getifaddrs permission warnings occurred, but all expected TF samples and translation/quaternion values were received and verified."
+    },
+    "native_sdformat_validation": {
+      "status": "passed",
+      "model_files": 6,
+      "world_files": 1,
+      "notes": "Standalone gz sdf needs SDF_PATH for model:// includes; harness corrected, model files unchanged.",
+      "logs": "logs/*.sdf_check.log"
+    },
+    "native_gazebo_mesh_import": {
+      "status": "passed",
+      "files": 39,
+      "triangles": 129400,
+      "materials": "all nonempty",
+      "bounds": "every local min/max matched raw DAE coordinates within 1e-6 metres",
+      "log": "logs/gazebo_mesh_import.log"
+    },
+    "headless_gazebo_server": {
+      "status": "blocked_by_environment",
+      "default_exit_code": 255,
+      "default_error": "error in getifaddrs: Unknown error -1",
+      "loopback_exit_code": 134,
+      "loopback_error": "Operation not permitted (src/ip_resolver.cpp:542)",
+      "notes": "GZ_IP=127.0.0.1 documented local transport configuration was tried once. No security settings or packages were altered. Model entities and simulation iterations were not reached.",
+      "logs": [
+        "logs/gazebo_world_runtime.log",
+        "logs/gazebo_world_loopback_runtime.log"
+      ]
+    },
+    "native_gazebo_offscreen_render": {
+      "status": "passed",
+      "model": "me120",
+      "parts": 17,
+      "triangles": 68992,
+      "resolution": [
+        960,
+        720
+      ],
+      "exit_code": 0,
+      "engine": "Gazebo Rendering 8.2.3 / Ogre2",
+      "backend": "headless EGL, EGL_MESA_device_software, OpenGL 4.5 Core Profile, Mesa 25.2.8, llvmpipe (LLVM 20.1.2, 256 bits)",
+      "image": "ME120_GAZEBO_RENDER.png",
+      "logs": [
+        "logs/render.log",
+        "logs/ogre2.log"
+      ],
+      "scope": "Native visual import and rendering only, independent of simulation server and sensor plugins."
+    },
+    "rviz_gui": {
+      "status": "blocked_by_environment",
+      "notes": "No display was available. Xvfb could not create local/unix listening sockets. RViz window was not tested.",
+      "log": "logs/xvfb.log"
+    }
+  },
+  "package_model_changes": "No geometry, URDF, SDF, launch or package build changes; README updated after testing.",
+  "harness_fixes": [
+    "SDF_PATH configured for standalone SDFormat CLI",
+    "Server::HasEntity matched installed bool-returning API",
+    "native vendor CMake exports loaded"
+  ],
+  "scope": "Visual descriptions only; no hydrodynamics, sensor streams, docking forces or hardware control are implemented or tested.",
+  "installation": {
+    "core_status": "configured_and_executed",
+    "overall_apt_exit_code": 100,
+    "limitation": "libibverbs1 post-install group creation could not open audit interface; some optional image/demo dependencies remain unconfigured. No security restrictions changed.",
+    "versions": "installed_versions.tsv"
+  }
+}

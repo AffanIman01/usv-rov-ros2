@@ -1,0 +1,150 @@
+{
+  "revision": 11,
+  "basis": "Affan hardware photographs, September 2026; overall hull length and beam anchored to published specification",
+  "models": [
+    {
+      "name": "ME120",
+      "file": "me120-reference.glb",
+      "triangles": 28212,
+      "bytes": 1671084,
+      "nodes": {
+        "hull_port": 2138,
+        "hull_starboard": 2138,
+        "bridge_frame": 1392,
+        "equipment_cabin": 3776,
+        "payload_lifter_fixed": 4552,
+        "payload_lifter_moving": 256,
+        "payload_mounting_ring": 4560,
+        "antenna": 4228,
+        "thrusters": 5172
+      },
+      "bounds": {
+        "hull_port": {
+          "min": [
+            -0.7025600075721741,
+            0.0,
+            -1.25
+          ],
+          "max": [
+            -0.35256510972976685,
+            0.699803352355957,
+            1.25
+          ]
+        },
+        "hull_starboard": {
+          "min": [
+            0.35256510972976685,
+            0.0,
+            -1.25
+          ],
+          "max": [
+            0.7025600075721741,
+            0.699803352355957,
+            1.25
+          ]
+        },
+        "bridge_frame": {
+          "min": [
+            -0.5525000095367432,
+            0.4065000116825104,
+            -1.0299999713897705
+          ],
+          "max": [
+            0.5525000095367432,
+            0.6984478235244751,
+            0.6399999856948853
+          ]
+        },
+        "equipment_cabin": {
+          "min": [
+            -0.34200000762939453,
+            0.46299999952316284,
+            -1.0269999504089355
+          ],
+          "max": [
+            0.34200000762939453,
+            0.8989999890327454,
+            0.7450000047683716
+          ]
+        },
+        "payload_lifter_fixed": {
+          "min": [
+            -0.1665000021457672,
+            0.4390000104904175,
+            -0.28604477643966675
+          ],
+          "max": [
+            0.1665000021457672,
+            0.7720000147819519,
+            0.24639369547367096
+          ]
+        },
+        "payload_lifter_moving": {
+          "min": [
+            -0.012500000186264515,
+            -0.05700000002980232,
+            -0.08550000190734863
+          ],
+          "max": [
+            0.012500000186264515,
+            1.0800000429153442,
+            0.061500001698732376
+          ]
+        },
+        "payload_mounting_ring": {
+          "min": [
+            -0.08500000089406967,
+            -0.0860000029206276,
+            -0.09700000286102295
+          ],
+          "max": [
+            0.08500000089406967,
+            -0.05400000140070915,
+            0.0729999989271164
+          ]
+        },
+        "antenna": {
+          "min": [
+            -0.4925000071525574,
+            1.687009572982788,
+            -0.052999258041381836
+          ],
+          "max": [
+            0.4925000071525574,
+            2.618000030517578,
+            0.17299999296665192
+          ]
+        },
+        "thrusters": {
+          "min": [
+            -0.6660000085830688,
+            -0.020999999716877937,
+            -1.2990000247955322
+          ],
+          "max": [
+            0.6660000085830688,
+            0.49735337495803833,
+            -0.9850000143051147
+          ]
+        }
+      }
+    }
+  ],
+  "units": "metres",
+  "lift": {
+    "range": [
+      47.6,
+      53
+    ],
+    "waterlinePercent": 50,
+    "waterY": 0.25,
+    "movingNodes": [
+      "payload_lifter_moving",
+      "payload_mounting_ring"
+    ],
+    "mastNode": "antenna",
+    "deckGNSS": "equipment_cabin",
+    "ringNeutralY": -0.06
+  },
+  "limitations": "Photo-derived approximate geometry; flange dimensions, hole pattern, sensor identities, stroke and rated loads unmeasured. Not fabrication CAD."
+}

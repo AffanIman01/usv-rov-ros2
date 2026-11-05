@@ -1,0 +1,5 @@
+robot name is: starlink_mini
+---------- Successfully Parsed XML ---------------
+root Link: base_link has 2 child(ren)
+    child(1):  starlink_mount_concept
+    child(2):  starlink_panel_concept

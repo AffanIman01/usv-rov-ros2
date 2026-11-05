@@ -1,0 +1,7 @@
+<?xml version="1.0"?><sdf version="1.9"><model name="e_reel"><static>true</static><link name="base_link"><visual name="reel_housing"><pose>0 0 0 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/e_reel/reel_housing.dae</uri></mesh></geometry></visual>
+<visual name="reel_handle"><pose>0 0 0 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/e_reel/reel_handle.dae</uri></mesh></geometry></visual>
+<visual name="reel_feet"><pose>0 0 0 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/e_reel/reel_feet.dae</uri></mesh></geometry></visual>
+<visual name="reel_drum"><pose>0 0 0 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/e_reel/reel_drum.dae</uri></mesh></geometry></visual>
+<visual name="reel_tether"><pose>0 0 0 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/e_reel/reel_tether.dae</uri></mesh></geometry></visual>
+<visual name="reel_crank"><pose>0 0 0 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/e_reel/reel_crank.dae</uri></mesh></geometry></visual>
+<visual name="reel_controls"><pose>0 0 0 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/e_reel/reel_controls.dae</uri></mesh></geometry></visual></link></model></sdf>

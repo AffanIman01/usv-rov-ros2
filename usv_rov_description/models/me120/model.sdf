@@ -1,0 +1,17 @@
+<?xml version="1.0"?><sdf version="1.9"><model name="me120"><static>true</static><link name="base_link"><visual name="hull_port"><pose>0 0 -0.25 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/me120/hull_port.dae</uri></mesh></geometry></visual>
+<visual name="hull_starboard"><pose>0 0 -0.25 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/me120/hull_starboard.dae</uri></mesh></geometry></visual>
+<visual name="bridge_frame"><pose>0 0 -0.25 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/me120/bridge_frame.dae</uri></mesh></geometry></visual>
+<visual name="equipment_cabin"><pose>0 0 -0.25 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/me120/equipment_cabin.dae</uri></mesh></geometry></visual>
+<visual name="payload_lifter_fixed"><pose>0 0 -0.25 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/me120/payload_lifter_fixed.dae</uri></mesh></geometry></visual>
+<visual name="payload_lifter_moving"><pose>0 0 0.168 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/me120/payload_lifter_moving.dae</uri></mesh></geometry></visual>
+<visual name="payload_mounting_ring"><pose>0 0 0.168 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/me120/payload_mounting_ring.dae</uri></mesh></geometry></visual>
+<visual name="antenna"><pose>0 0 -0.592 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/me120/antenna.dae</uri></mesh></geometry></visual>
+<visual name="thrusters"><pose>0 0 -0.25 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/me120/thrusters.dae</uri></mesh></geometry></visual>
+<visual name="sensor_mount"><pose>0.077 0 1.274 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/me120/sensor_mount.dae</uri></mesh></geometry></visual>
+<visual name="zed_camera"><pose>0.109 0 1.351 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/me120/zed_camera.dae</uri></mesh></geometry></visual>
+<visual name="robosense_lidar"><pose>0.072 0 1.397 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/me120/robosense_lidar.dae</uri></mesh></geometry></visual>
+<visual name="front_cover"><pose>0.181 0 1.253 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/me120/front_cover.dae</uri></mesh></geometry></visual>
+<visual name="sensor_service_cable_loops"><pose>0 0 -0.592 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/me120/sensor_service_cable_loops.dae</uri></mesh></geometry></visual>
+<visual name="Starlink_support_concept"><pose>-0.8 0.54 0.48 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/me120/Starlink_support_concept.dae</uri></mesh></geometry></visual>
+<visual name="mounted_e_reel"><pose>-0.615 0 0.585 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/me120/mounted_e_reel.dae</uri></mesh></geometry></visual>
+<visual name="mounted_starlink_mini"><pose>-0.8 0.54 0.78 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/me120/mounted_starlink_mini.dae</uri></mesh></geometry></visual></link></model></sdf>

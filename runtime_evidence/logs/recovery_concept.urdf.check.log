@@ -1,0 +1,6 @@
+robot name is: recovery_concept
+---------- Successfully Parsed XML ---------------
+root Link: base_link has 3 child(ren)
+    child(1):  capture_head
+    child(2):  rov_yoke
+    child(3):  tether_guide

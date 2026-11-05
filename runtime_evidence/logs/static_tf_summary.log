@@ -1,0 +1,48 @@
+{
+  "passed": true,
+  "test": "actual ROS launch and TF publication",
+  "models": [
+    {
+      "model": "compute_enclosure",
+      "expected_transforms": 3,
+      "received_transforms": 3,
+      "passed": true
+    },
+    {
+      "model": "e_reel",
+      "expected_transforms": 7,
+      "received_transforms": 7,
+      "passed": true
+    },
+    {
+      "model": "m2_pro_max",
+      "expected_transforms": 7,
+      "received_transforms": 7,
+      "passed": true
+    },
+    {
+      "model": "me120",
+      "expected_transforms": 20,
+      "received_transforms": 20,
+      "passed": true
+    },
+    {
+      "model": "recovery_concept",
+      "expected_transforms": 3,
+      "received_transforms": 3,
+      "passed": true
+    },
+    {
+      "model": "showcase",
+      "expected_transforms": 42,
+      "received_transforms": 42,
+      "passed": true
+    },
+    {
+      "model": "starlink_mini",
+      "expected_transforms": 2,
+      "received_transforms": 2,
+      "passed": true
+    }
+  ]
+}

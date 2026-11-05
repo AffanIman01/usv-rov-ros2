@@ -1,0 +1,603 @@
+{
+  "source_project": "appgprj_6ac346cd35888191b75859ccf9a8d5b5",
+  "source_commit": "9edda0a7a7fcd8700558ed00c44bbd2e29d9196e",
+  "source_site_version": 58,
+  "export_date": "2026-11-06",
+  "units": "metres",
+  "axis_conversion": {
+    "glb": "(z,x,y)",
+    "scene": "(x,-z,y)",
+    "determinant": 1
+  },
+  "status": "visual-only; no dynamics, collisions, sensor data or calibrated transforms",
+  "models": [
+    {
+      "name": "me120",
+      "parts": [
+        {
+          "name": "hull_port",
+          "origin": [
+            0,
+            0,
+            -0.25
+          ],
+          "triangles": 2138
+        },
+        {
+          "name": "hull_starboard",
+          "origin": [
+            0,
+            0,
+            -0.25
+          ],
+          "triangles": 2138
+        },
+        {
+          "name": "bridge_frame",
+          "origin": [
+            0,
+            0,
+            -0.25
+          ],
+          "triangles": 1392
+        },
+        {
+          "name": "equipment_cabin",
+          "origin": [
+            0,
+            0,
+            -0.25
+          ],
+          "triangles": 3776
+        },
+        {
+          "name": "payload_lifter_fixed",
+          "origin": [
+            0,
+            0,
+            -0.25
+          ],
+          "triangles": 4552
+        },
+        {
+          "name": "payload_lifter_moving",
+          "origin": [
+            0,
+            0,
+            0.16799999999999998
+          ],
+          "triangles": 256
+        },
+        {
+          "name": "payload_mounting_ring",
+          "origin": [
+            0,
+            0,
+            0.16799999999999998
+          ],
+          "triangles": 4560
+        },
+        {
+          "name": "antenna",
+          "origin": [
+            0,
+            0,
+            -0.5920000000000001
+          ],
+          "triangles": 4228
+        },
+        {
+          "name": "thrusters",
+          "origin": [
+            0,
+            0,
+            -0.25
+          ],
+          "triangles": 5172
+        },
+        {
+          "name": "sensor_mount",
+          "origin": [
+            0.077,
+            0,
+            1.274
+          ],
+          "triangles": 2652
+        },
+        {
+          "name": "zed_camera",
+          "origin": [
+            0.109,
+            0,
+            1.351
+          ],
+          "triangles": 4848
+        },
+        {
+          "name": "robosense_lidar",
+          "origin": [
+            0.072,
+            0,
+            1.397
+          ],
+          "triangles": 6956
+        },
+        {
+          "name": "front_cover",
+          "origin": [
+            0.181,
+            0,
+            1.253
+          ],
+          "triangles": 676
+        },
+        {
+          "name": "sensor_service_cable_loops",
+          "origin": [
+            0,
+            0,
+            -0.5920000000000001
+          ],
+          "triangles": 896
+        },
+        {
+          "name": "Starlink_support_concept",
+          "origin": [
+            -0.8,
+            0.54,
+            0.48
+          ],
+          "triangles": 48
+        },
+        {
+          "name": "mounted_e_reel",
+          "origin": [
+            -0.615,
+            0,
+            0.585
+          ],
+          "triangles": 24472
+        },
+        {
+          "name": "mounted_starlink_mini",
+          "origin": [
+            -0.8,
+            0.54,
+            0.78
+          ],
+          "triangles": 232
+        }
+      ],
+      "frames": [
+        {
+          "name": "robosense_mount_frame",
+          "origin": [
+            0.072,
+            0,
+            1.397
+          ]
+        },
+        {
+          "name": "zed_mount_frame",
+          "origin": [
+            0.109,
+            0,
+            1.351
+          ]
+        },
+        {
+          "name": "hikvision_mount_frame",
+          "origin": [
+            0.108,
+            0,
+            1.143
+          ]
+        }
+      ],
+      "notes": [
+        "Studio neutral raised pose; waterline datum Y=-0.25 applied.",
+        "Hikvision visual remains within antenna mesh; frame is the site inspection centre, not an optical calibration.",
+        "Mounted E-Reel retains source visual scale 0.8. Standalone E-Reel remains native scale.",
+        "Small canvas wordmarks are omitted; geometric sensor housings and cable loops retained.",
+        "Source hull_port/hull_starboard identifiers are inherited labels; do not infer physical left/right from them."
+      ],
+      "bounds": {
+        "min": [
+          -1.2990000247955322,
+          -0.7,
+          -0.27099999971687794
+        ],
+        "max": [
+          1.25,
+          0.7,
+          2.026000030517578
+        ],
+        "size": [
+          2.5490000247955322,
+          1.4,
+          2.297000030234456
+        ]
+      },
+      "triangles": 68992
+    },
+    {
+      "name": "m2_pro_max",
+      "parts": [
+        {
+          "name": "rov_body",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "triangles": 2864
+        },
+        {
+          "name": "rov_battery",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "triangles": 1200
+        },
+        {
+          "name": "rov_frame",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "triangles": 6144
+        },
+        {
+          "name": "rov_camera",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "triangles": 1088
+        },
+        {
+          "name": "rov_thrusters",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "triangles": 8688
+        },
+        {
+          "name": "rov_lights",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "triangles": 4512
+        },
+        {
+          "name": "rov_tether",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "triangles": 896
+        }
+      ],
+      "frames": [],
+      "notes": [
+        "Includes the site ROV anatomy corrections; no lighting beams or animated effects."
+      ],
+      "bounds": {
+        "min": [
+          -0.3567831218242645,
+          -0.21837173402309418,
+          0
+        ],
+        "max": [
+          0.30399999022483826,
+          0.21837173402309418,
+          0.2430078387260437
+        ],
+        "size": [
+          0.6607831120491028,
+          0.43674346804618835,
+          0.2430078387260437
+        ]
+      },
+      "triangles": 25392
+    },
+    {
+      "name": "e_reel",
+      "parts": [
+        {
+          "name": "reel_housing",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "triangles": 860
+        },
+        {
+          "name": "reel_handle",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "triangles": 176
+        },
+        {
+          "name": "reel_feet",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "triangles": 176
+        },
+        {
+          "name": "reel_drum",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "triangles": 768
+        },
+        {
+          "name": "reel_tether",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "triangles": 21400
+        },
+        {
+          "name": "reel_crank",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "triangles": 496
+        },
+        {
+          "name": "reel_controls",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "triangles": 596
+        }
+      ],
+      "frames": [],
+      "notes": [],
+      "bounds": {
+        "min": [
+          -0.1469999998807907,
+          -0.28999999165534973,
+          0
+        ],
+        "max": [
+          0.1469999998807907,
+          0.21899999678134918,
+          0.4000000059604645
+        ],
+        "size": [
+          0.2939999997615814,
+          0.5089999884366989,
+          0.4000000059604645
+        ]
+      },
+      "triangles": 24472
+    },
+    {
+      "name": "starlink_mini",
+      "parts": [
+        {
+          "name": "starlink_panel_concept",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "triangles": 88
+        },
+        {
+          "name": "starlink_mount_concept",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "triangles": 144
+        }
+      ],
+      "frames": [],
+      "notes": [],
+      "bounds": {
+        "min": [
+          -0.14949999749660492,
+          -0.12950000166893005,
+          -0.08900000154972076
+        ],
+        "max": [
+          0.14949999749660492,
+          0.12950000166893005,
+          0.041999999433755875
+        ],
+        "size": [
+          0.29899999499320984,
+          0.2590000033378601,
+          0.13100000098347664
+        ]
+      },
+      "triangles": 232
+    },
+    {
+      "name": "compute_enclosure",
+      "parts": [
+        {
+          "name": "compute_case_concept",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "triangles": 44
+        },
+        {
+          "name": "compute_lid_concept",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "triangles": 172
+        },
+        {
+          "name": "compute_ports_concept",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "triangles": 648
+        }
+      ],
+      "frames": [],
+      "notes": [],
+      "bounds": {
+        "min": [
+          -0.10499999672174454,
+          -0.14000000059604645,
+          0
+        ],
+        "max": [
+          0.10499999672174454,
+          0.16200000047683716,
+          0.15000000596046448
+        ],
+        "size": [
+          0.20999999344348907,
+          0.3020000010728836,
+          0.15000000596046448
+        ]
+      },
+      "triangles": 864
+    },
+    {
+      "name": "recovery_concept",
+      "parts": [
+        {
+          "name": "capture_head",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "triangles": 2164
+        },
+        {
+          "name": "rov_yoke",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "triangles": 3636
+        },
+        {
+          "name": "tether_guide",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "triangles": 3648
+        }
+      ],
+      "frames": [],
+      "notes": [
+        "Separate conceptual parts in source construction datums; not the assembled deployed pose.",
+        "Includes inherited lock pins/latch housings and keeper lugs from current source. These are not approval of a final mechanical design.",
+        "Tether guide is boat-local; head/yoke are carrier-local. Their zero origins are not a mating constraint."
+      ],
+      "bounds": {
+        "min": [
+          -1.5830000001192093,
+          -0.19000000178813933,
+          0.04800000022351742
+        ],
+        "max": [
+          0.2549999952316284,
+          0.19000000178813933,
+          0.5499999993294478
+        ],
+        "size": [
+          1.8379999953508377,
+          0.38000000357627867,
+          0.5019999991059303
+        ]
+      },
+      "triangles": 9448
+    }
+  ],
+  "showcase": [
+    {
+      "model": "me120",
+      "offset": [
+        0,
+        0,
+        0.30099999971687796
+      ]
+    },
+    {
+      "model": "m2_pro_max",
+      "offset": [
+        0,
+        -1.7,
+        0.03
+      ]
+    },
+    {
+      "model": "e_reel",
+      "offset": [
+        1,
+        -1.7,
+        0.03
+      ]
+    },
+    {
+      "model": "starlink_mini",
+      "offset": [
+        1,
+        -2.4,
+        0.11900000154972076
+      ]
+    },
+    {
+      "model": "compute_enclosure",
+      "offset": [
+        1,
+        -2.9,
+        0.03
+      ]
+    },
+    {
+      "model": "recovery_concept",
+      "offset": [
+        -0.9,
+        -2.3,
+        -0.018000000223517422
+      ]
+    }
+  ]
+}

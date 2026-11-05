@@ -1,0 +1,7 @@
+<?xml version="1.0"?><sdf version="1.9"><model name="m2_pro_max"><static>true</static><link name="base_link"><visual name="rov_body"><pose>0 0 0 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/m2_pro_max/rov_body.dae</uri></mesh></geometry></visual>
+<visual name="rov_battery"><pose>0 0 0 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/m2_pro_max/rov_battery.dae</uri></mesh></geometry></visual>
+<visual name="rov_frame"><pose>0 0 0 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/m2_pro_max/rov_frame.dae</uri></mesh></geometry></visual>
+<visual name="rov_camera"><pose>0 0 0 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/m2_pro_max/rov_camera.dae</uri></mesh></geometry></visual>
+<visual name="rov_thrusters"><pose>0 0 0 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/m2_pro_max/rov_thrusters.dae</uri></mesh></geometry></visual>
+<visual name="rov_lights"><pose>0 0 0 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/m2_pro_max/rov_lights.dae</uri></mesh></geometry></visual>
+<visual name="rov_tether"><pose>0 0 0 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/m2_pro_max/rov_tether.dae</uri></mesh></geometry></visual></link></model></sdf>

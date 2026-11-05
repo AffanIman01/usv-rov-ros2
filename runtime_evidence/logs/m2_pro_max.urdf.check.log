@@ -1,0 +1,10 @@
+robot name is: m2_pro_max
+---------- Successfully Parsed XML ---------------
+root Link: base_link has 7 child(ren)
+    child(1):  rov_battery
+    child(2):  rov_body
+    child(3):  rov_camera
+    child(4):  rov_frame
+    child(5):  rov_lights
+    child(6):  rov_tether
+    child(7):  rov_thrusters

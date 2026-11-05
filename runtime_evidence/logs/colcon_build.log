@@ -1,0 +1,120 @@
+Starting >>> usv_rov_description
+-- The C compiler identification is GNU 13.3.0
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+-- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+-- Configuring done (0.8s)
+-- Generating done (0.0s)
+-- Build files have been written to: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/build/usv_rov_description
+-- Install configuration: ""
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/launch
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/launch/gazebo_preview.launch.py
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/launch/display.launch.py
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/rviz
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/rviz/model.rviz
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/urdf
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/urdf/m2_pro_max.urdf
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/urdf/showcase.urdf
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/urdf/starlink_mini.urdf
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/urdf/e_reel.urdf
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/urdf/me120.urdf
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/urdf/recovery_concept.urdf
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/urdf/compute_enclosure.urdf
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/starlink_mini
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/starlink_mini/starlink_mount_concept.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/starlink_mini/starlink_panel_concept.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/e_reel
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/e_reel/reel_drum.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/e_reel/reel_housing.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/e_reel/reel_feet.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/e_reel/reel_crank.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/e_reel/reel_controls.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/e_reel/reel_tether.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/e_reel/reel_handle.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/compute_enclosure
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/compute_enclosure/compute_ports_concept.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/compute_enclosure/compute_lid_concept.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/compute_enclosure/compute_case_concept.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/me120
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/me120/zed_camera.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/me120/thrusters.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/me120/hull_port.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/me120/payload_lifter_fixed.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/me120/antenna.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/me120/equipment_cabin.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/me120/front_cover.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/me120/hull_starboard.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/me120/sensor_mount.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/me120/payload_mounting_ring.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/me120/mounted_starlink_mini.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/me120/mounted_e_reel.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/me120/sensor_service_cable_loops.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/me120/robosense_lidar.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/me120/Starlink_support_concept.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/me120/payload_lifter_moving.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/me120/bridge_frame.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/recovery_concept
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/recovery_concept/capture_head.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/recovery_concept/rov_yoke.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/recovery_concept/tether_guide.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/m2_pro_max
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/m2_pro_max/rov_lights.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/m2_pro_max/rov_battery.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/m2_pro_max/rov_body.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/m2_pro_max/rov_tether.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/m2_pro_max/rov_thrusters.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/m2_pro_max/rov_camera.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/meshes/m2_pro_max/rov_frame.dae
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/models
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/models/starlink_mini
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/models/starlink_mini/model.sdf
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/models/starlink_mini/model.config
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/models/e_reel
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/models/e_reel/model.sdf
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/models/e_reel/model.config
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/models/compute_enclosure
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/models/compute_enclosure/model.sdf
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/models/compute_enclosure/model.config
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/models/me120
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/models/me120/model.sdf
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/models/me120/model.config
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/models/recovery_concept
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/models/recovery_concept/model.sdf
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/models/recovery_concept/model.config
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/models/m2_pro_max
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/models/m2_pro_max/model.sdf
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/models/m2_pro_max/model.config
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/worlds
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/worlds/model_preview.sdf
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/config
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/config/model_manifest.json
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/README.md
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/ament_index/resource_index/package_run_dependencies/usv_rov_description
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/ament_index/resource_index/parent_prefix_path/usv_rov_description
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/environment/ament_prefix_path.sh
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/environment/ament_prefix_path.dsv
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/environment/path.sh
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/environment/path.dsv
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/local_setup.bash
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/local_setup.sh
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/local_setup.zsh
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/local_setup.dsv
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/package.dsv
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/ament_index/resource_index/packages/usv_rov_description
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/cmake/usv_rov_descriptionConfig.cmake
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/cmake/usv_rov_descriptionConfig-version.cmake
+-- Installing: /workspace/scratch/57838a0b3f5a/runtime-test-work/results/install/usv_rov_description/share/usv_rov_description/package.xml
+Finished <<< usv_rov_description [0.97s]
+
+Summary: 1 package finished [1.08s]

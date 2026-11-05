@@ -1,0 +1,23 @@
+robot name is: me120
+---------- Successfully Parsed XML ---------------
+root Link: base_link has 20 child(ren)
+    child(1):  Starlink_support_concept
+    child(2):  antenna
+    child(3):  bridge_frame
+    child(4):  equipment_cabin
+    child(5):  front_cover
+    child(6):  hikvision_mount_frame
+    child(7):  hull_port
+    child(8):  hull_starboard
+    child(9):  mounted_e_reel
+    child(10):  mounted_starlink_mini
+    child(11):  payload_lifter_fixed
+    child(12):  payload_lifter_moving
+    child(13):  payload_mounting_ring
+    child(14):  robosense_lidar
+    child(15):  robosense_mount_frame
+    child(16):  sensor_mount
+    child(17):  sensor_service_cable_loops
+    child(18):  thrusters
+    child(19):  zed_camera
+    child(20):  zed_mount_frame

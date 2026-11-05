@@ -1,0 +1,2 @@
+<?xml version="1.0"?><sdf version="1.9"><model name="starlink_mini"><static>true</static><link name="base_link"><visual name="starlink_panel_concept"><pose>0 0 0 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/starlink_mini/starlink_panel_concept.dae</uri></mesh></geometry></visual>
+<visual name="starlink_mount_concept"><pose>0 0 0 0 0 0</pose><geometry><mesh><uri>model://usv_rov_description/meshes/starlink_mini/starlink_mount_concept.dae</uri></mesh></geometry></visual></link></model></sdf>

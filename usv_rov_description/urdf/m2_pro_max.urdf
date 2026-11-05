@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!-- Visual description only. Fixed placements are source estimates, not measured extrinsics. -->
+<robot name="m2_pro_max">
+<link name="base_link"/>
+<link name="rov_body"><visual><geometry><mesh filename="package://usv_rov_description/meshes/m2_pro_max/rov_body.dae"/></geometry></visual></link><joint name="rov_body_fixed" type="fixed"><parent link="base_link"/><child link="rov_body"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<link name="rov_battery"><visual><geometry><mesh filename="package://usv_rov_description/meshes/m2_pro_max/rov_battery.dae"/></geometry></visual></link><joint name="rov_battery_fixed" type="fixed"><parent link="base_link"/><child link="rov_battery"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<link name="rov_frame"><visual><geometry><mesh filename="package://usv_rov_description/meshes/m2_pro_max/rov_frame.dae"/></geometry></visual></link><joint name="rov_frame_fixed" type="fixed"><parent link="base_link"/><child link="rov_frame"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<link name="rov_camera"><visual><geometry><mesh filename="package://usv_rov_description/meshes/m2_pro_max/rov_camera.dae"/></geometry></visual></link><joint name="rov_camera_fixed" type="fixed"><parent link="base_link"/><child link="rov_camera"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<link name="rov_thrusters"><visual><geometry><mesh filename="package://usv_rov_description/meshes/m2_pro_max/rov_thrusters.dae"/></geometry></visual></link><joint name="rov_thrusters_fixed" type="fixed"><parent link="base_link"/><child link="rov_thrusters"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<link name="rov_lights"><visual><geometry><mesh filename="package://usv_rov_description/meshes/m2_pro_max/rov_lights.dae"/></geometry></visual></link><joint name="rov_lights_fixed" type="fixed"><parent link="base_link"/><child link="rov_lights"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<link name="rov_tether"><visual><geometry><mesh filename="package://usv_rov_description/meshes/m2_pro_max/rov_tether.dae"/></geometry></visual></link><joint name="rov_tether_fixed" type="fixed"><parent link="base_link"/><child link="rov_tether"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+</robot>
