@@ -15,9 +15,10 @@ This stage adds a dynamic USV pool model, a physical twin-thruster controller, a
 | Native physics | 11 production checks and 3 baseline-control expectations passed. |
 | Native rendering | Both initial pool views rendered with Gazebo Ogre2/EGL; 23 visuals including all 17 USV meshes. |
 | Complete ROS/Gazebo launch | Blocked by this host's `getifaddrs: Operation not permitted` restriction. Child server and bridge exited 255. The parent launch exited 0 after shutdown; that is **not** a successful integration test. |
+| GitHub-hosted integration check | Attempted, but the job failed before a runner was assigned or any test step executed. This is **not** an integration pass. [Run details](github-ci.json). |
 | VMware GUI | Not directly tested here. |
 
-The native physics harness runs the actual Gazebo/DART Physics system and the actual installed `SurfaceBuoyancy` shared library. It applies the production controller's force calculation. Because the built-in Hydrodynamics system initializes transport, this host cannot instantiate it; the harness applies the configured diagonal drag equation directly. These checks do not substitute for the complete live ROS-to-Gazebo command path. The repository includes a separate GitHub Actions integration check that runs the actual server, Hydrodynamics, controller and bridge; consult its run result for that additional coverage.
+The native physics harness runs the actual Gazebo/DART Physics system and the actual installed `SurfaceBuoyancy` shared library. It applies the production controller's force calculation. Because the built-in Hydrodynamics system initializes transport, this host cannot instantiate it; the harness applies the configured diagonal drag equation directly. These checks do not substitute for the complete live ROS-to-Gazebo command path. The repository includes a separate manual GitHub Actions integration check for the actual server, Hydrodynamics, controller and bridge. Its attempted hosted run did not execute any steps, so live command delivery remains unverified. The same check can run on the user's Ubuntu machine using `tools/runtime/marine/ros_bridge_smoke.py`.
 
 ## Measured native simulation behaviour
 

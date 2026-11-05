@@ -1,17 +1,6 @@
 name: Pool simulation
+# Manual until a GitHub-hosted runner is available for this account.
 on:
-  push:
-    paths:
-      - 'usv_rov_sim/**'
-      - 'usv_rov_description/**'
-      - 'tools/runtime/marine/**'
-      - '.github/workflows/pool-simulation.yml'
-  pull_request:
-    paths:
-      - 'usv_rov_sim/**'
-      - 'usv_rov_description/**'
-      - 'tools/runtime/marine/**'
-      - '.github/workflows/pool-simulation.yml'
   workflow_dispatch:
 permissions:
   contents: read

@@ -1,0 +1,14 @@
+{
+  "status": "not_executed",
+  "workflow_conclusion": "failure",
+  "run_id": 42126043995,
+  "job_id": 127590406004,
+  "tested_commit": "ebfccd2cf63e498cb52d1f35e18f0f66ab408d96",
+  "url": "https://github.com/AffanIman01/usv-rov-ros2/actions/runs/42126043995",
+  "runner_id": 0,
+  "runner_name": "",
+  "executed_steps": 0,
+  "logs_available": false,
+  "integration_passed": false,
+  "notes": "The GitHub job completed as failure before a runner was assigned and before any step ran. The available API response did not provide a reason. Workflow is retained for manual execution; no account or billing settings were changed."
+}
