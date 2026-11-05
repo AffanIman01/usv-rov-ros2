@@ -1,0 +1,160 @@
+CASE baseline import
+EXPECTED_EXIT=0 ACTUAL_EXIT=0
+Creating resource group General
+Creating resource group OgreInternal
+Creating resource group OgreAutodetect
+SceneManagerFactory for type 'DefaultSceneManager' registered.
+Registering ResourceManager for type Material
+Registering ResourceManager for type Mesh
+Registering ResourceManager for type Skeleton
+MovableObjectFactory for type 'ParticleSystem' registered.
+ArchiveFactory for archive type FileSystem registered.
+DDS codec registering
+ETC codec registering
+ASTC codec registering
+Registering ResourceManager for type HighLevelGpuProgram
+Registering ResourceManager for type Compositor
+MovableObjectFactory for type 'Entity' registered.
+MovableObjectFactory for type 'Light' registered.
+MovableObjectFactory for type 'BillboardSet' registered.
+MovableObjectFactory for type 'ManualObject' registered.
+MovableObjectFactory for type 'BillboardChain' registered.
+MovableObjectFactory for type 'RibbonTrail' registered.
+*-*-* OGRE Initialising
+*-*-* Version 1.12.10 (Rhagorthua)
+Creating resource group rviz_rendering
+Warning: Material file:///workspace/scratch/57838a0b3f5a/rviz-mesh-diagnosis/baseline_equipment_cabin.daeMaterial0 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/rviz-mesh-diagnosis/baseline_equipment_cabin.daeMaterial1 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/rviz-mesh-diagnosis/baseline_equipment_cabin.daeMaterial2 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/rviz-mesh-diagnosis/baseline_equipment_cabin.daeMaterial3 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/rviz-mesh-diagnosis/baseline_equipment_cabin.daeMaterial4 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/rviz-mesh-diagnosis/baseline_equipment_cabin.daeMaterial5 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/rviz-mesh-diagnosis/baseline_equipment_cabin.daeMaterial6 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+RESULT {"submeshes":7,"triangles":3776,"reversed_normal_pairs":160,"opaque_depthwrite":true,"clockwise_culling":true,"passed":true}
+*-*-* OGRE Shutdown
+Unregistering ResourceManager for type Compositor
+Unregistering ResourceManager for type Skeleton
+Unregistering ResourceManager for type Mesh
+Unregistering ResourceManager for type HighLevelGpuProgram
+Unregistering ResourceManager for type Material
+
+CASE baseline rejected by reversed-pairs requirement
+EXPECTED_EXIT=1 ACTUAL_EXIT=1
+Creating resource group General
+Creating resource group OgreInternal
+Creating resource group OgreAutodetect
+SceneManagerFactory for type 'DefaultSceneManager' registered.
+Registering ResourceManager for type Material
+Registering ResourceManager for type Mesh
+Registering ResourceManager for type Skeleton
+MovableObjectFactory for type 'ParticleSystem' registered.
+ArchiveFactory for archive type FileSystem registered.
+DDS codec registering
+ETC codec registering
+ASTC codec registering
+Registering ResourceManager for type HighLevelGpuProgram
+Registering ResourceManager for type Compositor
+MovableObjectFactory for type 'Entity' registered.
+MovableObjectFactory for type 'Light' registered.
+MovableObjectFactory for type 'BillboardSet' registered.
+MovableObjectFactory for type 'ManualObject' registered.
+MovableObjectFactory for type 'BillboardChain' registered.
+MovableObjectFactory for type 'RibbonTrail' registered.
+*-*-* OGRE Initialising
+*-*-* Version 1.12.10 (Rhagorthua)
+Creating resource group rviz_rendering
+Warning: Material file:///workspace/scratch/57838a0b3f5a/rviz-mesh-diagnosis/baseline_equipment_cabin.daeMaterial0 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/rviz-mesh-diagnosis/baseline_equipment_cabin.daeMaterial1 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/rviz-mesh-diagnosis/baseline_equipment_cabin.daeMaterial2 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/rviz-mesh-diagnosis/baseline_equipment_cabin.daeMaterial3 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/rviz-mesh-diagnosis/baseline_equipment_cabin.daeMaterial4 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/rviz-mesh-diagnosis/baseline_equipment_cabin.daeMaterial5 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/rviz-mesh-diagnosis/baseline_equipment_cabin.daeMaterial6 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+RESULT {"submeshes":7,"triangles":3776,"reversed_normal_pairs":160,"opaque_depthwrite":true,"clockwise_culling":true,"passed":false}
+*-*-* OGRE Shutdown
+Unregistering ResourceManager for type Compositor
+Unregistering ResourceManager for type Skeleton
+Unregistering ResourceManager for type Mesh
+Unregistering ResourceManager for type HighLevelGpuProgram
+Unregistering ResourceManager for type Material
+
+CASE fixed cabin rejected by stale triangle expectation
+EXPECTED_EXIT=1 ACTUAL_EXIT=1
+Creating resource group General
+Creating resource group OgreInternal
+Creating resource group OgreAutodetect
+SceneManagerFactory for type 'DefaultSceneManager' registered.
+Registering ResourceManager for type Material
+Registering ResourceManager for type Mesh
+Registering ResourceManager for type Skeleton
+MovableObjectFactory for type 'ParticleSystem' registered.
+ArchiveFactory for archive type FileSystem registered.
+DDS codec registering
+ETC codec registering
+ASTC codec registering
+Registering ResourceManager for type HighLevelGpuProgram
+Registering ResourceManager for type Compositor
+MovableObjectFactory for type 'Entity' registered.
+MovableObjectFactory for type 'Light' registered.
+MovableObjectFactory for type 'BillboardSet' registered.
+MovableObjectFactory for type 'ManualObject' registered.
+MovableObjectFactory for type 'BillboardChain' registered.
+MovableObjectFactory for type 'RibbonTrail' registered.
+*-*-* OGRE Initialising
+*-*-* Version 1.12.10 (Rhagorthua)
+Creating resource group rviz_rendering
+Warning: Material file:///workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_description/meshes/me120/equipment_cabin.daeMaterial0 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_description/meshes/me120/equipment_cabin.daeMaterial1 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_description/meshes/me120/equipment_cabin.daeMaterial2 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_description/meshes/me120/equipment_cabin.daeMaterial3 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_description/meshes/me120/equipment_cabin.daeMaterial4 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_description/meshes/me120/equipment_cabin.daeMaterial5 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_description/meshes/me120/equipment_cabin.daeMaterial6 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+RESULT {"submeshes":7,"triangles":7552,"reversed_normal_pairs":7552,"opaque_depthwrite":true,"clockwise_culling":true,"passed":false}
+*-*-* OGRE Shutdown
+Unregistering ResourceManager for type Compositor
+Unregistering ResourceManager for type Skeleton
+Unregistering ResourceManager for type Mesh
+Unregistering ResourceManager for type HighLevelGpuProgram
+Unregistering ResourceManager for type Material
+
+CASE fixed cabin accepted
+EXPECTED_EXIT=0 ACTUAL_EXIT=0
+Creating resource group General
+Creating resource group OgreInternal
+Creating resource group OgreAutodetect
+SceneManagerFactory for type 'DefaultSceneManager' registered.
+Registering ResourceManager for type Material
+Registering ResourceManager for type Mesh
+Registering ResourceManager for type Skeleton
+MovableObjectFactory for type 'ParticleSystem' registered.
+ArchiveFactory for archive type FileSystem registered.
+DDS codec registering
+ETC codec registering
+ASTC codec registering
+Registering ResourceManager for type HighLevelGpuProgram
+Registering ResourceManager for type Compositor
+MovableObjectFactory for type 'Entity' registered.
+MovableObjectFactory for type 'Light' registered.
+MovableObjectFactory for type 'BillboardSet' registered.
+MovableObjectFactory for type 'ManualObject' registered.
+MovableObjectFactory for type 'BillboardChain' registered.
+MovableObjectFactory for type 'RibbonTrail' registered.
+*-*-* OGRE Initialising
+*-*-* Version 1.12.10 (Rhagorthua)
+Creating resource group rviz_rendering
+Warning: Material file:///workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_description/meshes/me120/equipment_cabin.daeMaterial0 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_description/meshes/me120/equipment_cabin.daeMaterial1 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_description/meshes/me120/equipment_cabin.daeMaterial2 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_description/meshes/me120/equipment_cabin.daeMaterial3 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_description/meshes/me120/equipment_cabin.daeMaterial4 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_description/meshes/me120/equipment_cabin.daeMaterial5 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+Warning: Material file:///workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_description/meshes/me120/equipment_cabin.daeMaterial6 was requested with isManual=true, but this is not applicable for materials; the flag has been reset to false
+RESULT {"submeshes":7,"triangles":7552,"reversed_normal_pairs":7552,"opaque_depthwrite":true,"clockwise_culling":true,"passed":true}
+*-*-* OGRE Shutdown
+Unregistering ResourceManager for type Compositor
+Unregistering ResourceManager for type Skeleton
+Unregistering ResourceManager for type Mesh
+Unregistering ResourceManager for type HighLevelGpuProgram
+Unregistering ResourceManager for type Material
+

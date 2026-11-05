@@ -24,6 +24,30 @@ Source: **Unmanned Research Lab — ROV Recovery Studio**, Site version 58, repo
 
 Use Ubuntu 24.04 with ROS 2 Jazzy installed. This public repository can be cloned without GitHub authentication. These commands run on your machine.
 
+### Verified preview when an older model still appears
+
+Stop the previous display launch with **Ctrl+C in its terminal**. Closing only the RViz window can leave the old robot-state publisher running.
+
+From any checkout of this repository:
+
+```bash
+git pull --ff-only
+bash tools/preview_model.sh me120
+```
+
+The helper builds a separate `.preview_ws` inside this checkout, selects that installation, compares the installed URDF and every referenced mesh with this source, then starts a fresh RViz process. It works regardless of the parent workspace name. It leaves the existing workspace intact. The console prints the selected package path and the cabin triangle count; the corrected cabin has **7,552 triangles**. Use `--check-only` to build and verify without opening RViz.
+
+If the old checkout location is uncertain, use a new directory:
+
+```bash
+git clone https://github.com/AffanIman01/usv-rov-ros2.git ~/usvrov_rviz_fix
+bash ~/usvrov_rviz_fix/tools/preview_model.sh me120
+```
+
+The November 6 RViz follow-up verified all 39 meshes with RViz's actual installed mesh-loading library, including reverse-facing cabin surfaces. This is an import test, not a test of the VMware RViz window. See [RViz import evidence](runtime_evidence/rviz_import_followup/REPORT.md). If surfaces are still absent after the helper reports matching files, include its printed package path and cabin count with the RViz screenshot so the remaining renderer-specific issue can be investigated.
+
+### Standard colcon workspace
+
 1. Clone the repository into your colcon workspace and build the package:
 
 ```bash

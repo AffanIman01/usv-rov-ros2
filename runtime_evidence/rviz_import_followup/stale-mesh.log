@@ -1,0 +1,5 @@
+Source package: /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_description
+ROS package share: /tmp/usv-stale-test-xhr2edw2/usv_rov_description
+FAIL: the selected install differs from this checkout:
+  meshes/me120/equipment_cabin.dae
+Run bash tools/preview_model.sh from this repository to rebuild and select its overlay.

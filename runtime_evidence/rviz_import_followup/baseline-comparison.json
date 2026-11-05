@@ -1,0 +1,61 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "case": "baseline import",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "input_sha256": "cf85a351bcf4b7501b45d36b1ed919d811baf0676ca4465b3697bb4dc257b30f",
+      "result": {
+        "submeshes": 7,
+        "triangles": 3776,
+        "reversed_normal_pairs": 160,
+        "opaque_depthwrite": true,
+        "clockwise_culling": true,
+        "passed": true
+      }
+    },
+    {
+      "case": "baseline rejected by reversed-pairs requirement",
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "input_sha256": "cf85a351bcf4b7501b45d36b1ed919d811baf0676ca4465b3697bb4dc257b30f",
+      "result": {
+        "submeshes": 7,
+        "triangles": 3776,
+        "reversed_normal_pairs": 160,
+        "opaque_depthwrite": true,
+        "clockwise_culling": true,
+        "passed": false
+      }
+    },
+    {
+      "case": "fixed cabin rejected by stale triangle expectation",
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "input_sha256": "c82daf4e01dd1dba48dc6e6cfe77b9e882b92abdb6e581ac5359e4ace04e5707",
+      "result": {
+        "submeshes": 7,
+        "triangles": 7552,
+        "reversed_normal_pairs": 7552,
+        "opaque_depthwrite": true,
+        "clockwise_culling": true,
+        "passed": false
+      }
+    },
+    {
+      "case": "fixed cabin accepted",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "input_sha256": "c82daf4e01dd1dba48dc6e6cfe77b9e882b92abdb6e581ac5359e4ace04e5707",
+      "result": {
+        "submeshes": 7,
+        "triangles": 7552,
+        "reversed_normal_pairs": 7552,
+        "opaque_depthwrite": true,
+        "clockwise_culling": true,
+        "passed": true
+      }
+    }
+  ]
+}

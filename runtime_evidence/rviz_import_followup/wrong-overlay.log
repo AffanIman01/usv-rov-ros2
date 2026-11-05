@@ -1,0 +1,4 @@
+Source package: /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_description
+ROS package share: /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.preview_ws/install/usv_rov_description/share/usv_rov_description
+FAIL: Wrong overlay selected; expected /tmp/usv-stale-test-xhr2edw2/usv_rov_description
+Source ROS 2 Jazzy and your workspace, or provide --installed PACKAGE_SHARE.

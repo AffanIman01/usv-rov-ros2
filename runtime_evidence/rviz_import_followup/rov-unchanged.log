@@ -1,0 +1,4 @@
+Source package: /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_description
+ROS package share: /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.preview_ws/install/usv_rov_description/share/usv_rov_description
+PASS: m2_pro_max URDF and 7 meshes match this checkout.
+Restart RViz after an update; existing windows retain loaded meshes.

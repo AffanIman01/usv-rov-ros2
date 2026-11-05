@@ -1,6 +1,7 @@
 /build/
 /install/
 /log/
+/.preview_ws/
 **/build/
 **/__pycache__/
 *.py[cod]
