@@ -1,0 +1,1 @@
+RESULT {"case":"pitch","passed":true,"duration_s":15,"position":[0.000289565,0,0.152785],"rpy":[0,1.02763e-06,0],"linear_velocity":[-2.99755e-05,0,2.47803e-11],"yaw_rate":0,"z_range":[0.152349,0.152831],"max_abs_roll":0,"max_abs_pitch":0.0799793,"peak_speed":0.0302026,"speed_at_release":0}

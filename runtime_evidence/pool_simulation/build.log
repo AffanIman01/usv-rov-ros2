@@ -1,0 +1,13 @@
+Building pool simulation from: /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix
+Starting >>> usv_rov_description
+Finished <<< usv_rov_description [0.09s]
+Starting >>> usv_rov_sim
+Finished <<< usv_rov_sim [7.30s]
+
+Summary: 2 packages finished [7.50s]
+Source package: /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_description
+ROS package share: /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.pool_ws/install/usv_rov_description/share/usv_rov_description
+ME120 cabin: 7,552 triangles; SHA256 c82daf4e01dd1dba48dc6e6cfe77b9e882b92abdb6e581ac5359e4ace04e5707
+PASS: me120 URDF and 17 meshes match this checkout.
+Restart RViz after an update; existing windows retain loaded meshes.
+Pool build and installed visual assets verified. This does not run the physics server.

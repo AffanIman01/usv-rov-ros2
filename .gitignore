@@ -2,6 +2,7 @@
 /install/
 /log/
 /.preview_ws/
+/.pool_ws/
 **/build/
 **/__pycache__/
 *.py[cod]

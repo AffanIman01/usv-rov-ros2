@@ -1,0 +1,63 @@
+name: Pool simulation
+on:
+  push:
+    paths:
+      - 'usv_rov_sim/**'
+      - 'usv_rov_description/**'
+      - 'tools/runtime/marine/**'
+      - '.github/workflows/pool-simulation.yml'
+  pull_request:
+    paths:
+      - 'usv_rov_sim/**'
+      - 'usv_rov_description/**'
+      - 'tools/runtime/marine/**'
+      - '.github/workflows/pool-simulation.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  headless-pool:
+    runs-on: ubuntu-24.04
+    container: ros:jazzy-ros-base
+    timeout-minutes: 20
+    env:
+      DEBIAN_FRONTEND: noninteractive
+      ROS_AUTOMATIC_DISCOVERY_RANGE: LOCALHOST
+      ROS_DOMAIN_ID: '73'
+      GZ_IP: '127.0.0.1'
+      GZ_PARTITION: usv_pool_ci_${{ github.run_id }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Gazebo and build dependencies
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends build-essential cmake \
+            python3-colcon-common-extensions ros-jazzy-ros-gz \
+            ros-jazzy-gz-sim-vendor ros-jazzy-gz-plugin-vendor \
+            ros-jazzy-gz-transport-vendor ros-jazzy-gz-msgs-vendor
+      - name: Build and unit tests
+        run: |
+          source /opt/ros/jazzy/setup.bash
+          colcon build --base-paths usv_rov_description usv_rov_sim \
+            --packages-up-to usv_rov_sim \
+            --cmake-args -DPython3_EXECUTABLE=/usr/bin/python3 -DCMAKE_BUILD_TYPE=RelWithDebInfo
+          ctest --test-dir build/usv_rov_sim --output-on-failure
+      - name: Live ROS to Gazebo pool check
+        run: |
+          source /opt/ros/jazzy/setup.bash
+          source install/local_setup.bash
+          mkdir -p ci-results
+          python3 tools/runtime/marine/ros_bridge_smoke.py \
+            --log ci-results/gazebo-launch.log --output ci-results/bridge-results.json
+      - name: Preserve test logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pool-simulation-results
+          path: |
+            ci-results/
+            log/
+            build/usv_rov_sim/Testing/Temporary/LastTest.log

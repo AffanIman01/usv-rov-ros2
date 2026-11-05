@@ -1,6 +1,29 @@
-# USV–ROV 10k: site models transferred to ROS 2
+# USV–ROV 10k: ROS 2 models and USV pool simulation
 
-This package reuses the current Recovery Studio geometry in ROS 2 URDF and Gazebo SDF formats. It is a **visual description release**, with a static Gazebo preview. It does not yet implement buoyancy, thrusters, collision response, tether physics, docking forces, sensor data, PTZ control or real hardware drivers.
+This repository reuses the Recovery Studio geometry in ROS 2 URDF and Gazebo SDF formats. `usv_rov_description` preserves the visual models and static previews. The new `usv_rov_sim` package adds a **prototype calm-water ME120 simulation** with buoyancy, drag, coarse hull collision geometry, twin-thruster forces and keyboard control. Its physical parameters are estimates. ROV dynamics, tether physics, docking, sensor data, PTZ control and real hardware drivers are not implemented yet.
+
+## Drive the USV in a pool
+
+Use Ubuntu 24.04 with ROS 2 Jazzy / Gazebo Harmonic. Stop the previous RViz display launch with Ctrl+C. From this checkout:
+
+```bash
+git pull --ff-only
+bash tools/run_pool.sh
+```
+
+In a second terminal, from the same checkout:
+
+```bash
+bash tools/run_pool.sh --keyboard
+```
+
+Hold/repeat **W/S** for forward/reverse, **A/D** to turn, **Space** to cut thrust, **+/-** to change speed and **Q** to quit the keyboard node. Keep that terminal focused. Releasing a key expires movement; water resistance slows the boat after thrust is cut. The helper builds its own `.pool_ws` and checks that the installed visuals match this checkout.
+
+![ME120 pool initial view, native Gazebo renderer](runtime_evidence/pool_simulation/render/POOL_START_VIEW.png)
+
+See [setup, controls and dependencies](usv_rov_sim/README.md) and [test results and limits](runtime_evidence/pool_simulation/REPORT.md). For VMware graphics trouble, try `bash tools/run_pool.sh --software`; `--render-engine ogre` is another renderer option. The image above is a native offscreen rendering of the initial world, not a GUI screenshot.
+
+## Original model transfer
 
 Source: **Unmanned Research Lab — ROV Recovery Studio**, Site version 58, repository commit `9edda0a7a7fcd8700558ed00c44bbd2e29d9196e`. Exported 6 November 2026. The source website was not modified.
 
@@ -106,13 +129,13 @@ The GLB models use Y up and +Z bow. The exported ROS body convention is X forwar
 
 **Recovery concept:** The current source still contains latch housings, positive-lock pins and keeper lugs. They remain visible as inherited concept geometry; they are not confirmation of a final magnetic-only design. Head/yoke origins are carrier-local while the tether guide is boat-local. The separate static model is a component reference, not a connected recovery mechanism.
 
-**Physics:** URDF files contain fixed visual links, without guessed mass, inertia or collision shapes. SDF models are static. They cannot validate flotation, stability, current rejection, magnetic holding force or retrieval performance.
+**Physics:** The original `usv_rov_description` URDFs and SDFs remain visual-only/static. The separate `usv_rov_sim` package adds estimated ME120 pool dynamics. These estimates are useful for software prototyping but do not validate real-vessel stability, current rejection, magnetic holding force or retrieval performance.
 
 **Verification:** ROS 2 Jazzy and Gazebo Harmonic were installed in the test environment. The package built with colcon; all seven URDFs, 84 expected static transforms, seven SDF files and 39 native mesh imports passed. The complete ME120 also rendered with Gazebo Ogre2 using software EGL. Full Gazebo server stepping and the RViz window remain blocked by environment networking/display restrictions. See the repository root `VALIDATION.md` and `runtime_evidence/me120_visibility_fix/REPORT.md` for the latest correction. `runtime_evidence/RUNTIME_TEST_REPORT.md` records the initial baseline and its environment limitations.
 
 ## Next implementation work
 
-Confirm the sensor models and measured transforms, then add sensor plugins and ROS bridges. Physical simulation additionally needs verified masses, centres of gravity/buoyancy, inertias, simplified collision geometry, hydrodynamic coefficients, thruster models, tether properties and recovery constraints. Keep the visual meshes as the appearance layer while developing those models separately.
+Next stages are ROV motion/depth control, simulated sensors, then deployment and recovery. Confirm sensor models and measured transforms before adding their sensor configurations. Calibrate the pool prototype using measured mass, centre of gravity, inertia, displacement, damping and thrust data. Tether properties and recovery constraints remain separate work. Keep the visual meshes as the appearance layer while developing these models separately.
 
 ## Files and reproducibility
 

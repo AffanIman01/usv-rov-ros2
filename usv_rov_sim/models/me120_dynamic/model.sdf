@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version="1.9">
+  <!--Prototype estimates only: mass, CG, inertia, collision proxies, damping and thrust are not calibrated OEM properties. Original visual meshes and offsets remain unchanged.-->
+  <model name="me120">
+    <static>false</static>
+    <self_collide>false</self_collide>
+    <link name="base_link">
+      <inertial>
+        <pose>0 0 0.1 0 0 0</pose>
+        <mass>120</mass>
+        <inertia>
+          <ixx>35</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>70</iyy>
+          <iyz>0</iyz>
+          <izz>90</izz>
+        </inertia>
+      </inertial>
+      <collision name="port_hull_buoyancy">
+        <pose>0 0.54 -0.125 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>2.2 0.28 0.25</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="starboard_hull_buoyancy">
+        <pose>0 -0.54 -0.125 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>2.2 0.28 0.25</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="hull_port">
+        <pose>0 0 -0.25 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://usv_rov_description/meshes/me120/hull_port.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="hull_starboard">
+        <pose>0 0 -0.25 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://usv_rov_description/meshes/me120/hull_starboard.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="bridge_frame">
+        <pose>0 0 -0.25 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://usv_rov_description/meshes/me120/bridge_frame.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="equipment_cabin">
+        <pose>0 0 -0.25 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://usv_rov_description/meshes/me120/equipment_cabin.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="payload_lifter_fixed">
+        <pose>0 0 -0.25 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://usv_rov_description/meshes/me120/payload_lifter_fixed.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="payload_lifter_moving">
+        <pose>0 0 0.168 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://usv_rov_description/meshes/me120/payload_lifter_moving.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="payload_mounting_ring">
+        <pose>0 0 0.168 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://usv_rov_description/meshes/me120/payload_mounting_ring.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="antenna">
+        <pose>0 0 -0.592 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://usv_rov_description/meshes/me120/antenna.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="thrusters">
+        <pose>0 0 -0.25 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://usv_rov_description/meshes/me120/thrusters.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="sensor_mount">
+        <pose>0.077 0 1.274 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://usv_rov_description/meshes/me120/sensor_mount.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="zed_camera">
+        <pose>0.109 0 1.351 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://usv_rov_description/meshes/me120/zed_camera.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="robosense_lidar">
+        <pose>0.072 0 1.397 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://usv_rov_description/meshes/me120/robosense_lidar.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="front_cover">
+        <pose>0.181 0 1.253 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://usv_rov_description/meshes/me120/front_cover.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="sensor_service_cable_loops">
+        <pose>0 0 -0.592 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://usv_rov_description/meshes/me120/sensor_service_cable_loops.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="Starlink_support_concept">
+        <pose>-0.8 0.54 0.48 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://usv_rov_description/meshes/me120/Starlink_support_concept.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="mounted_e_reel">
+        <pose>-0.615 0 0.585 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://usv_rov_description/meshes/me120/mounted_e_reel.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="mounted_starlink_mini">
+        <pose>-0.8 0.54 0.78 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://usv_rov_description/meshes/me120/mounted_starlink_mini.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <plugin filename="usv_rov_surface_buoyancy" name="usv_rov_sim::SurfaceBuoyancy">
+      <link_name>base_link</link_name>
+      <surface_z>0</surface_z>
+      <water_density>1000</water_density>
+      <air_density>1.225</air_density>
+    </plugin>
+    <plugin filename="gz-sim-hydrodynamics-system" name="gz::sim::systems::Hydrodynamics">
+      <link_name>base_link</link_name>
+      <disable_added_mass>true</disable_added_mass>
+      <disable_coriolis>true</disable_coriolis>
+      <default_current>0 0 0</default_current>
+      <xU>-35</xU>
+      <yV>-160</yV>
+      <zW>-1400</zW>
+      <kP>-500</kP>
+      <mQ>-700</mQ>
+      <nR>-60</nR>
+      <xUabsU>-30</xUabsU>
+      <yVabsV>-120</yVabsV>
+      <zWabsW>-350</zWabsW>
+      <kPabsP>-80</kPabsP>
+      <mQabsQ>-100</mQabsQ>
+      <nRabsR>-40</nRabsR>
+    </plugin>
+    <plugin filename="usv_rov_twin_thruster_controller" name="usv_rov_sim::TwinThrusterController">
+      <link_name>base_link</link_name>
+      <topic>/model/me120/cmd_vel</topic>
+      <port_position>-1.08 0.55 -0.15</port_position>
+      <starboard_position>-1.08 -0.55 -0.15</starboard_position>
+      <max_thrust>40</max_thrust>
+      <max_speed>1</max_speed>
+      <max_yaw_rate>0.6</max_yaw_rate>
+      <surge_gain>120</surge_gain>
+      <yaw_gain>60</yaw_gain>
+      <command_timeout>0.4</command_timeout>
+    </plugin>
+    <plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
+      <odom_frame>odom</odom_frame>
+      <robot_base_frame>base_link</robot_base_frame>
+      <odom_publish_frequency>30</odom_publish_frequency>
+      <odom_topic>/model/me120/odometry</odom_topic>
+      <tf_topic>/model/me120/tf</tf_topic>
+      <dimensions>3</dimensions>
+    </plugin>
+  </model>
+</sdf>

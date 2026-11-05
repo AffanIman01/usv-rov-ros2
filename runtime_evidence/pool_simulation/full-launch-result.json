@@ -1,0 +1,9 @@
+{
+  "exit_code": 0,
+  "timeout": false,
+  "scope": "Attempted actual headless launch and bridge; inspect log for host restrictions.",
+  "status": "blocked_by_host_network_restriction",
+  "server_exit_code": 255,
+  "bridge_exit_code": 255,
+  "integration_passed": false
+}

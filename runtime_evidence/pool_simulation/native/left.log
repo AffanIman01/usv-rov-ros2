@@ -1,0 +1,1 @@
+RESULT {"case":"left","passed":true,"duration_s":15,"position":[0,0,0.152785],"rpy":[0,-0,2.69424],"linear_velocity":[-0,0,-1.89857e-15],"yaw_rate":0.188194,"z_range":[0.152785,0.152785],"max_abs_roll":0,"max_abs_pitch":0,"peak_speed":1.59146e-09,"speed_at_release":0}

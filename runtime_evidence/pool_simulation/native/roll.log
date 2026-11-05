@@ -1,0 +1,1 @@
+RESULT {"case":"roll","passed":true,"duration_s":15,"position":[0,3.59663e-05,0.152785],"rpy":[1.07896e-06,-0,0],"linear_velocity":[0,4.3162e-06,-6.84341e-11],"yaw_rate":0,"z_range":[0.152386,0.15283],"max_abs_roll":0.0799703,"max_abs_pitch":0,"peak_speed":0.0304646,"speed_at_release":0}

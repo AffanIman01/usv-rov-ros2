@@ -1,0 +1,1 @@
+RESULT {"case":"torque_pitch","builtin_buoyancy":true,"passed":false,"initial_rpy":[0,0.05,0],"force_z":1175.31,"torque":[-2.09832e-14,11.8205,0]}

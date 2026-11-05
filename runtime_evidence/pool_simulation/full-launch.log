@@ -1,0 +1,70 @@
+[INFO] [launch]: All log files can be found below /root/.ros/log/2026-11-06-06-53-58-883561-ab5b3227a4fd-6
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [gz-1]: process started with pid [19]
+[INFO] [parameter_bridge-2]: process started with pid [20]
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] error in getifaddrs: Unknown error -1
+[gz-1] [1;32m[Msg] [0m[1;32mGazebo Sim Server v[0m[1;32m8.15.0[0m[1;32m[0m
+[gz-1] error in getifaddrs: Unknown error -1
+[ERROR] [gz-1]: process has died [pid 19, exit code 255, cmd 'gz sim -r -v 3 --render-engine ogre2 -s /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.pool_ws/install/usv_rov_sim/share/usv_rov_sim/worlds/pool.sdf'].
+[INFO] [launch]: process[gz-1] was required: shutting down launched system
+[INFO] [parameter_bridge-2]: sending signal 'SIGINT' to process[parameter_bridge-2]
+[parameter_bridge-2] [INFO] [1793919239.154549823] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[parameter_bridge-2] Failed to delete datawriter, at ./src/publisher.cpp:45 during '__function__'
+[ERROR] [parameter_bridge-2]: process has died [pid 20, exit code 255, cmd '/opt/ros/jazzy/lib/ros_gz_bridge/parameter_bridge --ros-args -r __node:=usv_pool_bridge --params-file /tmp/launch_params_r2vzlcrl'].
+[INFO] [launch]: process[parameter_bridge-2] was required: shutting down launched system

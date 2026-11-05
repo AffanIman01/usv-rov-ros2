@@ -1,0 +1,25 @@
+{
+  "date": "2026-11-06",
+  "timezone": "Asia/Kuala_Lumpur",
+  "renderer": "Gazebo Rendering8 Ogre2 headless EGL software",
+  "visuals": 23,
+  "mesh_visuals": 17,
+  "box_visuals": 5,
+  "plane_visuals": 1,
+  "source": "usv_rov_sim/worlds/pool.sdf and models/me120_dynamic/model.sdf",
+  "scope": "Direct rendering at initial SDF poses; no server, dynamics or GUI execution.",
+  "images": [
+    {
+      "file": "POOL_START_VIEW.png",
+      "sha256": "83d7a2eb698b7ef8eee5d17da41829ec52d0541e0df661812bae305800fa74f0",
+      "bytes": 38231,
+      "process_exit": 0
+    },
+    {
+      "file": "POOL_OVERVIEW.png",
+      "sha256": "c5137307345a86ece34b9877a5657b9dcd3a42c6fd5ad695f70caae01cb8f01e",
+      "bytes": 20849,
+      "process_exit": 0
+    }
+  ]
+}
