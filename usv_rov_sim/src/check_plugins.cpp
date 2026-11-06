@@ -10,7 +10,7 @@
 #include <set>
 #include <string>
 
-// Instantiate the two project systems using the filenames from the installed
+// Instantiate the project systems using the filenames from the installed
 // model. Do not Configure them: that starts transport and requires a live world.
 // This catches missing libraries, ABI/dependency failures and registration errors
 // before Gazebo can run a gravity-only boat with no propulsion.
@@ -47,7 +47,8 @@ int main(int argc, char **argv)
     return 2;
   }
   std::set<std::string> required{
-    "usv_rov_sim::SurfaceBuoyancy", "usv_rov_sim::TwinThrusterController"};
+    "usv_rov_sim::SurfaceBuoyancy", "usv_rov_sim::TwinThrusterController",
+    "usv_rov_sim::LiftController"};
   gz::sim::SystemLoader loader;
   for (const auto &definition : model->Plugins())
   {
@@ -73,7 +74,7 @@ int main(int argc, char **argv)
       std::cerr << "Required system missing from model: " << name << '\n';
     return 1;
   }
-  std::cout << "Both required Gazebo 8 systems are loadable. "
+  std::cout << "All required Gazebo 8 systems are loadable. "
                "This checks loading, not live ROS communication or physics.\n";
   return 0;
 }

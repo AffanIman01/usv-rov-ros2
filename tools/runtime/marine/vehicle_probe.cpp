@@ -6,6 +6,7 @@
 #include <gz/sim/SystemPluginPtr.hh>
 #include <gz/sim/System.hh>
 #include <gz/sim/Link.hh>
+#include <gz/sim/Joint.hh>
 #include <gz/sim/Model.hh>
 #include <gz/sim/components/Name.hh>
 #include <gz/sim/components/Link.hh>
@@ -18,6 +19,7 @@
 #include <sdf/Plugin.hh>
 #include <sdf/ParserConfig.hh>
 #include <usv_rov_sim/thruster_control.hpp>
+#include <usv_rov_sim/lift_control.hpp>
 #include <iostream>
 #include <vector>
 #include <filesystem>
@@ -63,6 +65,15 @@ int main(int argc,char**argv){
  gz::sim::SdfEntityCreator creator(ecm,events);const auto we=creator.CreateEntities(world);
  if(!builtin&&!configuredBeforeWorldParent)throw std::runtime_error("Expected model Configure before world-parent attachment.");
  const auto me=ecm.EntityByComponents(gz::sim::components::Name("me120"),gz::sim::components::Model());gz::sim::Model simModel(me);gz::sim::Link body(simModel.LinkByName(ecm,"base_link"));body.EnableVelocityChecks(ecm);
+ gz::sim::Joint lift(simModel.JointByName(ecm,"lift_joint"));
+ if(!lift.Valid(ecm))throw std::runtime_error("Missing production lift joint");
+ lift.EnablePositionCheck(ecm);lift.EnableVelocityCheck(ecm);
+ usv_rov_sim::LiftParameters lp;usv_rov_sim::LiftState liftState;
+ auto liftPlugin=std::find_if(model->Plugins().begin(),model->Plugins().end(),[](const auto&p){return p.Name()=="usv_rov_sim::LiftController";});
+ if(liftPlugin==model->Plugins().end())return 4;
+ auto lc=liftPlugin->ToElement();
+ lp.travel=lc->Get<double>("travel");lp.maxSpeed=lc->Get<double>("max_speed");lp.acceleration=lc->Get<double>("acceleration");lp.movingMass=lc->Get<double>("moving_mass");lp.positionGain=lc->Get<double>("position_gain");lp.velocityGain=lc->Get<double>("velocity_gain");lp.maxForce=lc->Get<double>("max_force");lp.timeoutSeconds=lc->Get<double>("command_timeout");
+ usv_rov_sim::LiftCommand liftCommand;
  for(const auto&p:world->Plugins())if(p.Name()=="gz::sim::systems::Physics")add(p,we);
  // This separate negative control is a world plugin, intentionally configured
  // after its world exists. It does not test model-plugin lifecycle ordering.
@@ -73,9 +84,10 @@ int main(int argc,char**argv){
  // uses the same values. Limits and locations are read directly from the SDF.
  cp.maxSpeed=c->Get<double>("max_speed");cp.maxYawRate=c->Get<double>("max_yaw_rate");cp.maxThrust=c->Get<double>("max_thrust");cp.surgeGain=c->Get<double>("surge_gain");cp.yawGain=c->Get<double>("yaw_gain");cp.timeoutSeconds=c->Get<double>("command_timeout");
  auto port=c->Get<gz::math::Vector3d>("port_position");auto starboard=c->Get<gz::math::Vector3d>("starboard_position");cp.portY=port.Y();cp.starboardY=starboard.Y();
- const double duration=(name=="wall"||name=="mixed"?180.0:(name=="idle"?60.0:(name=="coast"?25.0:15.0)));const double dt=.002;
+ const double duration=(name=="lift_cycle"?20.0:(name=="lift_drive"?30.0:(name=="lift_turn"?60.0:(name=="wall"||name=="mixed"?180.0:(name=="idle"?60.0:(name=="coast"?25.0:15.0))))));const double dt=.002;
  gz::sim::UpdateInfo info;info.paused=false;info.dt=std::chrono::milliseconds(2);
  double maxRoll=0,maxPitch=0,minZ=1e9,maxZ=-1e9,peakV=0,atRelease=0,maxBuoyancyTorque=0;bool finite=true,bounded=true;int completedIterations=0;
+ double minLift=1e9,maxLift=-1e9,peakLiftSpeed=0,peakLiftForce=0,releasePosition=0,holdError=0;
  for(int i=1;i<=int(duration/dt);++i){info.iterations=i;info.simTime=info.dt*i;
   for(auto&s:systems)if(s.pre)s.pre->PreUpdate(info,ecm);
   // A finite but impossible centroid previously injected 2.26e18 Nm during
@@ -101,7 +113,8 @@ int main(int argc,char**argv){
   std::array<double,6> v{vel.X(),vel.Y(),vel.Z(),omega.X(),omega.Y(),omega.Z()},d{};for(int j=0;j<6;j++)d[j]=(lin[j]+quad[j]*std::abs(v[j]))*v[j];
   body.AddWorldWrench(ecm,rot.RotateVector({d[0],d[1],d[2]}),rot.RotateVector({d[3],d[4],d[5]}));
   double target=0,yaw=0;const double t=i*dt;
-  if(name=="forward"||(name=="coast"&&t<=5))target=.8;
+  if(name=="forward"||(name=="coast"&&t<=5)||(name=="lift_drive"&&t>6))target=.8;
+  if(name=="lift_turn"&&t>2){target=.4;yaw=.25;}
   if(name=="reverse")target=-.6;
   if(name=="left")yaw=.4;
   if(name=="right")yaw=-.4;
@@ -115,8 +128,27 @@ int main(int argc,char**argv){
   }
   auto now=usv_rov_sim::SteadyClock::time_point{}+std::chrono::milliseconds(i*2);usv_rov_sim::VelocityCommand cmd{target,yaw,now,true};auto thrust=usv_rov_sim::ComputeThrust(cp,cmd,vel.X(),omega.Z(),now);
   gz::math::Vector3d fp(thrust.port,0,0),fs(thrust.starboard,0,0);body.AddWorldWrench(ecm,rot.RotateVector(fp+fs),rot.RotateVector(port.Cross(fp)+starboard.Cross(fs)));
+  // Apply exactly the production actuator core to the real DART joint. Only
+  // transport is excluded; no position/velocity reset or kinematic attachment.
+  const auto q=lift.Position(ecm),qd=lift.Velocity(ecm);
+  double liftDirection=0;
+  if(name=="lift_cycle")liftDirection=t>=2&&t<6?1:(t>=12&&t<16?-1:0);
+  if(name=="lift_drive")liftDirection=t>=2&&t<6?1:0;
+  if(name=="lift_turn") {const double phase=std::fmod(t,20.0);liftDirection=phase>=2&&phase<6?1:(phase>=12&&phase<16?-1:0);}
+  if(name=="lift_timeout")liftDirection=t>=2?1:0;
+  if(name!="lift_timeout"||t<=3)liftCommand={liftDirection,now,true};
+  if(q&&!q->empty()&&qd&&!qd->empty()){
+   const double gravity=world->Gravity().Dot(rot.RotateVector({0,0,-1}));
+   const double force=usv_rov_sim::ComputeLiftForce(lp,liftState,liftCommand,q->at(0),qd->at(0),gravity,dt,now);
+   peakLiftForce=std::max(peakLiftForce,std::abs(force));lift.SetForce(ecm,{force});
+   if((name=="lift_cycle"&&i==3000)||(name=="lift_timeout"&&i==1701))releasePosition=liftState.targetPosition;
+   if((name=="lift_cycle"&&t>=7&&t<12)||(name=="lift_timeout"&&t>=4.5))holdError=std::max(holdError,std::abs(q->at(0)-releasePosition));
+  }
   for(auto&s:systems)if(s.update)s.update->Update(info,ecm);for(auto&s:systems)if(s.post)s.post->PostUpdate(info,ecm);completedIterations=i;
   const auto p=body.WorldPose(ecm).value();const auto r=p.Rot().Euler();auto wv=body.WorldLinearVelocity(ecm).value();maxRoll=std::max(maxRoll,std::abs(r.X()));maxPitch=std::max(maxPitch,std::abs(r.Y()));minZ=std::min(minZ,p.Pos().Z());maxZ=std::max(maxZ,p.Pos().Z());peakV=std::max(peakV,wv.Length());if(name=="coast"&&i==2500)atRelease=wv.Length();
+  const auto lq=lift.Position(ecm).value().at(0),lv=lift.Velocity(ecm).value().at(0);
+  minLift=std::min(minLift,lq);maxLift=std::max(maxLift,lq);peakLiftSpeed=std::max(peakLiftSpeed,std::abs(lv));
+  if(!builtin)bounded=bounded&&std::isfinite(lq)&&std::isfinite(lv)&&lq>-.002&&lq<lp.travel+.002&&std::abs(lv)<.14&&peakLiftForce<=lp.maxForce;
   finite=finite&&p.Pos().IsFinite()&&wv.IsFinite()&&r.IsFinite();
   if(!builtin)bounded=bounded&&std::abs(p.Pos().X())<11&&std::abs(p.Pos().Y())<7&&
     p.Pos().Z()>-0.5&&p.Pos().Z()<1.0&&wv.Length()<5&&body.WorldAngularVelocity(ecm).value().Length()<10;
@@ -126,6 +158,11 @@ int main(int argc,char**argv){
  const auto p=body.WorldPose(ecm).value();const auto r=p.Rot().Euler();const auto v=body.WorldLinearVelocity(ecm).value();const auto w=body.WorldAngularVelocity(ecm).value();
  bool passed=finite&&bounded&&std::abs(p.Pos().Z()-initial.Pos().Z())<.03&&std::abs(r.X())<.02&&std::abs(r.Y())<.02;
  if(name=="forward")passed&=p.Pos().X()>2&&v.X()>.2;
+ const double finalLift=lift.Position(ecm).value().at(0);
+ if(name=="lift_cycle")passed&=maxLift>.270&&finalLift<.001&&holdError<.001;
+ if(name=="lift_drive")passed&=p.Pos().X()>2&&finalLift>.270;
+ if(name=="lift_turn")passed&=maxLift>.270&&finalLift<.001&&w.Z()>.1;
+ if(name=="lift_timeout")passed&=finalLift>.08&&finalLift<.20&&holdError<.001;
  if(name=="reverse")passed&=p.Pos().X()<-2&&v.X()<-.2;
  if(name=="left")passed&=w.Z()>.1;
  if(name=="right")passed&=w.Z()<-.1;
@@ -135,6 +172,6 @@ int main(int argc,char**argv){
  if(name=="roll")passed&=maxRoll>.07;
  if(name=="pitch")passed&=maxPitch>.07;
  if(name=="heave")passed&=maxZ>initial.Pos().Z()+.08;
- std::cout<<"RESULT {\"case\":\""<<name<<"\",\"configured_before_world_parent\":"<<(configuredBeforeWorldParent?"true":"false")<<",\"passed\":"<<(passed?"true":"false")<<",\"bounded\":"<<(bounded?"true":"false")<<",\"max_buoyancy_torque\":"<<maxBuoyancyTorque<<",\"requested_duration_s\":"<<duration<<",\"duration_s\":"<<completedIterations*dt<<",\"position\":["<<p.Pos().X()<<","<<p.Pos().Y()<<","<<p.Pos().Z()<<"],\"rpy\":["<<r.X()<<","<<r.Y()<<","<<r.Z()<<"],\"linear_velocity\":["<<v.X()<<","<<v.Y()<<","<<v.Z()<<"],\"yaw_rate\":"<<w.Z()<<",\"z_range\":["<<minZ<<","<<maxZ<<"],\"max_abs_roll\":"<<maxRoll<<",\"max_abs_pitch\":"<<maxPitch<<",\"peak_speed\":"<<peakV<<",\"speed_at_release\":"<<atRelease<<"}"<<std::endl;
+ std::cout<<"RESULT {\"case\":\""<<name<<"\",\"configured_before_world_parent\":"<<(configuredBeforeWorldParent?"true":"false")<<",\"passed\":"<<(passed?"true":"false")<<",\"bounded\":"<<(bounded?"true":"false")<<",\"max_buoyancy_torque\":"<<maxBuoyancyTorque<<",\"requested_duration_s\":"<<duration<<",\"duration_s\":"<<completedIterations*dt<<",\"position\":["<<p.Pos().X()<<","<<p.Pos().Y()<<","<<p.Pos().Z()<<"],\"rpy\":["<<r.X()<<","<<r.Y()<<","<<r.Z()<<"],\"linear_velocity\":["<<v.X()<<","<<v.Y()<<","<<v.Z()<<"],\"yaw_rate\":"<<w.Z()<<",\"z_range\":["<<minZ<<","<<maxZ<<"],\"max_abs_roll\":"<<maxRoll<<",\"max_abs_pitch\":"<<maxPitch<<",\"peak_speed\":"<<peakV<<",\"speed_at_release\":"<<atRelease<<",\"lift_position\":"<<finalLift<<",\"lift_range\":["<<minLift<<","<<maxLift<<"],\"lift_peak_speed\":"<<peakLiftSpeed<<",\"lift_peak_force\":"<<peakLiftForce<<",\"lift_hold_error\":"<<holdError<<"}"<<std::endl;
  return passed?0:1;
 }

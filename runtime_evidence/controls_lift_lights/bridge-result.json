@@ -1,0 +1,13 @@
+{
+  "passed": false,
+  "scope": "Real headless Gazebo server, production plugins and ROS/Gazebo bridge",
+  "ros_domain_id": 35,
+  "gz_partition": "usv_pool_smoke_5d23af113b1d4bd98439592928e735b4",
+  "checks": [],
+  "errors": [
+    "RuntimeError: Pool launch exited unexpectedly with code 0"
+  ],
+  "launch_log": "/workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/runtime_evidence/controls_lift_lights/full-launch.log",
+  "launch_returncode_after_cleanup": 0,
+  "wall_duration_s": 1.0999830559958355
+}

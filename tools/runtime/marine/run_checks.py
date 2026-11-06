@@ -15,7 +15,8 @@ args = parser.parse_args()
 args.output.mkdir(parents=True, exist_ok=True)
 cases = [(name, False, 0) for name in (
     "idle", "roll", "pitch", "heave", "forward", "reverse", "left", "right",
-    "coast", "wall", "mixed", "torque_pitch", "torque_roll")]
+    "coast", "wall", "mixed", "torque_pitch", "torque_roll",
+    "lift_cycle", "lift_drive", "lift_turn", "lift_timeout")]
 # A real negative control: the installed Harmonic graded-buoyancy plugin has
 # the wrong pitch restoring sign for this hull, which these tests must detect.
 cases.extend((("torque_pitch", True, 1), ("pitch", True, 1), ("torque_roll", True, 0)))
@@ -53,11 +54,13 @@ resources = ["usv_rov_sim/models/me120_dynamic/model.sdf",
              "usv_rov_sim/include/usv_rov_sim/thruster_control.hpp",
              "usv_rov_sim/include/usv_rov_sim/surface_buoyancy.hpp",
              "usv_rov_sim/src/surface_buoyancy.cpp",
+             "usv_rov_sim/include/usv_rov_sim/lift_control.hpp",
+             "usv_rov_sim/src/lift_controller.cpp",
              "tools/runtime/marine/vehicle_probe.cpp",
              "tools/runtime/marine/run_checks.py"]
 summary = {
     "passed": all(case["check_passed"] for case in results),
-    "scope": "Actual Gazebo Physics plus production SurfaceBuoyancy shared plugin in an EntityComponentManager. SurfaceBuoyancy is configured synchronously through LoadSdfPlugins during SdfEntityCreator world construction, before the model receives its world parent, matching real server startup. Production ComputeThrust header drives native wrenches. Configured diagonal drag equation is applied by this harness; native Hydrodynamics transport initialization is blocked in this host.",
+    "scope": "Actual Gazebo Physics plus production SurfaceBuoyancy shared plugin in an EntityComponentManager. SurfaceBuoyancy is configured synchronously through LoadSdfPlugins during SdfEntityCreator world construction, before the model receives its world parent, matching real server startup. Production ComputeThrust header drives native wrenches. Production ComputeLiftForce controls the real prismatic DART joint; the lift command and position transport are excluded. Configured diagonal drag equation is applied by this harness; native Hydrodynamics transport initialization is blocked in this host.",
     "not_tested": ["Gazebo GUI", "ROS-to-Gazebo command bridge", "live transport subscriber", "native Hydrodynamics plugin stepping", "physical vehicle fidelity"],
     "inputs_sha256": {path: hashlib.sha256((args.repo / path).read_bytes()).hexdigest()
                       for path in resources},

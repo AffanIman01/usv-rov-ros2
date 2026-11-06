@@ -1,0 +1,100 @@
+[INFO] [launch]: All log files can be found below /root/.ros/log/2026-11-06-09-51-18-569797-ab5b3227a4fd-30
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [launch.user]: ME120 world: pool; Gazebo Harmonic (8); ROS domain: 35; Gazebo partition: usv_pool_smoke_5d23af113b1d4bd98439592928e735b4
+[INFO] [launch.user]: Plugin checker built for Gazebo Sim 8.15.0; model /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.pool_ws/install/usv_rov_sim/share/usv_rov_sim/models/me120_dynamic/model.sdf
+Loaded usv_rov_sim::LiftController from usv_rov_lift_controller
+Loaded usv_rov_sim::SurfaceBuoyancy from usv_rov_surface_buoyancy
+Loaded usv_rov_sim::TwinThrusterController from usv_rov_twin_thruster_controller
+All required Gazebo 8 systems are loadable. This checks loading, not live ROS communication or physics.
+[INFO] [gz-1]: process started with pid [34]
+[INFO] [parameter_bridge-2]: process started with pid [35]
+[INFO] [simulation_guard-3]: process started with pid [36]
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] getifaddrs: Operation not permitted
+[parameter_bridge-2] error in getifaddrs: Unknown error -1
+[simulation_guard-3] getifaddrs: Operation not permitted
+[simulation_guard-3] getifaddrs: Operation not permitted
+[simulation_guard-3] getifaddrs: Operation not permitted
+[simulation_guard-3] getifaddrs: Operation not permitted
+[simulation_guard-3] getifaddrs: Operation not permitted
+[simulation_guard-3] getifaddrs: Operation not permitted
+[simulation_guard-3] getifaddrs: Operation not permitted
+[simulation_guard-3] getifaddrs: Operation not permitted
+[simulation_guard-3] getifaddrs: Operation not permitted
+[simulation_guard-3] getifaddrs: Operation not permitted
+[simulation_guard-3] getifaddrs: Operation not permitted
+[simulation_guard-3] getifaddrs: Operation not permitted
+[simulation_guard-3] getifaddrs: Operation not permitted
+[simulation_guard-3] getifaddrs: Operation not permitted
+[simulation_guard-3] getifaddrs: Operation not permitted
+[simulation_guard-3] getifaddrs: Operation not permitted
+[simulation_guard-3] getifaddrs: Operation not permitted
+[simulation_guard-3] getifaddrs: Operation not permitted
+[simulation_guard-3] getifaddrs: Operation not permitted
+[simulation_guard-3] getifaddrs: Operation not permitted
+[simulation_guard-3] getifaddrs: Operation not permitted
+[simulation_guard-3] getifaddrs: Operation not permitted
+[simulation_guard-3] getifaddrs: Operation not permitted
+[simulation_guard-3] getifaddrs: Operation not permitted
+[gz-1] [1;32m[Msg] [0m[1;32mGazebo Sim Server v[0m[1;32m8.15.0[0m[1;32m[0m
+[gz-1] error in getifaddrs: Unknown error -1
+[ERROR] [parameter_bridge-2]: process has died [pid 35, exit code 255, cmd '/opt/ros/jazzy/lib/ros_gz_bridge/parameter_bridge --ros-args -r __node:=usv_sim_bridge --params-file /tmp/launch_params_5k5a6ktm'].
+[INFO] [launch.user]: ERROR: ROS/Gazebo bridge exited with code 255. Stopping the remaining simulation processes. Inspect this process's preceding output for the cause.
+[INFO] [launch]: process[parameter_bridge-2] was required: shutting down launched system
+[INFO] [simulation_guard-3]: sending signal 'SIGINT' to process[simulation_guard-3]
+[ERROR] [gz-1]: process has died [pid 34, exit code 255, cmd 'gz sim --force-version 8 -r -v 3 --render-engine ogre2 -s /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.pool_ws/install/usv_rov_sim/share/usv_rov_sim/worlds/pool.sdf'].
+[INFO] [simulation_guard-3]: process has finished cleanly [pid 36]

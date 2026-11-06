@@ -8,12 +8,14 @@ network-free ECS harness or substitute forces for production system plugins.
 
 import argparse
 from dataclasses import dataclass
+import importlib.util
 import json
 import math
 import os
 from pathlib import Path
 import signal
 import subprocess
+import sys
 import time
 import uuid
 
@@ -87,13 +89,17 @@ def main():
         "errors": [],
         "launch_log": str(args.log.resolve()),
     }
-    process = node = publisher = rclpy = None
+    process = node = publisher = lift_publisher = rclpy = None
     started = time.monotonic()
     last_state = None
     initial_z = None
     sim_time = None
     initial_clock = None
-    last_odom_wall = last_clock_wall = started
+    last_odom_wall = last_clock_wall = last_lift_wall = started
+    lift_position = None
+    lift_min = math.inf
+    lift_max = -math.inf
+    lift_messages = 0
     max_roll = max_pitch = max_z_drift = 0.0
     odom_messages = clock_messages = 0
 
@@ -103,6 +109,15 @@ def main():
         from geometry_msgs.msg import Twist
         from nav_msgs.msg import Odometry
         from rosgraph_msgs.msg import Clock
+        from std_msgs.msg import Float64
+        # Exercise the same independently held keys and ramps as the control window,
+        # while sending the resulting commands through the real bridge.
+        control_path = Path(__file__).resolve().parents[3] / "usv_rov_sim/scripts/control_panel.py"
+        spec = importlib.util.spec_from_file_location("usv_smoke_drive", control_path)
+        control_module = importlib.util.module_from_spec(spec)
+        sys.modules[spec.name] = control_module
+        spec.loader.exec_module(control_module)
+        drive = control_module.DriveState(speed_limit=0.4, yaw_limit=0.3)
         rclpy = ros
         rclpy.init(args=[])
         node = rclpy.create_node("usv_pool_bridge_smoke")
@@ -145,6 +160,17 @@ def main():
             sim_time = value
             clock_messages += 1
 
+        def on_lift(message):
+            nonlocal lift_position, last_lift_wall, lift_messages, lift_min, lift_max
+            value = float(message.data)
+            if not math.isfinite(value) or not -0.01 <= value <= 0.2817:
+                raise AssertionError(f"Lift position is invalid or outside its physical travel: {value}")
+            lift_position, last_lift_wall = value, time.monotonic()
+            lift_min, lift_max = min(lift_min, value), max(lift_max, value)
+            lift_messages += 1
+
+        node.create_subscription(Float64, "/sim/me120/lift/position", on_lift, qos)
+        lift_publisher = node.create_publisher(Float64, "/sim/me120/lift/velocity", 1)
         node.create_subscription(Odometry, "/sim/me120/odometry", on_odometry, qos)
         node.create_subscription(Clock, "/clock", on_clock, qos)
         publisher = node.create_publisher(Twist, "/sim/me120/cmd_vel", 1)
@@ -153,6 +179,11 @@ def main():
             message = Twist()
             message.linear.x, message.angular.z = surge, yaw
             publisher.publish(message)
+
+        def publish_lift(velocity=0.0):
+            message = Float64()
+            message.data = float(velocity)
+            lift_publisher.publish(message)
 
         def spin():
             now = time.monotonic()
@@ -164,26 +195,41 @@ def main():
                 raise RuntimeError("ROS context stopped unexpectedly")
             rclpy.spin_once(node, timeout_sec=0.01)
 
-        def phase(name, duration, command):
+        def phase(name, duration, command, lift=0.0, min_wall=0.0):
             """Command at 20 Hz wall time while measuring duration in simulation time."""
             before = last_state
             start_sim = sim_time
+            start_wall = time.monotonic()
+            before_lift = lift_position
+            lift_start_messages = lift_messages
+            phase_lift_min = phase_lift_max = lift_position
             next_publish = time.monotonic()
-            while sim_time - start_sim < duration:
+            while sim_time - start_sim < duration or time.monotonic() - start_wall < min_wall:
                 now = time.monotonic()
-                if command is not None and now >= next_publish:
-                    publish(*command)
+                if now >= next_publish:
+                    if command is not None:
+                        publish(*(command() if callable(command) else command))
+                    if lift is not None:
+                        publish_lift(lift)
                     next_publish = now + 0.05
                 spin()
                 now = time.monotonic()
-                if now - last_odom_wall > 5 or now - last_clock_wall > 5:
-                    raise TimeoutError(f"Odometry or advancing clock disappeared during {name}")
+                if max(now - last_odom_wall, now - last_clock_wall, now - last_lift_wall) > 5:
+                    raise TimeoutError(f"Odometry, lift feedback or advancing clock disappeared during {name}")
+                phase_lift_min = min(phase_lift_min, lift_position)
+                phase_lift_max = max(phase_lift_max, lift_position)
+            if lift_messages == lift_start_messages:
+                raise AssertionError(f"No fresh lift position received during {name}")
             result.setdefault("phases", []).append({
                 "name": name, "duration_sim_s": sim_time - start_sim,
-                "command": command, "before": vars(before), "after": vars(last_state),
+                "command": "control_panel DriveState" if callable(command) else command,
+                "lift_command": lift, "before": vars(before), "after": vars(last_state),
+                "lift_before_m": before_lift, "lift_after_m": lift_position,
+                "lift_min_m": phase_lift_min, "lift_max_m": phase_lift_max,
+                "lift_messages": lift_messages - lift_start_messages,
             })
             print(f"{name}: sim={sim_time:.2f}s, speed={last_state.speed:.3f}m/s, "
-                  f"yaw={last_state.unwrapped_yaw:.3f}rad", flush=True)
+                  f"yaw={last_state.unwrapped_yaw:.3f}rad, lift={lift_position:.3f}m", flush=True)
             return before, last_state
 
         def check(name, passed, **measurements):
@@ -196,12 +242,35 @@ def main():
                 ["ros2", "launch", "usv_rov_sim", "sim.launch.py", f"world:={args.world}", "gui:=false"],
                 stdout=launch_log, stderr=subprocess.STDOUT, start_new_session=True,
             )
-            while last_state is None or sim_time is None or node.count_subscribers("/sim/me120/cmd_vel") == 0:
+            while (last_state is None or sim_time is None or lift_position is None or
+                   node.count_subscribers("/sim/me120/cmd_vel") == 0 or
+                   node.count_subscribers("/sim/me120/lift/velocity") == 0):
                 spin()
                 if time.monotonic() - started >= args.startup_timeout:
-                    raise TimeoutError("Startup timeout waiting for odometry, clock and command bridge")
+                    raise TimeoutError("Startup timeout waiting for odometry, clock, lift feedback and both command bridges")
             phase("settle", 2.0, (0.0, 0.0))
             check("steady_float", last_state.speed < 0.1, speed=last_state.speed, z=last_state.z)
+            check("lift_initially_raised", abs(lift_position) < 0.02, position_m=lift_position)
+            phase("lift_partial_down", 2.0, (0.0, 0.0), lift=1.0)
+            check("lift_moves_down", lift_position > 0.08, position_m=lift_position)
+            phase("lift_hold", 1.5, (0.0, 0.0))
+            hold = result["phases"][-1]
+            check("lift_holds_on_release", hold["lift_max_m"] - hold["lift_min_m"] < 0.02,
+                  drift_m=hold["lift_max_m"] - hold["lift_min_m"])
+            phase("lift_lower_limit", 2.5, (0.0, 0.0), lift=1.0)
+            check("lift_reaches_lower_limit", lift_position > 0.24, position_m=lift_position)
+            phase("lift_raise", 4.0, (0.0, 0.0), lift=-1.0)
+            check("lift_returns_raised", abs(lift_position) < 0.02, position_m=lift_position)
+            phase("lift_timeout_accelerate", 0.8, (0.0, 0.0), lift=1.0)
+            check("lift_timeout_precondition", lift_position > 0.01, position_m=lift_position)
+            phase("lift_timeout_wait", 1.0, (0.0, 0.0), lift=None, min_wall=0.8)
+            check("lift_timeout_holds_before_end_stop", 0.02 < lift_position < 0.23,
+                  position_m=lift_position)
+            phase("lift_timeout_hold", 1.5, (0.0, 0.0), lift=None)
+            hold = result["phases"][-1]
+            check("lift_holds_after_timeout", hold["lift_max_m"] - hold["lift_min_m"] < 0.02,
+                  drift_m=hold["lift_max_m"] - hold["lift_min_m"])
+            phase("lift_restore", 4.0, (0.0, 0.0), lift=-1.0)
             before, after = phase("forward", 6.0, (0.8, 0.0))
             distance = ((after.x - before.x) * math.cos(before.yaw) +
                         (after.y - before.y) * math.sin(before.yaw))
@@ -220,11 +289,39 @@ def main():
             release_speed = after.speed
             check("watchdog_precondition", release_speed > 0.15, speed_mps=release_speed)
             wall_release = time.monotonic()
-            _, after = phase("watchdog_no_publisher", 5.0, None)
+            _, after = phase("watchdog_no_publisher", 5.0, None, min_wall=0.85)
             check("watchdog_decelerates", time.monotonic() - wall_release > 0.8 and
                   after.speed < max(0.1, 0.5 * release_speed),
                   release_speed_mps=release_speed, final_speed_mps=after.speed,
                   wall_s_without_commands=time.monotonic() - wall_release)
+            drive.press("w", "keyboard:w")
+            drive.press("d", "keyboard:d")
+            ramped_command = lambda: drive.advance(time.monotonic())
+            before, after = phase("combined_forward_right_lift_down", 4.0, ramped_command, lift=1.0)
+            check("combined_forward_right", after.unwrapped_yaw < before.unwrapped_yaw - 0.12 and
+                  math.hypot(after.x - before.x, after.y - before.y) > 0.3,
+                  yaw_change_rad=after.unwrapped_yaw - before.unwrapped_yaw,
+                  distance_m=math.hypot(after.x - before.x, after.y - before.y))
+            check("lift_lowers_while_maneuvering", lift_position > 0.24,
+                  position_m=lift_position)
+            drive.release("keyboard:d")
+            phase("release_steering_keep_forward", 1.0, ramped_command)
+            check("independent_steering_release", drive.target() == (0.4, 0.0) and
+                  drive.surge > 0.1 and abs(drive.yaw) < 1e-6 and last_state.surge > 0.1,
+                  command_surge=drive.surge, command_yaw=drive.yaw,
+                  measured_surge_mps=last_state.surge)
+            drive.press("a", "keyboard:a")
+            before, after = phase("combined_forward_left_lift_up", 4.0, ramped_command, lift=-1.0)
+            check("combined_forward_left", after.unwrapped_yaw > before.unwrapped_yaw + 0.12 and
+                  math.hypot(after.x - before.x, after.y - before.y) > 0.3,
+                  yaw_change_rad=after.unwrapped_yaw - before.unwrapped_yaw,
+                  distance_m=math.hypot(after.x - before.x, after.y - before.y))
+            check("lift_raises_while_maneuvering", abs(lift_position) < 0.02,
+                  position_m=lift_position)
+            drive.stop()
+            phase("final_stop", 2.0, (0.0, 0.0))
+            check("lift_remains_within_limits", lift_min >= -0.01 and lift_max <= 0.2817,
+                  min_position_m=lift_min, max_position_m=lift_max, messages=lift_messages)
             check("clock_advances", sim_time - initial_clock > 25,
                   elapsed_sim_s=sim_time - initial_clock, messages=clock_messages)
             check("stable_attitude_and_height", max_roll < 0.15 and max_pitch < 0.15 and max_z_drift < 0.15,
@@ -239,6 +336,8 @@ def main():
             try:
                 for _ in range(3):
                     publish()
+                    if lift_publisher is not None:
+                        publish_lift()
                     rclpy.spin_once(node, timeout_sec=0.02)
             except Exception:
                 pass

@@ -7,6 +7,7 @@ silently producing a misleading verification image.
 """
 
 import argparse
+import math
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
@@ -27,6 +28,8 @@ def main():
     parser.add_argument("description_package", type=Path)
     parser.add_argument("simulation_package", type=Path)
     parser.add_argument("output", type=Path)
+    parser.add_argument("--lift-position", type=float, default=0.0,
+                        help="Static prismatic-joint position in metres; 0 raised, 0.2717 lowered.")
     args = parser.parse_args()
     description = args.description_package.resolve()
     simulation = args.simulation_package.resolve()
@@ -35,9 +38,23 @@ def main():
         raise ValueError("World element missing.")
     rows = []
 
-    def record(model, base):
+    def record(model, base, lift_position=0.0):
+        link_offsets = {}
+        if lift_position:
+            joint = model.find("joint[@name='lift_joint']")
+            if joint is None or joint.get("type") != "prismatic":
+                raise ValueError("Expected a prismatic lift_joint in the dynamic model.")
+            lower = float(joint.findtext("axis/limit/lower"))
+            upper = float(joint.findtext("axis/limit/upper"))
+            if not math.isfinite(lift_position) or not lower <= lift_position <= upper:
+                raise ValueError(f"Lift position must be between {lower} and {upper} m.")
+            direction = list(map(float, joint.findtext("axis/xyz").split()))
+            if direction != [0, 0, -1]:
+                raise ValueError("Only the model's downward lift axis is supported.")
+            link_offsets[joint.findtext("child")] = [x * lift_position for x in direction]
         for link in model.findall("link"):
             link_position = add(base, xyz(link.findtext("pose")))
+            link_position = add(link_position, link_offsets.get(link.get("name"), [0, 0, 0]))
             for visual in link.findall("visual"):
                 position = add(link_position, xyz(visual.findtext("pose")))
                 geometry = visual.find("geometry")
@@ -66,8 +83,9 @@ def main():
                     raise ValueError(f"Unsupported visual geometry: {kind}")
                 ambient = list(map(float, visual.findtext("material/ambient", "1 1 1 1").split()))[:3]
                 diffuse = list(map(float, visual.findtext("material/diffuse", "1 1 1 1").split()))[:3]
+                emissive = list(map(float, visual.findtext("material/emissive", "0 0 0 1").split()))[:3]
                 transparency = float(visual.findtext("transparency", "0"))
-                values = [kind, filename, *position, *size, *ambient, *diffuse, transparency]
+                values = [kind, filename, *position, *size, *ambient, *diffuse, *emissive, transparency]
                 rows.append(" ".join(map(str, values)))
 
     for model in world.findall("model"):
@@ -77,7 +95,7 @@ def main():
         if uri != "model://me120_dynamic":
             raise ValueError(f"Unexpected included model: {uri}")
         model = ET.parse(simulation / "models/me120_dynamic/model.sdf").find("model")
-        record(model, xyz(include.findtext("pose")))
+        record(model, xyz(include.findtext("pose")), args.lift_position)
     args.output.write_text("\n".join(rows) + "\n")
     print(f"Wrote {len(rows)} visual records to {args.output}")
 

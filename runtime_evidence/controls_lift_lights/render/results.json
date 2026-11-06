@@ -1,0 +1,197 @@
+{
+  "method": "Gazebo Rendering 8 Ogre2 headless software EGL",
+  "dynamic_execution": false,
+  "visual_count": 27,
+  "lift_position_endpoints_m": [
+    0,
+    0.2717
+  ],
+  "moving_visual_count": 12,
+  "moving_visual_offsets": [
+    {
+      "geometry": "mesh",
+      "mesh": "payload_lifter_moving.dae",
+      "offset_m": [
+        0.0,
+        0.0,
+        -0.27169999999999994
+      ]
+    },
+    {
+      "geometry": "mesh",
+      "mesh": "payload_mounting_ring.dae",
+      "offset_m": [
+        0.0,
+        0.0,
+        -0.27169999999999994
+      ]
+    },
+    {
+      "geometry": "mesh",
+      "mesh": "antenna.dae",
+      "offset_m": [
+        0.0,
+        0.0,
+        -0.2717
+      ]
+    },
+    {
+      "geometry": "mesh",
+      "mesh": "sensor_mount.dae",
+      "offset_m": [
+        0.0,
+        0.0,
+        -0.27170000000000005
+      ]
+    },
+    {
+      "geometry": "mesh",
+      "mesh": "zed_camera.dae",
+      "offset_m": [
+        0.0,
+        0.0,
+        -0.27170000000000005
+      ]
+    },
+    {
+      "geometry": "mesh",
+      "mesh": "robosense_lidar.dae",
+      "offset_m": [
+        0.0,
+        0.0,
+        -0.27170000000000005
+      ]
+    },
+    {
+      "geometry": "mesh",
+      "mesh": "front_cover.dae",
+      "offset_m": [
+        0.0,
+        0.0,
+        -0.27170000000000005
+      ]
+    },
+    {
+      "geometry": "mesh",
+      "mesh": "sensor_service_cable_loops.dae",
+      "offset_m": [
+        0.0,
+        0.0,
+        -0.2717
+      ]
+    },
+    {
+      "geometry": "box",
+      "mesh": null,
+      "offset_m": [
+        0.0,
+        0.0,
+        -0.27170000000000005
+      ]
+    },
+    {
+      "geometry": "box",
+      "mesh": null,
+      "offset_m": [
+        0.0,
+        0.0,
+        -0.27170000000000005
+      ]
+    },
+    {
+      "geometry": "box",
+      "mesh": null,
+      "offset_m": [
+        0.0,
+        0.0,
+        -0.27170000000000005
+      ]
+    },
+    {
+      "geometry": "box",
+      "mesh": null,
+      "offset_m": [
+        0.0,
+        0.0,
+        -0.27170000000000005
+      ]
+    }
+  ],
+  "lights": [
+    {
+      "name": "navigation_port_forward",
+      "position_raised_model_m": [
+        0.018,
+        0.4633056,
+        1.322
+      ],
+      "emissive_rgba": [
+        1.0,
+        0.015,
+        0.01,
+        1.0
+      ],
+      "side": "port_left"
+    },
+    {
+      "name": "navigation_port_outboard",
+      "position_raised_model_m": [
+        -0.012,
+        0.486,
+        1.322
+      ],
+      "emissive_rgba": [
+        1.0,
+        0.015,
+        0.01,
+        1.0
+      ],
+      "side": "port_left"
+    },
+    {
+      "name": "navigation_starboard_forward",
+      "position_raised_model_m": [
+        0.018,
+        -0.4633056,
+        1.322
+      ],
+      "emissive_rgba": [
+        0.015,
+        1.0,
+        0.035,
+        1.0
+      ],
+      "side": "starboard_right"
+    },
+    {
+      "name": "navigation_starboard_outboard",
+      "position_raised_model_m": [
+        -0.012,
+        -0.486,
+        1.322
+      ],
+      "emissive_rgba": [
+        0.015,
+        1.0,
+        0.035,
+        1.0
+      ],
+      "side": "starboard_right"
+    }
+  ],
+  "original_meshes_modified": false,
+  "images": {
+    "raised.png": {
+      "sha256": "d72ee9ccb8ae270e2117664e3b60fe639913be734d63112e0e2c21ab1ebf8c05",
+      "bytes": 58845
+    },
+    "lowered.png": {
+      "sha256": "e0e36302e1467a935aa1914680ba4022b735ec0be7b1243b6b0ca4c4a4d4f23e",
+      "bytes": 56565
+    },
+    "navigation-lights.png": {
+      "sha256": "636b9eafe45af711f41b96c8cd14951ffc6920f7410c7b76be4b74e56e102a6b",
+      "bytes": 51556
+    }
+  }
+}

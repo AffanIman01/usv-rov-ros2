@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build this checkout and open the ME120 simulation, or its keyboard node.
+# Build this checkout and open the ME120 simulation or control panel.
 set -euo pipefail
 repo_root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 pool_ws="$repo_root/.pool_ws"
@@ -11,6 +11,7 @@ engine=ogre2
 while (($#)); do
   case "$1" in
     --keyboard) mode=keyboard ;;
+    --keyboard-terminal) mode=keyboard_terminal ;;
     --check-only) mode=check ;;
     --diagnose) mode=diagnose ;;
     --self-test) mode=test ;;
@@ -29,9 +30,10 @@ while (($#)); do
         echo "--render-engine requires ogre or ogre2." >&2; exit 2
       fi ;;
     --help|-h)
-      echo "Usage: bash tools/run_sim.sh [--keyboard | --check-only | --self-test | --diagnose] [--world pool|sydney_regatta] [--headless] [--software] [--render-engine ogre2|ogre]"
+      echo "Usage: bash tools/run_sim.sh [--keyboard | --keyboard-terminal | --check-only | --self-test | --diagnose] [--world pool|sydney_regatta] [--headless] [--software] [--render-engine ogre2|ogre]"
       echo "Default: small offline pool. Sydney terrain is optional with --world sydney_regatta."
       echo "Start the simulation in one terminal, then --keyboard in a second terminal."
+      echo "The control window supports W+A/W+D and U/J lift control. --keyboard-terminal is the older single-key fallback."
       exit 0 ;;
     *) echo "Unknown option: $1. Use --help." >&2; exit 2 ;;
   esac
@@ -50,7 +52,7 @@ set -u
 export PATH="/usr/bin:/bin:$PATH"
 export GZ_PARTITION="${GZ_PARTITION:-usv_rov_sim_$UID}"
 export GZ_SIM_RESOURCE_PATH="$repo_root/.world_cache${GZ_SIM_RESOURCE_PATH:+:$GZ_SIM_RESOURCE_PATH}"
-if [[ "$mode" != keyboard ]]; then
+if [[ "$mode" != keyboard && "$mode" != keyboard_terminal ]]; then
   echo "Building ME120 simulation from: $repo_root"
   /usr/bin/colcon --log-base "$pool_ws/log" build \
     --base-paths "$repo_root/usv_rov_description" "$repo_root/usv_rov_sim" \
@@ -70,8 +72,16 @@ if [[ "$mode" == check ]]; then
   /opt/ros/jazzy/bin/ros2 run usv_rov_sim check_sim_plugins
   echo "Build, installed visuals and force-plugin loading verified. This does not run the physics server."
   exit 0
-elif [[ "$mode" == keyboard ]]; then
+elif [[ "$mode" == keyboard || "$mode" == keyboard_terminal ]]; then
   echo "ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}; use the same domain as the simulation terminal."
+  if [[ "$mode" == keyboard ]]; then
+    if ! /usr/bin/python3 -c 'import tkinter' >/dev/null 2>&1; then
+      echo "The control window requires Tk: sudo apt install python3-tk" >&2
+      exit 2
+    fi
+    echo "Focus the control window: W/S throttle, A/D steering, U/J lift, Space stop."
+    exec /opt/ros/jazzy/bin/ros2 run usv_rov_sim control_panel
+  fi
   exec /opt/ros/jazzy/bin/ros2 run usv_rov_sim keyboard_control
 fi
 if [[ "$world" == sydney_regatta ]]; then

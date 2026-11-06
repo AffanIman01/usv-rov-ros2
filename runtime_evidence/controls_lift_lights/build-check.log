@@ -1,0 +1,18 @@
+Building ME120 simulation from: /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix
+Starting >>> usv_rov_description
+Finished <<< usv_rov_description [0.10s]
+Starting >>> usv_rov_sim
+Finished <<< usv_rov_sim [0.10s]
+
+Summary: 2 packages finished [0.30s]
+Source package: /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_description
+ROS package share: /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.pool_ws/install/usv_rov_description/share/usv_rov_description
+ME120 cabin: 7,552 triangles; SHA256 c82daf4e01dd1dba48dc6e6cfe77b9e882b92abdb6e581ac5359e4ace04e5707
+PASS: me120 URDF and 17 meshes match this checkout.
+Restart RViz after an update; existing windows retain loaded meshes.
+Plugin checker built for Gazebo Sim 8.15.0; model /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.pool_ws/install/usv_rov_sim/share/usv_rov_sim/models/me120_dynamic/model.sdf
+Loaded usv_rov_sim::LiftController from usv_rov_lift_controller
+Loaded usv_rov_sim::SurfaceBuoyancy from usv_rov_surface_buoyancy
+Loaded usv_rov_sim::TwinThrusterController from usv_rov_twin_thruster_controller
+All required Gazebo 8 systems are loadable. This checks loading, not live ROS communication or physics.
+Build, installed visuals and force-plugin loading verified. This does not run the physics server.

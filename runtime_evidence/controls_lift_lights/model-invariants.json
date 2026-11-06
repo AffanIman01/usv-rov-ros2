@@ -1,0 +1,15 @@
+{
+  "total_mass_kg": 120.0,
+  "raised_com_m": [
+    0.0,
+    0.0,
+    0.10000000000000003
+  ],
+  "raised_diagonal_inertia_kg_m2": [
+    35.000000000000014,
+    70.0,
+    90.0
+  ],
+  "all_17_original_visuals_unchanged_at_raised_pose": true,
+  "original_mesh_files_changed": false
+}

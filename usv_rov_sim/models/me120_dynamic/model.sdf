@@ -6,15 +6,15 @@
     <self_collide>false</self_collide>
     <link name="base_link">
       <inertial>
-        <pose>0 0 0.1 0 0 0</pose>
-        <mass>120</mass>
+        <pose>0 0 0.0847826086956522 0 0 0</pose>
+        <mass>115</mass>
         <inertia>
-          <ixx>35</ixx>
+          <ixx>34.0608695652174</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>70</iyy>
+          <iyy>69.0608695652174</iyy>
           <iyz>0</iyz>
-          <izz>90</izz>
+          <izz>89.8</izz>
         </inertia>
       </inertial>
       <collision name="port_hull_buoyancy">
@@ -73,6 +73,52 @@
           </mesh>
         </geometry>
       </visual>
+      <visual name="thrusters">
+        <pose>0 0 -0.25 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://usv_rov_description/meshes/me120/thrusters.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="Starlink_support_concept">
+        <pose>-0.8 0.54 0.48 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://usv_rov_description/meshes/me120/Starlink_support_concept.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="mounted_e_reel">
+        <pose>-0.615 0 0.585 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://usv_rov_description/meshes/me120/mounted_e_reel.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="mounted_starlink_mini">
+        <pose>-0.8 0.54 0.78 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://usv_rov_description/meshes/me120/mounted_starlink_mini.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <!-- The moving assembly is a provisional 5 kg at z=0.45 m (not OEM data).
+         Parallel-axis compensation preserves the original raised total: 120 kg,
+         COM (0,0,0.1), diagonal inertia (35,70,90). Existing mesh poses at q=0
+         are unchanged. The Studio lowers these eight visuals together. -->
+    <link name="lift_carriage">
+      <inertial>
+        <pose>0 0 0.45 0 0 0</pose>
+        <mass>5</mass>
+        <inertia>
+          <ixx>0.3</ixx><ixy>0</ixy><ixz>0</ixz>
+          <iyy>0.3</iyy><iyz>0</iyz><izz>0.2</izz>
+        </inertia>
+      </inertial>
       <visual name="payload_lifter_moving">
         <pose>0 0 0.168 0 0 0</pose>
         <geometry>
@@ -94,14 +140,6 @@
         <geometry>
           <mesh>
             <uri>model://usv_rov_description/meshes/me120/antenna.dae</uri>
-          </mesh>
-        </geometry>
-      </visual>
-      <visual name="thrusters">
-        <pose>0 0 -0.25 0 0 0</pose>
-        <geometry>
-          <mesh>
-            <uri>model://usv_rov_description/meshes/me120/thrusters.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -145,31 +183,58 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name="Starlink_support_concept">
-        <pose>-0.8 0.54 0.48 0 0 0</pose>
-        <geometry>
-          <mesh>
-            <uri>model://usv_rov_description/meshes/me120/Starlink_support_concept.dae</uri>
-          </mesh>
-        </geometry>
+      <!-- Port is left (+Y) facing forward (+X): red; starboard (-Y): green.
+           Emissive lens overlays preserve the original mast lamp housings. -->
+      <visual name="navigation_port_forward">
+        <pose>0.018 0.4633056 1.322 0 0 0</pose>
+        <cast_shadows>false</cast_shadows>
+        <geometry><box><size>0.006 0.031 0.050</size></box></geometry>
+        <material><ambient>1 0.015 0.01 1</ambient><diffuse>1 0.015 0.01 1</diffuse><emissive>1 0.015 0.01 1</emissive></material>
       </visual>
-      <visual name="mounted_e_reel">
-        <pose>-0.615 0 0.585 0 0 0</pose>
-        <geometry>
-          <mesh>
-            <uri>model://usv_rov_description/meshes/me120/mounted_e_reel.dae</uri>
-          </mesh>
-        </geometry>
+      <visual name="navigation_port_outboard">
+        <pose>-0.012 0.486 1.322 0 0 0</pose>
+        <cast_shadows>false</cast_shadows>
+        <geometry><box><size>0.034 0.006 0.050</size></box></geometry>
+        <material><ambient>1 0.015 0.01 1</ambient><diffuse>1 0.015 0.01 1</diffuse><emissive>1 0.015 0.01 1</emissive></material>
       </visual>
-      <visual name="mounted_starlink_mini">
-        <pose>-0.8 0.54 0.78 0 0 0</pose>
-        <geometry>
-          <mesh>
-            <uri>model://usv_rov_description/meshes/me120/mounted_starlink_mini.dae</uri>
-          </mesh>
-        </geometry>
+      <visual name="navigation_starboard_forward">
+        <pose>0.018 -0.4633056 1.322 0 0 0</pose>
+        <cast_shadows>false</cast_shadows>
+        <geometry><box><size>0.006 0.031 0.050</size></box></geometry>
+        <material><ambient>0.015 1 0.035 1</ambient><diffuse>0.015 1 0.035 1</diffuse><emissive>0.015 1 0.035 1</emissive></material>
+      </visual>
+      <visual name="navigation_starboard_outboard">
+        <pose>-0.012 -0.486 1.322 0 0 0</pose>
+        <cast_shadows>false</cast_shadows>
+        <geometry><box><size>0.034 0.006 0.050</size></box></geometry>
+        <material><ambient>0.015 1 0.035 1</ambient><diffuse>0.015 1 0.035 1</diffuse><emissive>0.015 1 0.035 1</emissive></material>
       </visual>
     </link>
+    <joint name="lift_joint" type="prismatic">
+      <parent>base_link</parent>
+      <child>lift_carriage</child>
+      <axis>
+        <xyz>0 0 -1</xyz>
+        <limit>
+          <lower>0</lower><upper>0.2717</upper>
+          <effort>150</effort><velocity>0.1045</velocity>
+        </limit>
+      </axis>
+    </joint>
+    <plugin filename="usv_rov_lift_controller" name="usv_rov_sim::LiftController">
+      <joint_name>lift_joint</joint_name>
+      <parent_link>base_link</parent_link>
+      <topic>/model/me120/lift/velocity_cmd</topic>
+      <position_topic>/model/me120/lift/position</position_topic>
+      <travel>0.2717</travel>
+      <max_speed>0.1045</max_speed>
+      <acceleration>0.25</acceleration>
+      <moving_mass>5</moving_mass>
+      <position_gain>1000</position_gain>
+      <velocity_gain>120</velocity_gain>
+      <max_force>150</max_force>
+      <command_timeout>0.4</command_timeout>
+    </plugin>
     <plugin filename="usv_rov_surface_buoyancy" name="usv_rov_sim::SurfaceBuoyancy">
       <link_name>base_link</link_name>
       <surface_z>0</surface_z>

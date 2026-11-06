@@ -1,6 +1,6 @@
 # USV–ROV 10k: ROS 2 models and marine simulation
 
-This repository reuses the Recovery Studio geometry in ROS 2 URDF and Gazebo SDF formats. `usv_rov_description` preserves the visual models and static previews. `usv_rov_sim` adds an estimated calm-water ME120 simulation with buoyancy, water resistance, twin-thruster forces and keyboard control. The default is a **small 20 × 12 m offline pool** for initial VMware testing. VRX's Sydney Regatta world remains an optional larger environment. ROV dynamics, tether physics, docking, sensor data and hardware drivers are future work.
+This repository reuses the Recovery Studio geometry in ROS 2 URDF and Gazebo SDF formats. `usv_rov_description` preserves the visual models and static previews. `usv_rov_sim` adds an estimated calm-water ME120 simulation with buoyancy, water resistance, twin-thruster forces, smooth combined steering, a moving mast lift and navigation lights. The default is a **small 20 × 12 m offline pool** for initial VMware testing. VRX's Sydney Regatta world remains an optional larger environment. ROV dynamics, tether physics, docking, sensor data and hardware drivers are future work.
 
 ## Start with the small pool
 
@@ -8,6 +8,7 @@ Use Ubuntu 24.04 with ROS 2 Jazzy / Gazebo Harmonic. Stop the previous simulatio
 
 ```bash
 git pull --ff-only
+sudo apt install python3-tk
 bash tools/run_sim.sh
 ```
 
@@ -21,9 +22,22 @@ In a second terminal, from the same checkout:
 bash tools/run_sim.sh --keyboard
 ```
 
-Keep the keyboard terminal focused. Hold/repeat **W/S** for forward/reverse and **A/D** to turn. **Space** cuts thrust, **+/-** changes target speed and **Q** quits the controller. The terminal shows requested motion, ROS subscriber status and measured movement. Releasing a key expires the motion command; water resistance slows the boat after thrust is cut.
+Keep the **ME120 control window** focused. It tracks each held key independently and ramps throttle/steering smoothly.
 
-**Buoyancy startup correction:** Gazebo configures a model's plugins before attaching it to the world. The earlier buoyancy plugin rejected that temporary state and stayed disabled. It now resolves the world on the first physics update. A regression test recreates the real startup event order and failed with the old code. The launcher also pins Gazebo 8, checks both force-plugin libraries and monitors flotation feedback. See [fix verification and remaining limits](runtime_evidence/sydney_startup_fix/REPORT.md).
+| Control | Action |
+|---|---|
+| W / S | Forward / reverse |
+| A / D | Left / right steering |
+| W+A / W+D | Keep moving while steering |
+| U / J | Raise / lower the mast lift; release to hold position |
+| Space | Cut drive thrust and hold the lift immediately |
+| Q / Esc | Close the control window |
+
+Releasing A/D while holding W smoothly straightens the turn without dropping forward throttle. Sliders set the speed and turn limits. Switching to another window stops commands; the boat still coasts under water resistance. The older terminal controller is available with `--keyboard-terminal`, but does not provide reliable simultaneous held keys or lift control. Run only one controller at a time.
+
+The lift follows Studio version 60: the moving carrier, mast and sensor rack travel together from raised to **65% down (0.2717 m)**. Its position indicator uses measured joint feedback. The red port/left and green starboard/right navigation lenses stay illuminated and move with the mast; left/right are defined while looking toward the bow. The lift uses estimated actuator dynamics and does not deploy the ROV. See [implementation and validation](runtime_evidence/controls_lift_lights/REPORT.md).
+
+**Buoyancy startup correction:** Gazebo configures a model's plugins before attaching it to the world. The earlier buoyancy plugin rejected that temporary state and stayed disabled. It now resolves the world on the first physics update. A regression test recreates the real startup event order and failed with the old code. The launcher also pins Gazebo 8, checks the custom plugin libraries and monitors flotation feedback. See [fix verification and remaining limits](runtime_evidence/sydney_startup_fix/REPORT.md).
 
 **Wall-contact crash correction:** an almost level hull could trigger numerical overflow in the underwater-volume centroid calculation. The calculation now uses geometric clipping, with regression checks for near-level orientations and sustained wall contact. See [pool stability follow-up](runtime_evidence/pool_stability_followup/REPORT.md).
 
@@ -37,7 +51,7 @@ bash tools/run_sim.sh --diagnose
 
 Sydney Regatta is available with `bash tools/run_sim.sh --world sydney_regatta`. Its first run downloads and verifies 129 MB of existing OpenRobotics terrain. See [world sources and licenses](usv_rov_sim/worlds/SOURCES.md).
 
-See [dependencies, diagnostics and controls](usv_rov_sim/README.md). To run an automatic headless movement check on your Ubuntu machine, stop the interactive simulation and run `bash tools/run_sim.sh --self-test`. It checks flotation, forward movement, turning, stopping and the command timeout, and writes `.pool_ws/last-test.json` plus `.pool_ws/last-test.log`.
+See [dependencies, diagnostics and controls](usv_rov_sim/README.md). To run an automatic headless movement check on your Ubuntu machine, stop the interactive simulation and run `bash tools/run_sim.sh --self-test`. It checks flotation, forward movement, turning, stopping, combined steering, lift travel/holding and command timeouts, and writes `.pool_ws/last-test.json` plus `.pool_ws/last-test.log`.
 
 ## Original model transfer
 
@@ -141,7 +155,7 @@ The GLB models use Y up and +Z bow. The exported ROS body convention is X forwar
 
 **Frames:** `zed_mount_frame`, `robosense_mount_frame` and `hikvision_mount_frame` are approximate visual reference points. They are not calibrated sensor origins or optical frames. The Hikvision frame comes from the site's inspection centre; its geometry remains part of the mast mesh. No pan/tilt joints or stereo optical transforms are invented.
 
-**Side labels:** The source contains `hull_port` and `hull_starboard` identifiers whose semantic side labels conflict with its declared bow/up convention after a proper right-handed conversion. Original identifiers and geometry are retained for traceability. Confirm physical port/starboard and navigation-light placement before using those labels in control or perception.
+**Side labels:** The source contains `hull_port` and `hull_starboard` identifiers whose semantic side labels conflict with its declared bow/up convention after a proper right-handed conversion. Original identifiers and geometry are retained for traceability. The dynamic simulation assigns its new navigation lenses by physical ROS coordinates: +Y port is red, −Y starboard is green. The inherited hull identifiers should not be used to infer those sides.
 
 **Recovery concept:** The current source still contains latch housings, positive-lock pins and keeper lugs. They remain visible as inherited concept geometry; they are not confirmation of a final magnetic-only design. Head/yoke origins are carrier-local while the tether guide is boat-local. The separate static model is a component reference, not a connected recovery mechanism.
 
