@@ -1,0 +1,10 @@
+{
+  "status": "blocked",
+  "default_world": "pool",
+  "requires_terrain_download": false,
+  "previous_log_preserved": true,
+  "new_log_archived": true,
+  "component_exit_diagnostics": true,
+  "integration_pass": false,
+  "reason": "Host network discovery restriction: getifaddrs Operation not permitted. Server/bridge exit255; parent launch status is not integration proof."
+}

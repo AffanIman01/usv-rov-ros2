@@ -1,6 +1,7 @@
 #include <usv_rov_sim/surface_buoyancy.hpp>
 #include <iostream>
 #include <limits>
+#include <array>
 #include <stdexcept>
 
 using namespace usv_rov_sim;
@@ -33,9 +34,64 @@ int main()
   auto translated = ComputeBoxBuoyancy(size, gz::math::Pose3d(3,4,2,0,0.08,0), displacedOrigin, gravity, 2);
   Require(translated.valid && Near(translated.force.Z(), pitch.force.Z()) && Near(translated.torque.Y(), pitch.torque.Y()),
     "Changing world origin and water height together must preserve local wrench.");
+  // Regression: a nearly zero roll component made the old analytic centroid
+  // produce ~2.26e18 Nm of roll torque at this recorded wall-contact pose.
+  const gz::math::Vector3d hullSize(2.2, 0.28, 0.25);
+  const gz::math::Pose3d recorded(8.8946983262828461, -8.6219629171740981e-18,
+    -0.024389508943275004, 1.1345221308171029e-16,
+    -0.022311951229055924, -1.5527909492448632e-17);
+  gz::math::Vector3d summedForce, summedTorque;
+  for (double y : {-0.54, 0.54})
+  {
+    const auto pose = recorded * gz::math::Pose3d(0, y, -0.125, 0, 0, 0);
+    auto wrench = ComputeBoxBuoyancy(hullSize, pose, recorded.Pos(), gravity, 0);
+    Require(wrench.valid && wrench.submergedVolume <= 0.1540000001,
+      "Recorded nearly-axis-aligned case must have physical displaced volume.");
+    Require(wrench.torque.Length() <= wrench.force.Length() * 1.5,
+      "Buoyancy centroid must stay within its collision box.");
+    summedForce += wrench.force; summedTorque += wrench.torque;
+  }
+  Require(summedForce.Z() > 2900 && summedForce.Z() <= 3021.480001 &&
+      std::abs(summedTorque.X()) < 1e-7 && std::abs(summedTorque.Y()) < 100,
+    "Recorded symmetric hulls must have bounded pitch and negligible roll torque.");
+
+  // Independent geometry identities catch finite but inaccurate volume/center
+  // calculations, including the old inclusion-exclusion cancellation error.
+  for (double tiny : {0.0, 1e-16, -1e-16, 1e-12, -1e-12, 1e-8, -1e-8,
+                      1e-6, -1e-6, 1e-4, -1e-4, 1e-2, -1e-2})
+  {
+    const auto rotation = gz::math::Quaterniond(tiny, -0.022311951229055924, 0.3);
+    const auto normal = rotation.RotateVectorReverse(gz::math::Vector3d::UnitZ);
+    const double extent = std::abs(normal.X()) * hullSize.X()/2 +
+      std::abs(normal.Y()) * hullSize.Y()/2 + std::abs(normal.Z()) * hullSize.Z()/2;
+    const double full = hullSize.X()*hullSize.Y()*hullSize.Z();
+    auto centerCut = detail::ClipSubmergedBox(hullSize, normal, 0);
+    Require(centerCut.valid && Near(centerCut.volume, full/2, 1e-11),
+      "Any plane through a centered box must cut exactly half its volume.");
+    for (double fraction : {0.0, 1e-10, 0.2, 0.8, 0.9999999999, 1.0})
+    {
+      auto below = detail::ClipSubmergedBox(hullSize, normal, fraction*extent);
+      auto complement = detail::ClipSubmergedBox(hullSize, normal, -fraction*extent);
+      Require(below.valid && complement.valid &&
+          Near(below.volume + complement.volume, full, 1e-10),
+        "Complementary cuts must conserve displaced volume near every axis.");
+      Require((below.volume*below.centroid - complement.volume*complement.centroid).Length() < 1e-10,
+        "Complementary cuts must conserve the first moment of a centered box.");
+    }
+    const gz::math::Pose3d submerged(0, 0, -2, tiny, 0.7, -0.4);
+    auto fullyWet = ComputeBoxBuoyancy(hullSize, submerged, submerged.Pos(), gravity, 0);
+    Require(fullyWet.valid && Near(fullyWet.submergedVolume, full) && fullyWet.torque.Length() < 1e-8,
+      "Fully submerged rotated boxes must act at their geometric center.");
+    const gz::math::Pose3d almostLevel(0, 0, 0, tiny, -0.022311951229055924, 0);
+    const auto reference = ComputeBoxBuoyancy(hullSize, gz::math::Pose3d(0,0,0,0,-0.022311951229055924,0), origin, gravity, 0);
+    auto perturbed = ComputeBoxBuoyancy(hullSize, almostLevel, origin, gravity, 0);
+    Require(perturbed.valid && (perturbed.force-reference.force).Length() < 1e-8 &&
+        (perturbed.torque-reference.torque).Length() < 1e-7 + 1000*std::abs(tiny),
+      "Buoyancy wrench must vary continuously as roll crosses zero.");
+  }
   auto nan = ComputeBoxBuoyancy(size, gz::math::Pose3d::Zero, origin, gravity, std::numeric_limits<double>::quiet_NaN());
   Require(!nan.valid, "Nonfinite fluid surface must fail.");
   auto invalid = ComputeBoxBuoyancy({-1,1,1}, gz::math::Pose3d::Zero, origin, gravity, 0);
   Require(!invalid.valid, "Invalid collision size must fail.");
-  std::cout << "PASS: wet/dry/half displacement, pitch and roll restoring torque, heading rotation, translation invariance and invalid geometry.\n";
+  std::cout << "PASS: wet/dry/half displacement, pitch and roll restoring torque, heading rotation, translation invariance near-axis clipping regression, complement moments and invalid geometry.\n";
 }

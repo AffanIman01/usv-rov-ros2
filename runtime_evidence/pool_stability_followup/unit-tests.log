@@ -1,0 +1,149 @@
+Start testing: Nov 06 08:17 +08
+----------------------------------------------------------
+1/8 Testing: thruster_control
+1/8 Test: thruster_control
+Command: "/workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.pool_ws/build/usv_rov_sim/test_thruster_control"
+Directory: /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.pool_ws/build/usv_rov_sim
+"thruster_control" start time: Nov 06 08:17 +08
+Output:
+----------------------------------------------------------
+PASS: forward, reverse, yaw signs, mixing, saturation, target limits, feedback, stop, timeout, pause expiry and invalid data.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"thruster_control" end time: Nov 06 08:17 +08
+"thruster_control" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/8 Testing: surface_buoyancy
+2/8 Test: surface_buoyancy
+Command: "/workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.pool_ws/build/usv_rov_sim/test_surface_buoyancy"
+Directory: /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.pool_ws/build/usv_rov_sim
+"surface_buoyancy" start time: Nov 06 08:17 +08
+Output:
+----------------------------------------------------------
+PASS: wet/dry/half displacement, pitch and roll restoring torque, heading rotation, translation invariance near-axis clipping regression, complement moments and invalid geometry.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"surface_buoyancy" end time: Nov 06 08:17 +08
+"surface_buoyancy" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/8 Testing: keyboard_input
+3/8 Test: keyboard_input
+Command: "/usr/bin/python3" "/workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_sim/test/test_keyboard.py"
+Directory: /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.pool_ws/build/usv_rov_sim
+"keyboard_input" start time: Nov 06 08:17 +08
+Output:
+----------------------------------------------------------
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 0.001s
+
+OK
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"keyboard_input" end time: Nov 06 08:17 +08
+"keyboard_input" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/8 Testing: simulation_guard
+4/8 Test: simulation_guard
+Command: "/usr/bin/python3" "/workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_sim/test/test_simulation_guard.py"
+Directory: /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.pool_ws/build/usv_rov_sim
+"simulation_guard" start time: Nov 06 08:17 +08
+Output:
+----------------------------------------------------------
+..........
+----------------------------------------------------------------------
+Ran 10 tests in 0.000s
+
+OK
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"simulation_guard" end time: Nov 06 08:17 +08
+"simulation_guard" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/8 Testing: launch_exit_policy
+5/8 Test: launch_exit_policy
+Command: "/usr/bin/python3" "/workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_sim/test/test_launch_exit.py"
+Directory: /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.pool_ws/build/usv_rov_sim
+"launch_exit_policy" start time: Nov 06 08:17 +08
+Output:
+----------------------------------------------------------
+....
+----------------------------------------------------------------------
+Ran 4 tests in 0.002s
+
+OK
+<end of output>
+Test time =   0.17 sec
+----------------------------------------------------------
+Test Passed.
+"launch_exit_policy" end time: Nov 06 08:17 +08
+"launch_exit_policy" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/8 Testing: required_plugins_load
+6/8 Test: required_plugins_load
+Command: "/usr/bin/cmake" "-E" "env" "GZ_SIM_SYSTEM_PLUGIN_PATH=/workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.pool_ws/build/usv_rov_sim" "/workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.pool_ws/build/usv_rov_sim/check_sim_plugins" "/workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_sim/models/me120_dynamic/model.sdf"
+Directory: /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.pool_ws/build/usv_rov_sim
+"required_plugins_load" start time: Nov 06 08:17 +08
+Output:
+----------------------------------------------------------
+Plugin checker built for Gazebo Sim 8.15.0; model /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_sim/models/me120_dynamic/model.sdf
+Loaded usv_rov_sim::SurfaceBuoyancy from usv_rov_surface_buoyancy
+Loaded usv_rov_sim::TwinThrusterController from usv_rov_twin_thruster_controller
+Both required Gazebo 8 systems are loadable. This checks loading, not live ROS communication or physics.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"required_plugins_load" end time: Nov 06 08:17 +08
+"required_plugins_load" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/8 Testing: missing_plugin_rejected
+7/8 Test: missing_plugin_rejected
+Command: "/workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.pool_ws/build/usv_rov_sim/check_sim_plugins" "/workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.pool_ws/build/usv_rov_sim/missing_plugin.sdf"
+Directory: /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.pool_ws/build/usv_rov_sim
+"missing_plugin_rejected" start time: Nov 06 08:17 +08
+Output:
+----------------------------------------------------------
+[1;31m[Err] [SystemLoader.cc:92] [0m[1;31mFailed to load system plugin [[0m[1;31m/__usv_rov_missing__/libusv_rov_surface_buoyancy.so[0m[1;31m] : Could not find shared library.[0m[1;31m[0m
+Plugin checker built for Gazebo Sim 8.15.0; model /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.pool_ws/build/usv_rov_sim/missing_plugin.sdf
+Unable to load required Gazebo 8 system usv_rov_sim::SurfaceBuoyancy from /__usv_rov_missing__/libusv_rov_surface_buoyancy.so.
+Source this workspace's install/setup.bash and rebuild usv_rov_sim for Gazebo Harmonic before launching.
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"missing_plugin_rejected" end time: Nov 06 08:17 +08
+"missing_plugin_rejected" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/8 Testing: buoyancy_server_lifecycle
+8/8 Test: buoyancy_server_lifecycle
+Command: "/usr/bin/cmake" "-E" "env" "GZ_SIM_SYSTEM_PLUGIN_PATH=/workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.pool_ws/build/usv_rov_sim" "/workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.pool_ws/build/usv_rov_sim/test_buoyancy_lifecycle" "/workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/usv_rov_sim/models/me120_dynamic/model.sdf"
+Directory: /workspace/scratch/57838a0b3f5a/usv-rov-ros2-fix/.pool_ws/build/usv_rov_sim
+"buoyancy_server_lifecycle" start time: Nov 06 08:17 +08
+Output:
+----------------------------------------------------------
+PASS: real Configure ordering recovered; initial upward force=1177.2 N.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"buoyancy_server_lifecycle" end time: Nov 06 08:17 +08
+"buoyancy_server_lifecycle" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Nov 06 08:17 +08

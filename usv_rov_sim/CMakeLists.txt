@@ -45,6 +45,7 @@ if(BUILD_TESTING)
   add_test(NAME surface_buoyancy COMMAND test_surface_buoyancy)
   add_test(NAME keyboard_input COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test/test_keyboard.py)
   add_test(NAME simulation_guard COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test/test_simulation_guard.py)
+  add_test(NAME launch_exit_policy COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test/test_launch_exit.py)
   add_test(NAME required_plugins_load COMMAND ${CMAKE_COMMAND} -E env
     "GZ_SIM_SYSTEM_PLUGIN_PATH=$<TARGET_FILE_DIR:usv_rov_surface_buoyancy>"
     $<TARGET_FILE:check_sim_plugins> ${CMAKE_CURRENT_SOURCE_DIR}/models/me120_dynamic/model.sdf)

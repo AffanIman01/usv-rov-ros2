@@ -19,7 +19,7 @@ python3 tools/runtime/marine/run_checks.py "$PWD" \
   --output /tmp/usv-pool-check-results
 ```
 
-The tests check 60 seconds of unforced equilibrium; recovery from roll, pitch and heave perturbations; forward/reverse movement; both yaw directions; passive slowing after power cut; and restoring torque signs. Perturbation tests also assert that the initial disturbance actually occurred. Tests return nonzero on failure and preserve measured positions, angles and velocities.
+The tests check 60 seconds of unforced equilibrium; recovery from roll, pitch and heave perturbations; forward/reverse movement; both yaw directions; passive slowing after power cut; restoring torque signs; 180 seconds of sustained forward thrust against the pool wall; and 180 seconds of alternating forward/reverse/turn commands. Every production step also checks physical bounds on pose, velocity and buoyancy torque, so finite numerical explosions cannot count as a pass. Perturbation tests also assert that the initial disturbance actually occurred. Tests return nonzero on failure and preserve measured positions, angles and velocities.
 
 Negative controls substitute the installed Harmonic graded Buoyancy plugin. In the tested Gazebo 8.15.0 installation, it produces a destabilizing pitch torque for the rotated hull boxes and the vessel capsizes. The project SurfaceBuoyancy implementation correctly rotates the water-plane normal into each collision frame and restores pitch. This control documents why the package does not use the problematic built-in surface buoyancy behavior. A later upstream version that corrects this behavior may cause the expected-failure negative controls to become unexpected passes; inspect those results before changing the expectations.
 

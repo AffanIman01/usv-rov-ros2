@@ -1,6 +1,6 @@
 # Sydney Regatta world
 
-The default marine environment is an adaptation of **Virtual RobotX (VRX)'s
+The optional larger marine environment is an adaptation of **Virtual RobotX (VRX)'s
 Sydney Regatta world**, by the Open Source Robotics Foundation and VRX
 contributors. It uses the existing Sydney International Regatta Centre terrain,
 buildings, docks and shore collision mesh from OpenRobotics. It is not a new

@@ -1,0 +1,583 @@
+{
+  "passed": true,
+  "scope": "Actual Gazebo Physics plus production SurfaceBuoyancy shared plugin in an EntityComponentManager. SurfaceBuoyancy is configured synchronously through LoadSdfPlugins during SdfEntityCreator world construction, before the model receives its world parent, matching real server startup. Production ComputeThrust header drives native wrenches. Configured diagonal drag equation is applied by this harness; native Hydrodynamics transport initialization is blocked in this host.",
+  "not_tested": [
+    "Gazebo GUI",
+    "ROS-to-Gazebo command bridge",
+    "live transport subscriber",
+    "native Hydrodynamics plugin stepping",
+    "physical vehicle fidelity"
+  ],
+  "inputs_sha256": {
+    "usv_rov_sim/models/me120_dynamic/model.sdf": "dc1963de4d8dfe9a197f7582b23b641ed6edbbd1731522cf8213e66243be0511",
+    "usv_rov_sim/worlds/pool.sdf": "5149631a628c0d36d5c59f0465b9d7eaa4c0faed69c590529b3a8b92e92b9a90",
+    "usv_rov_sim/include/usv_rov_sim/thruster_control.hpp": "c7b7970a6420264d77ed3942b1983dead8031d1c4086b9b62c6fa991d3652e22",
+    "usv_rov_sim/include/usv_rov_sim/surface_buoyancy.hpp": "8993413f00de107766168bb12372803e3ea912281378ff0b12fe8074592cbee4",
+    "usv_rov_sim/src/surface_buoyancy.cpp": "fe9cfeffec87e16bada396b5595c72944bbabbbfaa9412b8caa93c89768ca8ee",
+    "tools/runtime/marine/vehicle_probe.cpp": "f613b6bf03da8ff512f56494f188e2b50b6abb6c975a6a5485fff93b0b0e88a0",
+    "tools/runtime/marine/run_checks.py": "a26b3e02a6c75965ef4958c386c9b546738188f5428cf262bfd520174a2488c9"
+  },
+  "surface_plugin_sha256": "4f828ed632b4d8ca481fe98eaebd6ab4dab76752ebbcc6abb8aaa200237e61b3",
+  "cases": [
+    {
+      "case": "idle",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "check_passed": true,
+      "measurement": {
+        "case": "idle",
+        "configured_before_world_parent": true,
+        "passed": true,
+        "bounded": true,
+        "max_buoyancy_torque": 1.18348e-08,
+        "requested_duration_s": 60,
+        "duration_s": 60,
+        "position": [
+          3.74907e-13,
+          0,
+          0.152784
+        ],
+        "rpy": [
+          0,
+          6.90956e-15,
+          0
+        ],
+        "linear_velocity": [
+          -2.85784e-16,
+          0,
+          -2.31514e-05
+        ],
+        "yaw_rate": 0,
+        "z_range": [
+          0.152783,
+          0.152787
+        ],
+        "max_abs_roll": 0,
+        "max_abs_pitch": 2.55507e-12,
+        "peak_speed": 4.30507e-05,
+        "speed_at_release": 0
+      }
+    },
+    {
+      "case": "roll",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "check_passed": true,
+      "measurement": {
+        "case": "roll",
+        "configured_before_world_parent": true,
+        "passed": true,
+        "bounded": true,
+        "max_buoyancy_torque": 269.67,
+        "requested_duration_s": 15,
+        "duration_s": 15,
+        "position": [
+          5.44222e-14,
+          3.24942e-05,
+          0.152785
+        ],
+        "rpy": [
+          -3.92097e-06,
+          6.63172e-15,
+          3.04178e-17
+        ],
+        "linear_velocity": [
+          4.74182e-15,
+          -3.25621e-06,
+          1.72149e-11
+        ],
+        "yaw_rate": 9.49863e-19,
+        "z_range": [
+          0.152386,
+          0.15283
+        ],
+        "max_abs_roll": 0.0799703,
+        "max_abs_pitch": 6.24399e-13,
+        "peak_speed": 0.0304646,
+        "speed_at_release": 0
+      }
+    },
+    {
+      "case": "pitch",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "check_passed": true,
+      "measurement": {
+        "case": "pitch",
+        "configured_before_world_parent": true,
+        "passed": true,
+        "bounded": true,
+        "max_buoyancy_torque": 371.479,
+        "requested_duration_s": 15,
+        "duration_s": 15,
+        "position": [
+          0.000290279,
+          0,
+          0.152785
+        ],
+        "rpy": [
+          0,
+          -2.44571e-08,
+          0
+        ],
+        "linear_velocity": [
+          -3.01541e-05,
+          0,
+          5.48228e-14
+        ],
+        "yaw_rate": 0,
+        "z_range": [
+          0.152349,
+          0.152831
+        ],
+        "max_abs_roll": 0,
+        "max_abs_pitch": 0.0799793,
+        "peak_speed": 0.0302026,
+        "speed_at_release": 0
+      }
+    },
+    {
+      "case": "heave",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "check_passed": true,
+      "measurement": {
+        "case": "heave",
+        "configured_before_world_parent": true,
+        "passed": true,
+        "bounded": true,
+        "max_buoyancy_torque": 6.94999e-13,
+        "requested_duration_s": 15,
+        "duration_s": 15,
+        "position": [
+          -1.76957e-16,
+          0,
+          0.152785
+        ],
+        "rpy": [
+          0,
+          2.79147e-15,
+          0
+        ],
+        "linear_velocity": [
+          -8.67348e-17,
+          0,
+          2.9064e-05
+        ],
+        "yaw_rate": 0,
+        "z_range": [
+          0.145111,
+          0.252745
+        ],
+        "max_abs_roll": 0,
+        "max_abs_pitch": 2.79147e-15,
+        "peak_speed": 0.482402,
+        "speed_at_release": 0
+      }
+    },
+    {
+      "case": "forward",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "check_passed": true,
+      "measurement": {
+        "case": "forward",
+        "configured_before_world_parent": true,
+        "passed": true,
+        "bounded": true,
+        "max_buoyancy_torque": 20.0456,
+        "requested_duration_s": 15,
+        "duration_s": 15,
+        "position": [
+          8.0026,
+          0,
+          0.152847
+        ],
+        "rpy": [
+          0,
+          -0.000961388,
+          0
+        ],
+        "linear_velocity": [
+          0.558893,
+          0,
+          8.2733e-11
+        ],
+        "yaw_rate": 0,
+        "z_range": [
+          0.152785,
+          0.152944
+        ],
+        "max_abs_roll": 0,
+        "max_abs_pitch": 0.00432754,
+        "peak_speed": 0.558893,
+        "speed_at_release": 0
+      }
+    },
+    {
+      "case": "reverse",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "check_passed": true,
+      "measurement": {
+        "case": "reverse",
+        "configured_before_world_parent": true,
+        "passed": true,
+        "bounded": true,
+        "max_buoyancy_torque": 15.2976,
+        "requested_duration_s": 15,
+        "duration_s": 15,
+        "position": [
+          -6.13905,
+          0,
+          0.152818
+        ],
+        "rpy": [
+          0,
+          0.000682212,
+          0
+        ],
+        "linear_velocity": [
+          -0.428909,
+          0,
+          2.26459e-11
+        ],
+        "yaw_rate": 0,
+        "z_range": [
+          0.152785,
+          0.152876
+        ],
+        "max_abs_roll": 0,
+        "max_abs_pitch": 0.0033026,
+        "peak_speed": 0.428909,
+        "speed_at_release": 0
+      }
+    },
+    {
+      "case": "left",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "check_passed": true,
+      "measurement": {
+        "case": "left",
+        "configured_before_world_parent": true,
+        "passed": true,
+        "bounded": true,
+        "max_buoyancy_torque": 2.04952e-13,
+        "requested_duration_s": 15,
+        "duration_s": 15,
+        "position": [
+          6.37388e-19,
+          -1.17503e-19,
+          0.152785
+        ],
+        "rpy": [
+          8.78347e-18,
+          1.85998e-17,
+          2.69424
+        ],
+        "linear_velocity": [
+          7.09479e-19,
+          1.03599e-18,
+          -2.03878e-15
+        ],
+        "yaw_rate": 0.188194,
+        "z_range": [
+          0.152785,
+          0.152785
+        ],
+        "max_abs_roll": 1.7787e-17,
+        "max_abs_pitch": 1.85998e-17,
+        "peak_speed": 1.59146e-09,
+        "speed_at_release": 0
+      }
+    },
+    {
+      "case": "right",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "check_passed": true,
+      "measurement": {
+        "case": "right",
+        "configured_before_world_parent": true,
+        "passed": true,
+        "bounded": true,
+        "max_buoyancy_torque": 2.04952e-13,
+        "requested_duration_s": 15,
+        "duration_s": 15,
+        "position": [
+          7.72206e-19,
+          8.85181e-20,
+          0.152785
+        ],
+        "rpy": [
+          -8.96216e-18,
+          2.11161e-17,
+          -2.69424
+        ],
+        "linear_velocity": [
+          6.88234e-19,
+          -9.48836e-19,
+          -2.03878e-15
+        ],
+        "yaw_rate": -0.188194,
+        "z_range": [
+          0.152785,
+          0.152785
+        ],
+        "max_abs_roll": 2.10294e-17,
+        "max_abs_pitch": 2.11161e-17,
+        "peak_speed": 1.59146e-09,
+        "speed_at_release": 0
+      }
+    },
+    {
+      "case": "coast",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "check_passed": true,
+      "measurement": {
+        "case": "coast",
+        "configured_before_world_parent": true,
+        "passed": true,
+        "bounded": true,
+        "max_buoyancy_torque": 20.0456,
+        "requested_duration_s": 25,
+        "duration_s": 25,
+        "position": [
+          3.97389,
+          0,
+          0.152785
+        ],
+        "rpy": [
+          0,
+          8.97099e-07,
+          0
+        ],
+        "linear_velocity": [
+          0.00110507,
+          0,
+          7.00999e-11
+        ],
+        "yaw_rate": 0,
+        "z_range": [
+          0.152745,
+          0.152944
+        ],
+        "max_abs_roll": 0,
+        "max_abs_pitch": 0.00432754,
+        "peak_speed": 0.558654,
+        "speed_at_release": 0.558654
+      }
+    },
+    {
+      "case": "wall",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "check_passed": true,
+      "measurement": {
+        "case": "wall",
+        "configured_before_world_parent": true,
+        "passed": true,
+        "bounded": true,
+        "max_buoyancy_torque": 21.311,
+        "requested_duration_s": 180,
+        "duration_s": 180,
+        "position": [
+          8.89985,
+          4.02098e-19,
+          0.153597
+        ],
+        "rpy": [
+          -8.51964e-19,
+          -0.000616349,
+          -3.79821e-19
+        ],
+        "linear_velocity": [
+          5.42343e-06,
+          3.57856e-21,
+          2.39512e-05
+        ],
+        "yaw_rate": -2.99345e-20,
+        "z_range": [
+          0.152785,
+          0.154927
+        ],
+        "max_abs_roll": 8.56655e-19,
+        "max_abs_pitch": 0.00460065,
+        "peak_speed": 0.683709,
+        "speed_at_release": 0
+      }
+    },
+    {
+      "case": "mixed",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "check_passed": true,
+      "measurement": {
+        "case": "mixed",
+        "configured_before_world_parent": true,
+        "passed": true,
+        "bounded": true,
+        "max_buoyancy_torque": 21.311,
+        "requested_duration_s": 180,
+        "duration_s": 180,
+        "position": [
+          8.70164,
+          4.0102,
+          0.152784
+        ],
+        "rpy": [
+          4.27129e-05,
+          0.00018723,
+          2.54939
+        ],
+        "linear_velocity": [
+          -0.0139752,
+          0.0183777,
+          4.2175e-06
+        ],
+        "yaw_rate": -0.249213,
+        "z_range": [
+          0.15224,
+          0.158414
+        ],
+        "max_abs_roll": 0.00304651,
+        "max_abs_pitch": 0.00460065,
+        "peak_speed": 0.683456,
+        "speed_at_release": 0
+      }
+    },
+    {
+      "case": "torque_pitch",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "check_passed": true,
+      "measurement": {
+        "case": "torque_pitch",
+        "configured_before_world_parent": true,
+        "builtin_buoyancy": false,
+        "passed": true,
+        "initial_rpy": [
+          0,
+          0.05,
+          0
+        ],
+        "force_z": 1174.89,
+        "torque": [
+          0,
+          -231.82,
+          0
+        ]
+      }
+    },
+    {
+      "case": "torque_roll",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "check_passed": true,
+      "measurement": {
+        "case": "torque_roll",
+        "configured_before_world_parent": true,
+        "builtin_buoyancy": false,
+        "passed": true,
+        "initial_rpy": [
+          0.05,
+          0,
+          0
+        ],
+        "force_z": 1174.89,
+        "torque": [
+          -168.273,
+          -4.2492e-15,
+          0
+        ]
+      }
+    },
+    {
+      "case": "builtin_torque_pitch",
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "check_passed": true,
+      "measurement": {
+        "case": "torque_pitch",
+        "configured_before_world_parent": false,
+        "builtin_buoyancy": true,
+        "passed": false,
+        "initial_rpy": [
+          0,
+          0.05,
+          0
+        ],
+        "force_z": 1175.31,
+        "torque": [
+          -2.09832e-14,
+          11.8205,
+          0
+        ]
+      }
+    },
+    {
+      "case": "builtin_pitch",
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "check_passed": true,
+      "measurement": {
+        "case": "pitch",
+        "configured_before_world_parent": false,
+        "passed": false,
+        "bounded": true,
+        "max_buoyancy_torque": 0,
+        "requested_duration_s": 15,
+        "duration_s": 15,
+        "position": [
+          -0.0858201,
+          4.89298e-19,
+          -0.0971866
+        ],
+        "rpy": [
+          3.14159,
+          0.0307351,
+          -3.14159
+        ],
+        "linear_velocity": [
+          -0.00982154,
+          -2.76108e-19,
+          -4.28729e-05
+        ],
+        "yaw_rate": -4.61257e-18,
+        "z_range": [
+          -0.0971866,
+          0.152784
+        ],
+        "max_abs_roll": 3.14159,
+        "max_abs_pitch": 1.57039,
+        "peak_speed": 0.059518,
+        "speed_at_release": 0
+      }
+    },
+    {
+      "case": "builtin_torque_roll",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "check_passed": true,
+      "measurement": {
+        "case": "torque_roll",
+        "configured_before_world_parent": false,
+        "builtin_buoyancy": true,
+        "passed": true,
+        "initial_rpy": [
+          0.05,
+          0,
+          0
+        ],
+        "force_z": 1175.31,
+        "torque": [
+          -164.103,
+          0,
+          0
+        ]
+      }
+    }
+  ]
+}

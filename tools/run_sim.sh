@@ -4,7 +4,7 @@ set -euo pipefail
 repo_root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 pool_ws="$repo_root/.pool_ws"
 mode=sim
-world=sydney_regatta
+world=pool
 gui=true
 software=false
 engine=ogre2
@@ -12,6 +12,7 @@ while (($#)); do
   case "$1" in
     --keyboard) mode=keyboard ;;
     --check-only) mode=check ;;
+    --diagnose) mode=diagnose ;;
     --self-test) mode=test ;;
     --world)
       shift
@@ -28,13 +29,17 @@ while (($#)); do
         echo "--render-engine requires ogre or ogre2." >&2; exit 2
       fi ;;
     --help|-h)
-      echo "Usage: bash tools/run_sim.sh [--keyboard | --check-only | --self-test] [--world sydney_regatta|pool] [--headless] [--software] [--render-engine ogre2|ogre]"
+      echo "Usage: bash tools/run_sim.sh [--keyboard | --check-only | --self-test | --diagnose] [--world pool|sydney_regatta] [--headless] [--software] [--render-engine ogre2|ogre]"
+      echo "Default: small offline pool. Sydney terrain is optional with --world sydney_regatta."
       echo "Start the simulation in one terminal, then --keyboard in a second terminal."
       exit 0 ;;
     *) echo "Unknown option: $1. Use --help." >&2; exit 2 ;;
   esac
   shift
 done
+if [[ "$mode" == diagnose ]]; then
+  exec /usr/bin/python3 "$repo_root/tools/sim_diagnostics.py" --workspace "$pool_ws"
+fi
 if [[ ! -f /opt/ros/jazzy/setup.bash || ! -x /usr/bin/colcon ]]; then
   echo "ROS 2 Jazzy and colcon are required on Ubuntu 24.04." >&2
   exit 2
@@ -78,7 +83,14 @@ if [[ "$mode" == test ]]; then
     --log "$pool_ws/last-test.log" --output "$pool_ws/last-test.json"
 fi
 echo "In a second terminal run: bash '$repo_root/tools/run_sim.sh' --keyboard"
-echo "Launch log: $pool_ws/last-launch.log"
+mkdir -p "$pool_ws/runs"
+run_stamp=$(date -u +%Y%m%dT%H%M%S)-$$
+if [[ -s "$pool_ws/last-launch.log" ]]; then
+  cp -- "$pool_ws/last-launch.log" "$pool_ws/runs/before-$run_stamp.log"
+fi
+run_log="$pool_ws/runs/launch-$run_stamp.log"
+echo "World: $world. Each run keeps its own log; previous crash logs are preserved."
+echo "Launch log: $run_log"
 /opt/ros/jazzy/bin/ros2 launch usv_rov_sim sim.launch.py \
   "world:=$world" "gui:=$gui" "software_rendering:=$software" "render_engine:=$engine" \
-  2>&1 | tee "$pool_ws/last-launch.log"
+  2>&1 | tee "$run_log" "$pool_ws/last-launch.log"

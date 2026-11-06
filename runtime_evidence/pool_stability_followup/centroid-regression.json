@@ -1,0 +1,26 @@
+{
+  "scope": "Same captured pose, same gz-math7.7.0 library, old committed buoyancy header versus new geometric clipping; standalone force calculation, not ROS transport",
+  "old_commit": "4d639e96fb81dc548be65d429568b2cfddecf57f",
+  "before": {
+    "exit_code": 1,
+    "measurement": {
+      "valid": true,
+      "bounded": false,
+      "volume": 0.30800000000000005,
+      "force_z": 3021.480000000001,
+      "roll_torque": 2.2589922807949414e+18,
+      "pitch_torque": -991.2533546789657
+    }
+  },
+  "after": {
+    "exit_code": 0,
+    "measurement": {
+      "valid": true,
+      "bounded": true,
+      "volume": 0.3079997114843753,
+      "force_z": 3021.4771731288865,
+      "roll_torque": 0,
+      "pitch_torque": -8.423087747887806
+    }
+  }
+}

@@ -15,7 +15,7 @@ args = parser.parse_args()
 args.output.mkdir(parents=True, exist_ok=True)
 cases = [(name, False, 0) for name in (
     "idle", "roll", "pitch", "heave", "forward", "reverse", "left", "right",
-    "coast", "torque_pitch", "torque_roll")]
+    "coast", "wall", "mixed", "torque_pitch", "torque_roll")]
 # A real negative control: the installed Harmonic graded-buoyancy plugin has
 # the wrong pitch restoring sign for this hull, which these tests must detect.
 cases.extend((("torque_pitch", True, 1), ("pitch", True, 1), ("torque_roll", True, 0)))

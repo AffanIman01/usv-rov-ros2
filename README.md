@@ -1,8 +1,8 @@
 # USV–ROV 10k: ROS 2 models and marine simulation
 
-This repository reuses the Recovery Studio geometry in ROS 2 URDF and Gazebo SDF formats. `usv_rov_description` preserves the visual models and static previews. `usv_rov_sim` adds an estimated calm-water ME120 simulation with buoyancy, water resistance, twin-thruster forces and keyboard control. The default environment now reuses **VRX's Sydney Regatta world and OpenRobotics terrain**. ROV dynamics, tether physics, docking, sensor data and hardware drivers are future work.
+This repository reuses the Recovery Studio geometry in ROS 2 URDF and Gazebo SDF formats. `usv_rov_description` preserves the visual models and static previews. `usv_rov_sim` adds an estimated calm-water ME120 simulation with buoyancy, water resistance, twin-thruster forces and keyboard control. The default is a **small 20 × 12 m offline pool** for initial VMware testing. VRX's Sydney Regatta world remains an optional larger environment. ROV dynamics, tether physics, docking, sensor data and hardware drivers are future work.
 
-## Drive the USV in Sydney Regatta
+## Start with the small pool
 
 Use Ubuntu 24.04 with ROS 2 Jazzy / Gazebo Harmonic. Stop the previous simulation with Ctrl+C in its launch terminal, then run these commands from your existing checkout:
 
@@ -11,9 +11,9 @@ git pull --ff-only
 bash tools/run_sim.sh
 ```
 
-The first run downloads and checks the existing Sydney Regatta terrain (129 MB). Later runs use the verified local cache. This is a calm-water adaptation of VRX: its terrain, buildings and docks are reused; VRX waves and competition tasks are not enabled. See [world sources and licenses](usv_rov_sim/worlds/SOURCES.md).
+The default pool has simple geometry and needs no terrain download. It uses the same ME120 model, buoyancy, drag and thruster controls. Start here before trying the larger environment.
 
-![ME120 initial pose in Sydney Regatta, native static Gazebo render](runtime_evidence/sydney_startup_fix/SYDNEY_INITIAL_VIEW.png)
+![Small pool initial pose, native static Gazebo render](runtime_evidence/pool_simulation/render/POOL_START_VIEW.png)
 
 In a second terminal, from the same checkout:
 
@@ -23,9 +23,19 @@ bash tools/run_sim.sh --keyboard
 
 Keep the keyboard terminal focused. Hold/repeat **W/S** for forward/reverse and **A/D** to turn. **Space** cuts thrust, **+/-** changes target speed and **Q** quits the controller. The terminal shows requested motion, ROS subscriber status and measured movement. Releasing a key expires the motion command; water resistance slows the boat after thrust is cut.
 
-**Sinking correction:** Gazebo configures a model's plugins before attaching it to the world. The earlier buoyancy plugin rejected that temporary state and stayed disabled. It now resolves the world on the first physics update. A regression test recreates the real startup event order and failed with the old code. The launcher also pins Gazebo 8, checks both force-plugin libraries and monitors flotation feedback. See [fix verification and remaining limits](runtime_evidence/sydney_startup_fix/REPORT.md).
+**Buoyancy startup correction:** Gazebo configures a model's plugins before attaching it to the world. The earlier buoyancy plugin rejected that temporary state and stayed disabled. It now resolves the world on the first physics update. A regression test recreates the real startup event order and failed with the old code. The launcher also pins Gazebo 8, checks both force-plugin libraries and monitors flotation feedback. See [fix verification and remaining limits](runtime_evidence/sydney_startup_fix/REPORT.md).
 
-For VMware graphics trouble, try `bash tools/run_sim.sh --software`. For a smaller offline world, use `bash tools/run_sim.sh --world pool`. The previous `tools/run_pool.sh` command still works and now defaults to Sydney. Both helpers rebuild into the existing `.pool_ws` directory and record the launch output in `.pool_ws/last-launch.log`.
+**Wall-contact crash correction:** an almost level hull could trigger numerical overflow in the underwater-volume centroid calculation. The calculation now uses geometric clipping, with regression checks for near-level orientations and sustained wall contact. See [pool stability follow-up](runtime_evidence/pool_stability_followup/REPORT.md).
+
+For VMware graphics trouble, try `bash tools/run_sim.sh --software`; this changes rendering only and is not a flotation fix. Both `tools/run_sim.sh` and `tools/run_pool.sh` now default to the pool. Each launch saves its own log under `.pool_ws/runs/` and updates `.pool_ws/last-launch.log`, preserving the preceding log before a restart.
+
+If the boat sinks or feedback stops, the passive monitor reports its error and leaves Gazebo open for inspection. Actual Gazebo/bridge exits still stop the remaining processes, with the component name and exit code printed. `STALE` means odometry has stopped arriving; it does not establish why. To show the log without restarting, run:
+
+```bash
+bash tools/run_sim.sh --diagnose
+```
+
+Sydney Regatta is available with `bash tools/run_sim.sh --world sydney_regatta`. Its first run downloads and verifies 129 MB of existing OpenRobotics terrain. See [world sources and licenses](usv_rov_sim/worlds/SOURCES.md).
 
 See [dependencies, diagnostics and controls](usv_rov_sim/README.md). To run an automatic headless movement check on your Ubuntu machine, stop the interactive simulation and run `bash tools/run_sim.sh --self-test`. It checks flotation, forward movement, turning, stopping and the command timeout, and writes `.pool_ws/last-test.json` plus `.pool_ws/last-test.log`.
 

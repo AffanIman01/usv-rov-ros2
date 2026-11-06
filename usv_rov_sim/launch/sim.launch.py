@@ -1,4 +1,4 @@
-"""Launch ME120 in the upstream Sydney Regatta environment or the test pool."""
+"""Launch ME120 in the small test pool, with Sydney Regatta as an option."""
 
 import os
 from pathlib import Path
@@ -9,6 +9,28 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, ExecuteProcess, LogInfo, OpaqueFunction, SetEnvironmentVariable, Shutdown
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
+
+
+def _process_exit(component, *, stop_simulation):
+    """Keep monitor faults visible without closing the scene under inspection."""
+    def on_exit(event, context):
+        if context.is_shutdown:
+            # Ctrl+C and coordinated shutdown are not fresh crash reports.
+            return []
+        code = event.returncode
+        prefix = "ERROR: " if code else ""
+        message = f"{prefix}{component} exited with code {code}. "
+        if not stop_simulation:
+            return [LogInfo(msg=message +
+                "Gazebo stays open for inspection; passive monitoring has stopped. "
+                "Read the monitor diagnostic above and stop the launch with Ctrl+C when finished.")]
+        reason = f"{component} exited with code {code}"
+        return [
+            LogInfo(msg=message +
+                "Stopping the remaining simulation processes. Inspect this process's preceding output for the cause."),
+            Shutdown(reason=reason),
+        ]
+    return on_exit
 
 
 def _launch(context):
@@ -41,7 +63,7 @@ def _launch(context):
         (Path(path) / "sydney_regatta" / "model.sdf").is_file()
         for path in env["GZ_SIM_RESOURCE_PATH"].split(os.pathsep) if path
     ):
-        raise RuntimeError("Sydney Regatta terrain is not prepared. Run bash tools/run_sim.sh; it downloads and verifies the pinned world asset once.")
+        raise RuntimeError("Sydney Regatta terrain is not prepared. Run bash tools/run_sim.sh --world sydney_regatta; it downloads and verifies the pinned world asset once.")
     gui = LaunchConfiguration("gui").perform(context) == "true"
     engine = LaunchConfiguration("render_engine").perform(context)
     # Jazzy's bridge and these plugins use gz-sim8. The unqualified CLI can
@@ -57,19 +79,20 @@ def _launch(context):
     actions.extend([
         LogInfo(msg=f"ME120 world: {selected}; Gazebo Harmonic (8); ROS domain: {env.get('ROS_DOMAIN_ID', '0')}; Gazebo partition: {env['GZ_PARTITION']}"),
         LogInfo(msg=checked.stdout.strip()),
-        ExecuteProcess(cmd=command, output="screen", on_exit=Shutdown(reason="Gazebo exited; inspect its log above")),
+        ExecuteProcess(cmd=command, output="screen",
+             on_exit=_process_exit("Gazebo", stop_simulation=True)),
         Node(package="ros_gz_bridge", executable="parameter_bridge", name="usv_sim_bridge",
              parameters=[{"config_file": str(sim / "config" / ("sydney_bridge.yaml" if selected == "sydney_regatta" else "bridge.yaml"))}],
-             output="screen", on_exit=Shutdown(reason="Simulation bridge exited")),
+             output="screen", on_exit=_process_exit("ROS/Gazebo bridge", stop_simulation=True)),
         Node(package="usv_rov_sim", executable="simulation_guard", name="usv_sim_guard",
-             output="screen", on_exit=Shutdown(reason="Simulation monitor stopped; inspect its diagnostic above")),
+             output="screen", on_exit=_process_exit("Simulation monitor", stop_simulation=False)),
     ])
     return actions
 
 
 def generate_launch_description():
     return LaunchDescription([
-        DeclareLaunchArgument("world", default_value="sydney_regatta", choices=["sydney_regatta", "pool"]),
+        DeclareLaunchArgument("world", default_value="pool", choices=["pool", "sydney_regatta"]),
         DeclareLaunchArgument("gui", default_value="true", choices=["true", "false"]),
         DeclareLaunchArgument("render_engine", default_value="ogre2", choices=["ogre2", "ogre"]),
         DeclareLaunchArgument("software_rendering", default_value="false", choices=["true", "false"]),

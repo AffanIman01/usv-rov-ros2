@@ -73,11 +73,24 @@ int main(int argc,char**argv){
  // uses the same values. Limits and locations are read directly from the SDF.
  cp.maxSpeed=c->Get<double>("max_speed");cp.maxYawRate=c->Get<double>("max_yaw_rate");cp.maxThrust=c->Get<double>("max_thrust");cp.surgeGain=c->Get<double>("surge_gain");cp.yawGain=c->Get<double>("yaw_gain");cp.timeoutSeconds=c->Get<double>("command_timeout");
  auto port=c->Get<gz::math::Vector3d>("port_position");auto starboard=c->Get<gz::math::Vector3d>("starboard_position");cp.portY=port.Y();cp.starboardY=starboard.Y();
- const double duration=(name=="idle"?60.0:(name=="coast"?25.0:15.0));const double dt=.002;
+ const double duration=(name=="wall"||name=="mixed"?180.0:(name=="idle"?60.0:(name=="coast"?25.0:15.0)));const double dt=.002;
  gz::sim::UpdateInfo info;info.paused=false;info.dt=std::chrono::milliseconds(2);
- double maxRoll=0,maxPitch=0,minZ=1e9,maxZ=-1e9,peakV=0,atRelease=0;bool finite=true;
+ double maxRoll=0,maxPitch=0,minZ=1e9,maxZ=-1e9,peakV=0,atRelease=0,maxBuoyancyTorque=0;bool finite=true,bounded=true;int completedIterations=0;
  for(int i=1;i<=int(duration/dt);++i){info.iterations=i;info.simTime=info.dt*i;
   for(auto&s:systems)if(s.pre)s.pre->PreUpdate(info,ecm);
+  // A finite but impossible centroid previously injected 2.26e18 Nm during
+  // wall contact. Fail before the collision engine can abort on a huge pose.
+  if(!builtin){
+   const auto *wrench=ecm.Component<gz::sim::components::ExternalWorldWrenchCmd>(body.Entity());
+   if(!wrench){bounded=false;break;}
+   const auto &w=wrench->Data();
+   const double torque=std::hypot(w.torque().x(),w.torque().y(),w.torque().z());
+   maxBuoyancyTorque=std::max(maxBuoyancyTorque,torque);
+   if(!std::isfinite(torque)||torque>5000||std::abs(w.force().z())>3021.481){
+    std::cerr<<"Nonphysical buoyancy wrench at t="<<i*dt<<" torque="<<torque<<"\n";
+    bounded=false;break;
+   }
+  }
   if(name=="torque_pitch"||name=="torque_roll"){
    const auto *wrench=ecm.Component<gz::sim::components::ExternalWorldWrenchCmd>(body.Entity());
    if(!wrench)return 7;const auto&w=wrench->Data();const auto pose=gz::sim::worldPose(body.Entity(),ecm);const double restoring=name=="torque_pitch"?w.torque().y():w.torque().x();
@@ -92,24 +105,36 @@ int main(int argc,char**argv){
   if(name=="reverse")target=-.6;
   if(name=="left")yaw=.4;
   if(name=="right")yaw=-.4;
+  if(name=="wall")target=1.0;
+  if(name=="mixed"){
+   const int phase=static_cast<int>(t/5.0)%8;
+   if(phase==0||phase==4)target=1.0;
+   if(phase==1||phase==5)yaw=.6;
+   if(phase==2||phase==6)target=-1.0;
+   if(phase==3||phase==7)yaw=-.6;
+  }
   auto now=usv_rov_sim::SteadyClock::time_point{}+std::chrono::milliseconds(i*2);usv_rov_sim::VelocityCommand cmd{target,yaw,now,true};auto thrust=usv_rov_sim::ComputeThrust(cp,cmd,vel.X(),omega.Z(),now);
   gz::math::Vector3d fp(thrust.port,0,0),fs(thrust.starboard,0,0);body.AddWorldWrench(ecm,rot.RotateVector(fp+fs),rot.RotateVector(port.Cross(fp)+starboard.Cross(fs)));
-  for(auto&s:systems)if(s.update)s.update->Update(info,ecm);for(auto&s:systems)if(s.post)s.post->PostUpdate(info,ecm);
+  for(auto&s:systems)if(s.update)s.update->Update(info,ecm);for(auto&s:systems)if(s.post)s.post->PostUpdate(info,ecm);completedIterations=i;
   const auto p=body.WorldPose(ecm).value();const auto r=p.Rot().Euler();auto wv=body.WorldLinearVelocity(ecm).value();maxRoll=std::max(maxRoll,std::abs(r.X()));maxPitch=std::max(maxPitch,std::abs(r.Y()));minZ=std::min(minZ,p.Pos().Z());maxZ=std::max(maxZ,p.Pos().Z());peakV=std::max(peakV,wv.Length());if(name=="coast"&&i==2500)atRelease=wv.Length();
-  finite=finite&&p.Pos().IsFinite()&&wv.IsFinite()&&r.IsFinite();if(!finite)break;
+  finite=finite&&p.Pos().IsFinite()&&wv.IsFinite()&&r.IsFinite();
+  if(!builtin)bounded=bounded&&std::abs(p.Pos().X())<11&&std::abs(p.Pos().Y())<7&&
+    p.Pos().Z()>-0.5&&p.Pos().Z()<1.0&&wv.Length()<5&&body.WorldAngularVelocity(ecm).value().Length()<10;
+  if(!finite||!bounded)break;
   ecm.ClearNewlyCreatedEntities();ecm.SetAllComponentsUnchanged();ecm.ProcessRemoveEntityRequests();
  }
  const auto p=body.WorldPose(ecm).value();const auto r=p.Rot().Euler();const auto v=body.WorldLinearVelocity(ecm).value();const auto w=body.WorldAngularVelocity(ecm).value();
- bool passed=finite&&std::abs(p.Pos().Z()-initial.Pos().Z())<.03&&std::abs(r.X())<.02&&std::abs(r.Y())<.02;
+ bool passed=finite&&bounded&&std::abs(p.Pos().Z()-initial.Pos().Z())<.03&&std::abs(r.X())<.02&&std::abs(r.Y())<.02;
  if(name=="forward")passed&=p.Pos().X()>2&&v.X()>.2;
  if(name=="reverse")passed&=p.Pos().X()<-2&&v.X()<-.2;
  if(name=="left")passed&=w.Z()>.1;
  if(name=="right")passed&=w.Z()<-.1;
+ if(name=="wall")passed&=p.Pos().X()>8.5&&v.Length()<.1;
  if(name=="coast")passed&=atRelease>.2&&v.Length()<.01;
  if(name=="idle"||name=="roll"||name=="pitch"||name=="heave")passed&=v.Length()<.01&&w.Length()<.01;
  if(name=="roll")passed&=maxRoll>.07;
  if(name=="pitch")passed&=maxPitch>.07;
  if(name=="heave")passed&=maxZ>initial.Pos().Z()+.08;
- std::cout<<"RESULT {\"case\":\""<<name<<"\",\"configured_before_world_parent\":"<<(configuredBeforeWorldParent?"true":"false")<<",\"passed\":"<<(passed?"true":"false")<<",\"duration_s\":"<<duration<<",\"position\":["<<p.Pos().X()<<","<<p.Pos().Y()<<","<<p.Pos().Z()<<"],\"rpy\":["<<r.X()<<","<<r.Y()<<","<<r.Z()<<"],\"linear_velocity\":["<<v.X()<<","<<v.Y()<<","<<v.Z()<<"],\"yaw_rate\":"<<w.Z()<<",\"z_range\":["<<minZ<<","<<maxZ<<"],\"max_abs_roll\":"<<maxRoll<<",\"max_abs_pitch\":"<<maxPitch<<",\"peak_speed\":"<<peakV<<",\"speed_at_release\":"<<atRelease<<"}"<<std::endl;
+ std::cout<<"RESULT {\"case\":\""<<name<<"\",\"configured_before_world_parent\":"<<(configuredBeforeWorldParent?"true":"false")<<",\"passed\":"<<(passed?"true":"false")<<",\"bounded\":"<<(bounded?"true":"false")<<",\"max_buoyancy_torque\":"<<maxBuoyancyTorque<<",\"requested_duration_s\":"<<duration<<",\"duration_s\":"<<completedIterations*dt<<",\"position\":["<<p.Pos().X()<<","<<p.Pos().Y()<<","<<p.Pos().Z()<<"],\"rpy\":["<<r.X()<<","<<r.Y()<<","<<r.Z()<<"],\"linear_velocity\":["<<v.X()<<","<<v.Y()<<","<<v.Z()<<"],\"yaw_rate\":"<<w.Z()<<",\"z_range\":["<<minZ<<","<<maxZ<<"],\"max_abs_roll\":"<<maxRoll<<",\"max_abs_pitch\":"<<maxPitch<<",\"peak_speed\":"<<peakV<<",\"speed_at_release\":"<<atRelease<<"}"<<std::endl;
  return passed?0:1;
 }

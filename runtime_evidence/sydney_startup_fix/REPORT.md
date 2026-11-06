@@ -1,5 +1,7 @@
 # Sydney Regatta and ME120 startup correction
 
+**Later follow-up:** the default is now the small pool. A second numerical buoyancy defect was reproduced during sustained wall contact and corrected; see [pool stability and crash follow-up](../pool_stability_followup/REPORT.md) for current tests and launch behavior.
+
 6 November 2026. Previous public baseline: `220cba88e668a6f4a8c7077b9cb01984a715cdaf`. Ubuntu 24.04, ROS 2 Jazzy, Gazebo Sim 8.15.0.
 
 ## Confirmed cause and correction
